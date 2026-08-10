@@ -10,8 +10,7 @@ import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } fro
 import SeoHead from "../components/SeoHead";
 import ScoreDial from "../components/ScoreDial";
 
-const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras" };
-
+const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets" };
 export default function DevicePage() {
   const { slugType, slug } = useParams();
   const device = getDeviceBySlug(slugType, slug);
