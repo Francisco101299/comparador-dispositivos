@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { COLORS } from "../data/theme";
 import { DEVICES } from "../data/devices";
 import { normalize } from "../lib/normalize";
+import DeviceIcon from "./DeviceIcon";
 
 export default function TypeaheadInput({ label, accent, value, onSelect, excludeId }) {
   const [query, setQuery] = useState(value ? value.name : "");
@@ -73,11 +74,14 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
                 setQuery(d.name);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-2.5 text-sm flex items-center justify-between hover:bg-[#F3F4F7] transition-colors"
+              className="w-full text-left px-3 py-2.5 text-sm flex items-center justify-between gap-2 hover:bg-[#F3F4F7] transition-colors"
               style={{ fontFamily: "'Inter', sans-serif", color: COLORS.ink }}
             >
-              <span>{d.name}</span>
-              <span className="text-xs uppercase tracking-wide" style={{ color: COLORS.muted }}>
+              <span className="flex items-center gap-2 min-w-0">
+                <DeviceIcon device={d} size={28} />
+                <span className="truncate">{d.name}</span>
+              </span>
+              <span className="text-xs uppercase tracking-wide shrink-0" style={{ color: COLORS.muted }}>
                 {d.type}
               </span>
             </button>
