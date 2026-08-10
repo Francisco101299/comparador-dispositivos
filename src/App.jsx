@@ -10,8 +10,7 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const DevicePage = lazy(() => import("./pages/DevicePage"));
 const ComparisonPage = lazy(() => import("./pages/ComparisonPage"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
-
+const SuggestPage = lazy(() => import("./pages/SuggestPage"));
 function PageFallback() {
   return <div style={{ minHeight: "100vh", backgroundColor: "#EDEFF3" }} aria-hidden="true" />;
 }
