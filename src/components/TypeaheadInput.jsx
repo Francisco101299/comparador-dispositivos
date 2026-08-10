@@ -1,6 +1,7 @@
 // ============================================================================
 // src/components/TypeaheadInput.jsx
-// Input con autocompletado para elegir un dispositivo a comparar.
+// Input con autocompletado. Si recibe `forcedCategory`, solo sugiere
+// dispositivos de esa categoría (la elige el usuario con CategoryPicker).
 // ============================================================================
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Search } from "lucide-react";
@@ -9,7 +10,13 @@ import { DEVICES } from "../data/devices";
 import { normalize } from "../lib/normalize";
 import DeviceIcon from "./DeviceIcon";
 
-export default function TypeaheadInput({ label, accent, value, onSelect, excludeId }) {
+const TYPE_GROUPS = {
+  Celular: ["Celular"],
+  Computadora: ["Desktop", "Laptop"],
+  Tablet: ["Tablet"],
+};
+
+export default function TypeaheadInput({ label, accent, value, onSelect, excludeId, forcedCategory }) {
   const [query, setQuery] = useState(value ? value.name : "");
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -33,9 +40,12 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
   const results = useMemo(() => {
     const q = normalize(query.trim());
     let pool = DEVICES.filter((d) => d.id !== excludeId);
+    if (forcedCategory && TYPE_GROUPS[forcedCategory]) {
+      pool = pool.filter((d) => TYPE_GROUPS[forcedCategory].includes(d.type));
+    }
     if (!q) return pool.slice(0, 6);
     return pool.filter((d) => normalize(d.name).includes(q)).slice(0, 6);
-  }, [query, excludeId]);
+  }, [query, excludeId, forcedCategory]);
 
   return (
     <div className="relative" ref={boxRef}>
@@ -62,7 +72,7 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
         >
           {results.length === 0 && (
             <div className="px-3 py-3 text-sm" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              Sin resultados. Prueba otro nombre de la lista.
+              Sin resultados. Prueba otro nombre o quita el filtro de categoría.
             </div>
           )}
           {results.map((d) => (
@@ -90,4 +100,4 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
       )}
     </div>
   );
-        }
+}
