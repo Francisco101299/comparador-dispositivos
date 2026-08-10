@@ -36,6 +36,9 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         </div>
         <div className="rounded-lg p-5 text-center relative" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           {bWins && <Crown size={20} className="absolute -top-2.5 left-1/2 -translate-x-1/2" style={{ color: COLORS.gold }} />}
+          <div className="flex justify-center mb-2">
+            <DeviceIcon device={devB} size={44} color={COLORS.b} bg={COLORS.bSoft} />
+          </div>
           <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}>{devB.type}</div>
           <Link to={`/${devB.slugType}/${devB.slug}`} className="font-semibold text-sm sm:text-base mb-3 block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devB.name}
