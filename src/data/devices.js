@@ -343,6 +343,16 @@ const DEVICES_ADICIONALES = [
 ];
 DEVICES.push(...DEVICES_ADICIONALES);
 
+const DEVICES_HONORX = [
+  { id: "honorx8", name: "Honor X8", type: "Celular", year: 2022, price: "$249", scores: { rendimiento: 48, pantalla: 68, bateria: 72, camara: 58, portabilidad: 78, precioCalidad: 78 }, details: { rendimiento: "Snapdragon 680", pantalla: "6.7\" AMOLED 90Hz", bateria: "4000mAh", camara: "Cuádruple 64MP", portabilidad: "177g", precioCalidad: "Gama de entrada, buen precio" } },
+  { id: "honorx8a", name: "Honor X8a", type: "Celular", year: 2023, price: "$229", scores: { rendimiento: 46, pantalla: 70, bateria: 76, camara: 60, portabilidad: 78, precioCalidad: 80 }, details: { rendimiento: "Snapdragon 680", pantalla: "6.7\" LCD 90Hz", bateria: "5000mAh", camara: "Triple 108MP", portabilidad: "185g", precioCalidad: "Buena batería para su precio" } },
+  { id: "honorx8b", name: "Honor X8b", type: "Celular", year: 2024, price: "$249", scores: { rendimiento: 52, pantalla: 74, bateria: 78, camara: 64, portabilidad: 79, precioCalidad: 82 }, details: { rendimiento: "Snapdragon 6 Gen 1", pantalla: "6.7\" AMOLED 120Hz curva", bateria: "5300mAh", camara: "Doble 108MP", portabilidad: "183g", precioCalidad: "Mejoró bastante frente al X8a" } },
+  { id: "honorx9", name: "Honor X9", type: "Celular", year: 2023, price: "$349", scores: { rendimiento: 62, pantalla: 82, bateria: 82, camara: 74, portabilidad: 80, precioCalidad: 84 }, details: { rendimiento: "Snapdragon 695", pantalla: "6.78\" AMOLED 120Hz curva", bateria: "5800mAh", camara: "Triple 108MP con OIS", portabilidad: "186g", precioCalidad: "Gama media accesible, buena pantalla" } },
+  { id: "honorx9a", name: "Honor X9a", type: "Celular", year: 2024, price: "$349", scores: { rendimiento: 64, pantalla: 84, bateria: 84, camara: 76, portabilidad: 80, precioCalidad: 85 }, details: { rendimiento: "Snapdragon 6 Gen 1", pantalla: "6.78\" AMOLED 120Hz curva", bateria: "5800mAh", camara: "Triple 108MP con OIS", portabilidad: "187g", precioCalidad: "Resistencia a caídas certificada" } },
+  { id: "honorx9b", name: "Honor X9b", type: "Celular", year: 2025, price: "$379", scores: { rendimiento: 68, pantalla: 86, bateria: 85, camara: 78, portabilidad: 80, precioCalidad: 85 }, details: { rendimiento: "Snapdragon 6 Gen 3", pantalla: "6.78\" AMOLED 120Hz curva", bateria: "5800mAh", camara: "Triple 108MP con OIS", portabilidad: "188g", precioCalidad: "Muy resistente, buen equilibrio" } },
+];
+DEVICES.push(...DEVICES_HONORX);
+
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
   return type === "Celular" ? "celulares" : "computadoras";
