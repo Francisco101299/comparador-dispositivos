@@ -352,11 +352,31 @@ const DEVICES_HONORX = [
   { id: "honorx9b", name: "Honor X9b", type: "Celular", year: 2025, price: "$379", scores: { rendimiento: 68, pantalla: 86, bateria: 85, camara: 78, portabilidad: 80, precioCalidad: 85 }, details: { rendimiento: "Snapdragon 6 Gen 3", pantalla: "6.78\" AMOLED 120Hz curva", bateria: "5800mAh", camara: "Triple 108MP con OIS", portabilidad: "188g", precioCalidad: "Muy resistente, buen equilibrio" } },
 ];
 DEVICES.push(...DEVICES_HONORX);
+const DEVICES_HONORX7 = [
+  { id: "honorx7", name: "Honor X7", type: "Celular", year: 2022, price: "$199", scores: { rendimiento: 40, pantalla: 62, bateria: 74, camara: 52, portabilidad: 76, precioCalidad: 78 }, details: { rendimiento: "Snapdragon 680", pantalla: "6.74\" LCD 90Hz", bateria: "5000mAh", camara: "Cuádruple 48MP", portabilidad: "198g", precioCalidad: "Entrada de gama, batería grande" } },
+  { id: "honorx7a", name: "Honor X7a", type: "Celular", year: 2023, price: "$189", scores: { rendimiento: 38, pantalla: 64, bateria: 76, camara: 54, portabilidad: 77, precioCalidad: 80 }, details: { rendimiento: "MediaTek Helio G81", pantalla: "6.74\" LCD 90Hz", bateria: "5000mAh", camara: "Triple 50MP", portabilidad: "190g", precioCalidad: "Muy económico" } },
+  { id: "honorx7b", name: "Honor X7b", type: "Celular", year: 2024, price: "$199", scores: { rendimiento: 42, pantalla: 68, bateria: 78, camara: 56, portabilidad: 78, precioCalidad: 82 }, details: { rendimiento: "Snapdragon 685", pantalla: "6.8\" LCD 120Hz", bateria: "5800mAh", camara: "Doble 108MP", portabilidad: "196g", precioCalidad: "Gran batería, buen precio" } },
+  { id: "honorx7c", name: "Honor X7c", type: "Celular", year: 2025, price: "$219", scores: { rendimiento: 46, pantalla: 70, bateria: 80, camara: 58, portabilidad: 78, precioCalidad: 82 }, details: { rendimiento: "Snapdragon 685", pantalla: "6.8\" LCD 120Hz", bateria: "6000mAh", camara: "Doble 108MP", portabilidad: "197g", precioCalidad: "Buen valor de entrada" } },
+];
+DEVICES.push(...DEVICES_HONORX7);
 
+const DEVICES_TABLETS = [
+  { id: "ipadpro13", name: "iPad Pro 13\" (M4)", type: "Tablet", year: 2024, price: "$1,299", scores: { rendimiento: 96, pantalla: 95, bateria: 82, camara: 72, portabilidad: 78, precioCalidad: 58 }, details: { rendimiento: "Chip M4", pantalla: "13\" Tandem OLED 120Hz", bateria: "Hasta 10h de uso", camara: "12MP + LiDAR", portabilidad: "579g, 5.1mm de grosor", precioCalidad: "La más cara, pero la más potente" } },
+  { id: "ipadair11", name: "iPad Air 11\" (M2)", type: "Tablet", year: 2024, price: "$599", scores: { rendimiento: 86, pantalla: 86, bateria: 80, camara: 66, portabilidad: 82, precioCalidad: 76 }, details: { rendimiento: "Chip M2", pantalla: "11\" Liquid Retina 60Hz", bateria: "Hasta 10h de uso", camara: "12MP", portabilidad: "462g", precioCalidad: "Buen equilibrio potencia-precio" } },
+  { id: "ipad10", name: "iPad (10.ª gen)", type: "Tablet", year: 2022, price: "$349", scores: { rendimiento: 68, pantalla: 74, bateria: 78, camara: 58, portabilidad: 80, precioCalidad: 84 }, details: { rendimiento: "Chip A14 Bionic", pantalla: "10.9\" Liquid Retina 60Hz", bateria: "Hasta 10h de uso", camara: "12MP", portabilidad: "477g", precioCalidad: "La opción más accesible de Apple" } },
+  { id: "tabs9", name: "Samsung Galaxy Tab S9", type: "Tablet", year: 2023, price: "$799", scores: { rendimiento: 88, pantalla: 90, bateria: 82, camara: 68, portabilidad: 80, precioCalidad: 72 }, details: { rendimiento: "Snapdragon 8 Gen 2", pantalla: "11\" AMOLED 120Hz", bateria: "8400mAh", camara: "13MP", portabilidad: "498g, resistente al agua", precioCalidad: "Incluye el lápiz S Pen" } },
+  { id: "tabs9fe", name: "Samsung Galaxy Tab S9 FE", type: "Tablet", year: 2023, price: "$499", scores: { rendimiento: 72, pantalla: 82, bateria: 84, camara: 60, portabilidad: 78, precioCalidad: 80 }, details: { rendimiento: "Exynos 1380", pantalla: "10.9\" LCD 90Hz", bateria: "8000mAh", camara: "8MP", portabilidad: "523g, resistente al agua", precioCalidad: "Versión económica de la Tab S9" } },
+  { id: "xiaomipad6", name: "Xiaomi Pad 6", type: "Tablet", year: 2023, price: "$349", scores: { rendimiento: 78, pantalla: 84, bateria: 80, camara: 54, portabilidad: 80, precioCalidad: 86 }, details: { rendimiento: "Snapdragon 870", pantalla: "11\" LCD 144Hz", bateria: "8840mAh", camara: "13MP", portabilidad: "490g", precioCalidad: "Pantalla de 144Hz a buen precio" } },
+  { id: "lenovotabm10", name: "Lenovo Tab M10 Plus", type: "Tablet", year: 2023, price: "$179", scores: { rendimiento: 42, pantalla: 60, bateria: 74, camara: 38, portabilidad: 76, precioCalidad: 78 }, details: { rendimiento: "MediaTek Helio G80", pantalla: "10.6\" LCD 60Hz", bateria: "7700mAh", camara: "8MP", portabilidad: "465g", precioCalidad: "La más económica del grupo" } },
+];
+DEVICES.push(...DEVICES_TABLETS);
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
-  return type === "Celular" ? "celulares" : "computadoras";
+  if (type === "Celular") return "celulares";
+  if (type === "Tablet") return "tablets";
+  return "computadoras";
 }
+
 
 // Añade slug único (con desambiguación por si dos nombres generan el mismo slug)
 const seenSlugs = new Map();
