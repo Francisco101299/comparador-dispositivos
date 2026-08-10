@@ -341,6 +341,7 @@ const DEVICES_ADICIONALES = [
   { id: "honor200pro", name: "Honor 200 Pro", type: "Celular", year: 2024, price: "$649", scores: { rendimiento: 84, pantalla: 88, bateria: 85, camara: 90, portabilidad: 80, precioCalidad: 82 }, details: { rendimiento: "Snapdragon 8s Gen 3", pantalla: "6.78\" OLED 120Hz curva", bateria: "5200mAh", camara: "Triple 50MP con retratos con IA", portabilidad: "199g", precioCalidad: "Muy buena cámara de retratos" } },
   { id: "a54", name: "Samsung Galaxy A54", type: "Celular", year: 2023, price: "$449", scores: { rendimiento: 66, pantalla: 80, bateria: 81, camara: 74, portabilidad: 80, precioCalidad: 86 }, details: { rendimiento: "Exynos 1380", pantalla: "6.4\" AMOLED 120Hz", bateria: "5000mAh", camara: "Triple 50MP", portabilidad: "202g", precioCalidad: "Gama media muy equilibrada" } },
 ];
+DEVICES.push(...DEVICES_ADICIONALES);
 
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
