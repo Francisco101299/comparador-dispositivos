@@ -9,6 +9,7 @@ import { CATS, overallOf, getDeviceBySlug, getDevicesByType } from "../data/devi
 import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import ScoreDial from "../components/ScoreDial";
+import DeviceIcon from "../components/DeviceIcon";
 
 const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets" };
 export default function DevicePage() {
@@ -45,6 +46,9 @@ export default function DevicePage() {
             <Link to="/" className="underline">Inicio</Link> ·{" "}
             <Link to={`/${device.slugType}`} className="underline">{CATEGORY_LABEL[device.slugType]}</Link> · {device.name}
           </nav>
+          <div className="flex justify-center mb-3">
+            <DeviceIcon device={device} size={64} color="#F0553B" bg="#1D2129" />
+          </div>
           <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase mb-3 px-3 py-1 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
             {device.type} · {device.year}
           </div>
