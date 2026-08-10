@@ -23,8 +23,7 @@ export default function App() {
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/celulares" element={<CategoryPage />} />
-          <Route path="/computadoras" element={<CategoryPage />} />
+          <Route path="/:slugType" element={<CategoryPage />} />
           <Route path="/:slugType/:slug" element={<DevicePage />} />
           <Route path="/comparar/:pair" element={<ComparisonPage />} />
           <Route path="/404" element={<NotFoundPage />} />
