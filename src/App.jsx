@@ -24,7 +24,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/:slugType" element={<CategoryPage />} />
           <Route path="/:slugType/:slug" element={<DevicePage />} />
-          <Route path="/comparar/:pair" element={<ComparisonPage />} />
+     <Route path="/sugerir" element={<SuggestPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
