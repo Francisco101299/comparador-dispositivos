@@ -1,25 +1,29 @@
 // ============================================================================
 // src/pages/CategoryPage.jsx
-// Catálogo de /celulares o /computadoras.
+// Catálogo de /celulares, /computadoras o /tablets.
 // ============================================================================
 import { Link, useParams, Navigate } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import { DEVICES, overallOf } from "../data/devices";
 import { categoryMeta, breadcrumbJsonLd } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
+import CategoryNav from "../components/CategoryNav";
+
+const VALID_TYPES = {
+  celulares: { types: ["Celular"], label: "Celulares" },
+  computadoras: { types: ["Desktop", "Laptop"], label: "Computadoras" },
+  tablets: { types: ["Tablet"], label: "Tablets" },
+};
 
 export default function CategoryPage() {
   const { slugType } = useParams();
-  if (slugType !== "celulares" && slugType !== "computadoras") {
+  const config = VALID_TYPES[slugType];
+  if (!config) {
     return <Navigate to="/404" replace />;
   }
 
-  const devices =
-    slugType === "celulares"
-      ? DEVICES.filter((d) => d.type === "Celular")
-      : DEVICES.filter((d) => d.type === "Desktop" || d.type === "Laptop");
-
-  const label = slugType === "celulares" ? "Celulares" : "Computadoras";
+  const devices = DEVICES.filter((d) => config.types.includes(d.type));
+  const label = config.label;
   const meta = categoryMeta(slugType, devices.length);
   const jsonLd = breadcrumbJsonLd([
     { name: "Inicio", path: "/" },
@@ -38,6 +42,7 @@ export default function CategoryPage() {
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
             <Link to="/" className="underline">Inicio</Link> · {label}
           </nav>
+          <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {label}
           </h1>
@@ -66,4 +71,4 @@ export default function CategoryPage() {
       </div>
     </div>
   );
-}
+        }
