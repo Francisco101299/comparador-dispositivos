@@ -11,6 +11,7 @@ import { DEVICES } from "../data/devices";
 import { comparisonSlug, homeMeta } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import TypeaheadInput from "../components/TypeaheadInput";
+import CategoryNav from "../components/CategoryNav";
 
 export default function HomePage() {
   const [devA, setDevA] = useState(null);
@@ -35,6 +36,7 @@ export default function HomePage() {
           <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase mb-3 px-3 py-1 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
             <Swords size={12} /> Duelo de especificaciones
           </div>
+          <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             ¿Cuál gana?
           </h1>
