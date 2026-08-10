@@ -17,6 +17,8 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const overallB = overallOf(devB);
   const aWins = overallA > overallB;
   const bWins = overallB > overallA;
+  const badgesA = CATS.filter((c) => devA.scores[c.key] > devB.scores[c.key]).slice(0, 2);
+  const badgesB = CATS.filter((c) => devB.scores[c.key] > devA.scores[c.key]).slice(0, 2);
 
   return (
     <div>
@@ -33,7 +35,20 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           </Link>
           <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year} · {devA.price}</div>
-        </div>
+          {badgesA.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-1.5 mt-3">
+              {badgesA.map((c) => (
+                <span
+                  key={c.key}
+                  className="text-[10px] font-semibold px-2 py-1 rounded-full uppercase tracking-wide"
+                  style={{ backgroundColor: COLORS.aSoft, color: COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                  🏆 Mejor {c.label.toLowerCase()}
+                </span>
+              ))}
+            </div>
+         
+
         <div className="rounded-lg p-5 text-center relative" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           {bWins && <Crown size={20} className="absolute -top-2.5 left-1/2 -translate-x-1/2" style={{ color: COLORS.gold }} />}
           <div className="flex justify-center mb-2">
@@ -45,8 +60,20 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           </Link>
           <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year} · {devB.price}</div>
+          {badgesB.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-1.5 mt-3">
+              {badgesB.map((c) => (
+                <span
+                  key={c.key}
+                  className="text-[10px] font-semibold px-2 py-1 rounded-full uppercase tracking-wide"
+                  style={{ backgroundColor: COLORS.bSoft, color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                  🏆 Mejor {c.label.toLowerCase()}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
 
       <div className="rounded-lg p-4 sm:p-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <div className="text-xs uppercase tracking-widest mb-2 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
