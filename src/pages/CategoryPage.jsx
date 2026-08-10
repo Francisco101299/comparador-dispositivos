@@ -8,6 +8,7 @@ import { DEVICES, overallOf } from "../data/devices";
 import { categoryMeta, breadcrumbJsonLd } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import CategoryNav from "../components/CategoryNav";
+import DeviceIcon from "../components/DeviceIcon";
 
 const VALID_TYPES = {
   celulares: { types: ["Celular"], label: "Celulares" },
