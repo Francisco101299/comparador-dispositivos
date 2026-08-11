@@ -13,6 +13,7 @@ import SeoHead from "../components/SeoHead";
 import TypeaheadInput from "../components/TypeaheadInput";
 import CategoryNav from "../components/CategoryNav";
 import CategoryPicker from "../components/CategoryPicker";
+import Logo from "../components/Logo";
 
 export default function HomePage() {
   const [devA, setDevA] = useState(null);
@@ -41,8 +42,8 @@ export default function HomePage() {
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase mb-3 px-3 py-1 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-            <Swords size={12} /> Duelo de especificaciones
+          <div className="flex justify-center mb-4">
+            <Logo size={36} />
           </div>
           <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
