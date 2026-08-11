@@ -6,7 +6,10 @@
 // no se modificó.
 // ============================================================================
 import { slugify } from "../lib/slugify.js";
-
+import { EXTRA_SPECS_1 } from "./extraSpecs1.js";
+import { EXTRA_SPECS_2 } from "./extraSpecs2.js";
+import { EXTRA_SPECS_3 } from "./extraSpecs3.js";
+import { DEVICES_SMARTWATCHES } from "./smartwatches.js";
 const CATS = [
   { key: "rendimiento", label: "Rendimiento" },
   { key: "pantalla", label: "Pantalla" },
@@ -14,8 +17,9 @@ const CATS = [
   { key: "camara", label: "Cámara" },
   { key: "portabilidad", label: "Portabilidad" },
   { key: "precioCalidad", label: "Precio-calidad" },
+{ key: "memoria", label: "Memoria y almacenamiento" },
+{ key: "energia", label: "Carga y energía" },
 ];
-
 // Base de datos local: puntuaciones (0-100) estimadas de forma comparativa, no son benchmarks oficiales.
 const DEVICES = [
   { id: "iphone16promax", name: "iPhone 16 Pro Max", type: "Celular", year: 2024, price: "$1,199", scores: { rendimiento: 98, pantalla: 96, bateria: 90, camara: 97, portabilidad: 70, precioCalidad: 65 }, details: { rendimiento: "Chip A18 Pro", pantalla: "6.9\" OLED 120Hz", bateria: "Hasta 33h video", camara: "Triple 48MP, zoom 5x", portabilidad: "227g", precioCalidad: "Gama premium" } },
@@ -370,11 +374,20 @@ const DEVICES_TABLETS = [
   { id: "lenovotabm10", name: "Lenovo Tab M10 Plus", type: "Tablet", year: 2023, price: "$179", scores: { rendimiento: 42, pantalla: 60, bateria: 74, camara: 38, portabilidad: 76, precioCalidad: 78 }, details: { rendimiento: "MediaTek Helio G80", pantalla: "10.6\" LCD 60Hz", bateria: "7700mAh", camara: "8MP", portabilidad: "465g", precioCalidad: "La más económica del grupo" } },
 ];
 DEVICES.push(...DEVICES_TABLETS);
+DEVICES.push(...DEVICES_SMARTWATCHES);
+const EXTRA = { ...EXTRA_SPECS_1, ...EXTRA_SPECS_2, ...EXTRA_SPECS_3 };
+for (const d of DEVICES) {
+  const ex = EXTRA[d.id];
+  if (!ex) continue;
+  if (ex.m) { d.scores.memoria = ex.m[0]; d.details.memoria = ex.m[1]; }
+  if (ex.e) { d.scores.energia = ex.e[0]; d.details.energia = ex.e[1]; }
+}
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
   if (type === "Celular") return "celulares";
   if (type === "Tablet") return "tablets";
-  return "computadoras";
+if (type === "Smartwatch") return "relojes";
+return "computadoras";
 }
 
 
@@ -393,8 +406,8 @@ for (const d of DEVICES) {
 }
 
 export function overallOf(device) {
-  const vals = CATS.map((c) => device.scores[c.key]);
-  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+const vals = CATS.map((c) => device.scores[c.key]).filter((v) => typeof v === "number");
+return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
 export function getDeviceBySlug(slugType, slug) {
