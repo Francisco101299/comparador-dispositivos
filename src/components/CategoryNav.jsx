@@ -12,6 +12,7 @@ const CATEGORIES = [
   { label: "Celulares", path: "/celulares" },
   { label: "Computadoras", path: "/computadoras" },
   { label: "Tablets", path: "/tablets" },
+  { label: "Relojes", path: "/relojes" },
 ];
 
 const MORE_LINKS = [
