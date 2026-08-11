@@ -91,7 +91,12 @@ export default function HomePage() {
           <Link to="/computadoras" className="underline">catálogo de computadoras</Link> y el{" "}
           <Link to="/tablets" className="underline">catálogo de tablets</Link>.
         </p>
+        <p className="text-center text-xs mt-6">
+          <Link to="/privacidad" className="underline" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+            Política de privacidad
+          </Link>
+        </p>
       </div>
     </div>
   );
-          }
+}
