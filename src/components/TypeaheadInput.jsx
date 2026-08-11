@@ -14,6 +14,7 @@ const TYPE_GROUPS = {
   Celular: ["Celular"],
   Computadora: ["Desktop", "Laptop"],
   Tablet: ["Tablet"],
+  Smartwatch: ["Smartwatch"],
 };
 
 export default function TypeaheadInput({ label, accent, value, onSelect, excludeId, forcedCategory }) {
