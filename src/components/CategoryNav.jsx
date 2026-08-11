@@ -1,7 +1,8 @@
 // ============================================================================
 // src/components/CategoryNav.jsx
-// Menú desplegable para cambiar entre Celulares, Computadoras y Tablets,
-// más links a Sugerir dispositivo, Blog, Acerca de y FAQ.
+// Menú compacto: "Categorías" (Celulares/Computadoras/Tablets) y "Más"
+// (Blog, Acerca de, FAQ, Sugerir dispositivo) — dos desplegables en vez de
+// cinco botones sueltos, para que no se vea saturado en pantallas chicas.
 // ============================================================================
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -13,7 +14,14 @@ const CATEGORIES = [
   { label: "Tablets", path: "/tablets" },
 ];
 
-export default function CategoryNav() {
+const MORE_LINKS = [
+  { label: "¿Falta tu dispositivo?", path: "/sugerir" },
+  { label: "Blog", path: "/blog" },
+  { label: "Preguntas frecuentes", path: "/preguntas-frecuentes" },
+  { label: "Acerca de", path: "/acerca-de" },
+];
+
+function Dropdown({ label, items }) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
 
@@ -30,44 +38,39 @@ export default function CategoryNav() {
   }, []);
 
   return (
-    <nav className="flex items-center justify-center gap-4 flex-wrap text-sm mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="relative" ref={boxRef}>
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-full"
-          style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}
-        >
-          Categorías <ChevronDown size={14} />
-        </button>
-        {open && (
-          <div className="absolute z-30 mt-1 left-1/2 -translate-x-1/2 min-w-[160px] rounded-md shadow-lg overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid #D6DAE2" }}>
-            {CATEGORIES.map((c) => (
-              <Link
-                key={c.path}
-                to={c.path}
-                onClick={() => setOpen(false)}
-                className="block px-4 py-2.5 text-sm hover:bg-[#F3F4F7] transition-colors"
-                style={{ color: "#14181F" }}
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-      <Link to="/sugerir" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-        ¿Falta tu dispositivo?
-      </Link>
-      <Link to="/blog" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-        Blog
-      </Link>
-      <Link to="/acerca-de" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-        Acerca de
-      </Link>
-      <Link to="/preguntas-frecuentes" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-        FAQ
-      </Link>
+    <div className="relative" ref={boxRef}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1 px-3 py-1.5 rounded-full"
+        style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}
+      >
+        {label} <ChevronDown size={14} />
+      </button>
+      {open && (
+        <div className="absolute z-30 mt-1 left-1/2 -translate-x-1/2 min-w-[180px] rounded-md shadow-lg overflow-hidden" style={{ backgroundColor: "#fff", border: "1px solid #D6DAE2" }}>
+          {items.map((c) => (
+            <Link
+              key={c.path}
+              to={c.path}
+              onClick={() => setOpen(false)}
+              className="block px-4 py-2.5 text-sm hover:bg-[#F3F4F7] transition-colors whitespace-nowrap"
+              style={{ color: "#14181F" }}
+            >
+              {c.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function CategoryNav() {
+  return (
+    <nav className="flex items-center justify-center gap-3 text-sm mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <Dropdown label="Categorías" items={CATEGORIES} />
+      <Dropdown label="Más" items={MORE_LINKS} />
     </nav>
   );
-      }
+}
