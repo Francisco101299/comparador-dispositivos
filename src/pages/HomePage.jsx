@@ -81,8 +81,7 @@ export default function HomePage() {
           )}
         </div>
         <p className="text-center text-xs mt-3" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-          Base de datos local de {DEVICES.length} celulares, computadoras y tablets. Empieza a escribir para ver sugerencias.
-        </p>
+          Base de datos local de {DEVICES.length} celulares, computadoras, tablets y relojes. Empieza a escribir para ver sugerencias.        </p>
       </div>
 
       <div className="max-w-3xl mx-auto px-5 sm:px-10 py-10">
@@ -90,7 +89,8 @@ export default function HomePage() {
           Selecciona dos dispositivos arriba (de las sugerencias) y presiona "Comparar", o explora el{" "}
           <Link to="/celulares" className="underline">catálogo de celulares</Link>, el{" "}
           <Link to="/computadoras" className="underline">catálogo de computadoras</Link> y el{" "}
-          <Link to="/tablets" className="underline">catálogo de tablets</Link>.
+          <Link to="/tablets" className="underline">catálogo de tablets</Link> y el{" "}
+<Link to="/relojes" className="underline">catálogo de relojes</Link>.
         </p>
         <p className="text-center text-xs mt-6 flex items-center justify-center gap-3">
           <Link to="/privacidad" className="underline" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
