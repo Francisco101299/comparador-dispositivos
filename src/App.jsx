@@ -12,6 +12,7 @@ const DevicePage = lazy(() => import("./pages/DevicePage"));
 const ComparisonPage = lazy(() => import("./pages/ComparisonPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const SuggestPage = lazy(() => import("./pages/SuggestPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 function PageFallback() {
   return <div style={{ minHeight: "100vh", backgroundColor: "#EDEFF3" }} aria-hidden="true" />;
 }
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/:slugType/:slug" element={<DevicePage />} />
           <Route path="/comparar/:pair" element={<ComparisonPage />} />
      <Route path="/sugerir" element={<SuggestPage />} />
+          <Route path="/acerca-de" element={<AboutPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
