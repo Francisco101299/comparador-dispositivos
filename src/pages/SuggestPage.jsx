@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import SeoHead from "../components/SeoHead";
+import Logo from "../components/Logo";
 
 const DEST_EMAIL = "franckxx101219990@gmail.com";
 
@@ -37,6 +38,9 @@ export default function SuggestPage() {
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
+          <div className="flex justify-center mb-3">
+            <Logo size={28} />
+          </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
             <Link to="/" className="underline">Inicio</Link> · Sugerir dispositivo
           </nav>
