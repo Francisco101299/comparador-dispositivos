@@ -9,6 +9,7 @@ import { categoryMeta, breadcrumbJsonLd } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import CategoryNav from "../components/CategoryNav";
 import DeviceIcon from "../components/DeviceIcon";
+import Logo from "../components/Logo";
 
 const VALID_TYPES = {
   celulares: { types: ["Celular"], label: "Celulares" },
@@ -40,6 +41,9 @@ export default function CategoryPage() {
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
+          <div className="flex justify-center mb-3">
+            <Logo size={28} />
+          </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
             <Link to="/" className="underline">Inicio</Link> · {label}
           </nav>
