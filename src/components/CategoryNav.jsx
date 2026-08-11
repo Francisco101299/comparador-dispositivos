@@ -60,6 +60,9 @@ export default function CategoryNav() {
       <Link to="/sugerir" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
         ¿Falta tu dispositivo?
       </Link>
+      <Link to="/blog" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
+        Blog
+      </Link>
       <Link to="/acerca-de" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
         Acerca de
       </Link>
