@@ -5,6 +5,7 @@
 // comparativas por categoría, y veredicto. Compartido entre HomePage y
 // ComparisonPage.
 // ============================================================================
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Crown, RotateCcw } from "lucide-react";
 import { COLORS } from "../data/theme";
@@ -14,19 +15,47 @@ import ScoreDial from "./ScoreDial";
 import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
+import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 
 export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
-  const overallA = overallOf(devA);
-  const overallB = overallOf(devB);
+  const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
+
+  const calculateWeightedOverall = (scores, weights) => {
+    let totalWeight = 0;
+    let weightedSum = 0;
+    
+    CATS.forEach((c) => {
+      weightedSum += (scores[c.key] || 0) * weights[c.key];
+      totalWeight += weights[c.key];
+    });
+    
+    return Math.round(weightedSum / totalWeight);
+  };
+
+  const overallA = calculateWeightedOverall(devA.scores, weights);
+  const overallB = calculateWeightedOverall(devB.scores, weights);
   const aWins = overallA > overallB;
   const bWins = overallB > overallA;
 
   const badgesA = CATS.filter((c) => devA.scores[c.key] > devB.scores[c.key]).slice(0, 2);
   const badgesB = CATS.filter((c) => devB.scores[c.key] > devA.scores[c.key]).slice(0, 2);
 
+  const handleWeightsChange = (newWeights) => {
+    setWeights(newWeights);
+  };
+
+  const handleWeightsReset = () => {
+    setWeights(DEFAULT_WEIGHTS);
+  };
+
   return (
     <div>
       <h2 className="sr-only">Resultado: {devA.name} contra {devB.name}</h2>
+      
+      <div className="mb-6">
+        <WeightPicker weights={weights} onChange={handleWeightsChange} onReset={handleWeightsReset} />
+      </div>
+
       <div className="grid grid-cols-2 gap-4 mb-8">
         <div className="rounded-lg p-5 text-center relative" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           {aWins && <Crown size={20} className="absolute -top-2.5 left-1/2 -translate-x-1/2" style={{ color: COLORS.gold }} />}
