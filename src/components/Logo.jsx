@@ -9,7 +9,7 @@ import { COLORS } from "../data/theme";
 export default function Logo({ size = 32, showText = true, dark = true }) {
   return (
     <Link to="/" className="inline-flex items-center gap-2">
-      <img src="/logo.png" alt="Duelo de Características" width={size} height={size} style={{ width: size, height: size, borderRadius: "50%" }} />
+      <img src="/Logo.png" alt="Duelo de Características" width={size} height={size} style={{ width: size, height: size, borderRadius: "50%" }} />
       {showText && (
         <span
           className="font-bold tracking-tight"
