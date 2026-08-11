@@ -66,6 +66,7 @@ export default function CategoryNav() {
       <Link to="/acerca-de" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
         Acerca de
       </Link>
+      <Link to="/preguntas-frecuentes" className="px-3 py-1.5 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
+        FAQ
+      </Link>
     </nav>
-  );
-}
