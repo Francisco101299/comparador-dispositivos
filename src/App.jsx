@@ -5,6 +5,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import PageViewTracker from "./components/PageViewTracker";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -26,6 +27,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+<PageViewTracker />
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
