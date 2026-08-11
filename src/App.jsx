@@ -15,6 +15,7 @@ const SuggestPage = lazy(() => import("./pages/SuggestPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
 function PageFallback() {
   return <div style={{ minHeight: "100vh", backgroundColor: "#EDEFF3" }} aria-hidden="true" />;
 }
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/acerca-de" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
 <Route path="/blog/:id" element={<ArticlePage />} />
+          <Route path="/preguntas-frecuentes" element={<FaqPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
