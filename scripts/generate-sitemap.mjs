@@ -10,8 +10,7 @@ import { DEVICES } from "../src/data/devices.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const SITE_URL = "https://www.duelodeespecificaciones.com"; // TODO: reemplazar por el dominio real
-
+const SITE_URL = "https://comparador-dispositivos.vercel.app";
 const today = new Date().toISOString().slice(0, 10);
 
 const staticUrls = [
