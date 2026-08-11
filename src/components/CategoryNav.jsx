@@ -1,8 +1,7 @@
 // ============================================================================
 // src/components/CategoryNav.jsx
 // Menú desplegable para cambiar entre Celulares, Computadoras y Tablets,
-// más un link a "Sugerir dispositivo". Se usa en el encabezado de las
-// páginas principales.
+// más links a Sugerir dispositivo, Blog, Acerca de y FAQ.
 // ============================================================================
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -70,3 +69,5 @@ export default function CategoryNav() {
         FAQ
       </Link>
     </nav>
+  );
+      }
