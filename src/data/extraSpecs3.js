@@ -1,0 +1,43 @@
+// ============================================================================
+// src/data/extraSpecs3.js
+// Datos REALES (m/e) para generación 2025-2026, adicionales y series Honor X.
+// ============================================================================
+export const EXTRA_SPECS_3 = {
+  iphone17: { m: [74, "8GB · 128 a 512GB"], e: [68, "Hasta ~40W"] },
+  iphoneair: { m: [76, "8GB · 256GB a 1TB"], e: [52, "~25-30W"] },
+  iphone17pro: { m: [82, "12GB · 256GB a 1TB"], e: [68, "Hasta ~40W"] },
+  iphone17promax: { m: [86, "12GB · 256GB a 2TB"], e: [68, "Hasta ~40W"] },
+  iphone17e: { m: [72, "8GB · 128 a 512GB"], e: [50, "~25W"] },
+  pixel10: { m: [76, "12GB · 128/256GB"], e: [60, "~30W · Qi2 Pixelsnap"] },
+  pixel10pro: { m: [84, "16GB · 128GB a 1TB"], e: [60, "~30W · Qi2"] },
+  pixel10proxl: { m: [86, "16GB · 256GB a 1TB"], e: [66, "~39W · Qi2"] },
+  s26: { m: [80, "12GB · 256/512GB"], e: [72, "45W"] },
+  s26plus: { m: [82, "12GB · 256/512GB"], e: [72, "45W"] },
+  s26ultra: { m: [88, "12/16GB · 256GB a 1TB"], e: [82, "60W, primera en Galaxy"] },
+  xiaomi15: { m: [86, "12/16GB · 256GB a 1TB"], e: [90, "90W"] },
+  xiaomi15pro: { m: [88, "12/16GB · 256GB a 1TB"], e: [90, "90W"] },
+  xiaomi15ultra: { m: [90, "12/16GB · 256GB a 1TB"], e: [90, "90W"] },
+  findx8pro: { m: [88, "12/16GB · 256GB a 1TB"], e: [88, "80W"] },
+  findx8ultra: { m: [90, "12/16GB · 256GB a 1TB"], e: [92, "100W"] },
+  vivox200pro: { m: [88, "12/16GB · 256GB a 1TB"], e: [90, "90W"] },
+  vivox200ultra: { m: [90, "12/16GB · 256GB a 1TB"], e: [90, "90W"] },
+  honormagic7pro: { m: [90, "12/16GB · 256GB a 1TB"], e: [92, "100W"] },
+  motorolarazrultra2026: { m: [80, "12/16GB · 256GB a 1TB"], e: [72, "45W"] },
+  iphonex: { m: [30, "3GB · 64/256GB"], e: [35, "15W · Qi 7.5W"] },
+  iphonexs: { m: [36, "4GB · 64/256/512GB"], e: [35, "15W"] },
+  iphonexsmax: { m: [36, "4GB · 64/256/512GB"], e: [35, "15W"] },
+  iphonexr: { m: [32, "3GB · 64/128/256GB"], e: [35, "15W"] },
+  iphone11: { m: [40, "4GB · 64/128/256GB"], e: [40, "18W"] },
+  iphone11pro: { m: [42, "4GB · 64/256/512GB"], e: [40, "18W"] },
+  iphone11promax: { m: [42, "4GB · 64/256/512GB"], e: [40, "18W"] },
+  nothingphone2: { m: [72, "8/12GB · 128 a 512GB"], e: [72, "45W"] },
+  honor200pro: { m: [78, "12GB · 256/512GB"], e: [92, "100W"] },
+  honorx8: { m: [50, "6/8GB · 128GB"], e: [50, "22.5W"] },
+  honorx8a: { m: [48, "6GB · 128GB"], e: [50, "22.5W"] },
+  honorx8b: { m: [60, "8GB · 128 a 512GB"], e: [65, "35W"] },
+  honorx9: { m: [58, "6/8GB · 128/256GB"], e: [70, "40W"] },
+  honorx9a: { m: [60, "6/8GB · 128/256GB"], e: [70, "40W"] },
+  honorx7a: { m: [42, "4/6GB · 64 a 256GB"], e: [50, "22.5W"] },
+  honorx7b: { m: [48, "4 a 8GB · 128/256GB"], e: [65, "35W"] },
+  honorx7c: { m: [50, "4 a 8GB · 128/256GB"], e: [65, "35W"] }
+};
