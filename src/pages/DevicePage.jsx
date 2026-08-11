@@ -10,6 +10,7 @@ import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } fro
 import SeoHead from "../components/SeoHead";
 import ScoreDial from "../components/ScoreDial";
 import DeviceIcon from "../components/DeviceIcon";
+import Logo from "../components/Logo";
 
 const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets" };
 export default function DevicePage() {
@@ -42,6 +43,9 @@ export default function DevicePage() {
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
+          <div className="flex justify-center mb-3">
+            <Logo size={28} />
+          </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
             <Link to="/" className="underline">Inicio</Link> ·{" "}
             <Link to={`/${device.slugType}`} className="underline">{CATEGORY_LABEL[device.slugType]}</Link> · {device.name}
