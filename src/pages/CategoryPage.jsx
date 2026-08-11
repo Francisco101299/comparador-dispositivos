@@ -63,7 +63,7 @@ export default function CategoryPage() {
                 className="flex items-center justify-between gap-3 rounded-md px-4 py-3 text-sm hover:bg-[#F3F4F7] transition-colors"
                 style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}`, fontFamily: "'Inter', sans-serif" }}
               >
-                >
+                
                 <span className="flex items-center gap-3 min-w-0">
                   <DeviceIcon device={d} size={36} />
                   <span style={{ color: COLORS.ink }} className="truncate">{d.name}</span>
