@@ -5,13 +5,14 @@
 // real, se muestra esa foto en vez del ícono — por ahora ningún dispositivo
 // la tiene, así que todos usan el ícono por defecto.
 // ============================================================================
-import { Smartphone, Laptop, Monitor, Tablet } from "lucide-react";
+import { Smartphone, Laptop, Monitor, Tablet, Watch } from "lucide-react";
 
 const ICONS = {
   Celular: Smartphone,
   Laptop: Laptop,
   Desktop: Monitor,
   Tablet: Tablet,
+  Smartwatch: Watch,
 };
 
 export default function DeviceIcon({ device, size = 40, color, bg }) {
