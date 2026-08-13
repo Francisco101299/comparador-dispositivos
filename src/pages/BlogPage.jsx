@@ -44,9 +44,13 @@ export default function BlogPage() {
             <Link
               key={a.id}
               to={`/blog/${a.id}`}
-              className="block rounded-lg p-5 hover:bg-[#F3F4F7] transition-colors"
+              className="block rounded-lg overflow-hidden hover:bg-[#F3F4F7] transition-colors"
               style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}
             >
+              {a.image && (
+                <img src={a.image} alt={a.title} className="w-full h-40 object-cover" loading="lazy" />
+              )}
+              <div className="p-5">
               <div className="text-xs mb-1.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
                 {new Date(a.date + "T00:00:00").toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })}
               </div>
@@ -56,6 +60,7 @@ export default function BlogPage() {
               <p className="text-sm leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
                 {a.excerpt}
               </p>
+              </div>
             </Link>
           ))}
         </div>
