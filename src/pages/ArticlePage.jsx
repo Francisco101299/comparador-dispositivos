@@ -51,6 +51,15 @@ export default function ArticlePage() {
             </p>
           ))}
         </div>
+        {article.links && article.links.length > 0 && (
+          <div className="mt-6 rounded-lg p-4 flex flex-col gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+            {article.links.map((l) => (
+              <Link key={l.path} to={l.path} className="text-sm underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
+                → {l.label}
+              </Link>
+            ))}
+          </div>
+        )}
         <div className="mt-6 text-center">
           <Link to="/blog" className="text-sm underline" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
             ← Volver al blog
