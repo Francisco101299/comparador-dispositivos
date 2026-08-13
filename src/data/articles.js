@@ -1,10 +1,8 @@
 // ============================================================================
 // src/data/articles.js
-// Catálogo de artículos del blog. Cada artículo es un objeto con id, título,
-// resumen, fecha, y contenido (array de párrafos de texto simple).
-// Para publicar un artículo nuevo, agrega un objeto más a este array.
+// Catálogo de artículos del blog. Imágenes de Unsplash (licencia libre,
+// uso comercial permitido sin atribución).
 // ============================================================================
-import { slugify } from "../lib/slugify.js";
 
 export const ARTICLES = [
   {
@@ -16,8 +14,8 @@ export const ARTICLES = [
     content: [
       "Elegir un celular de gama media en 2026 ya no significa sacrificar demasiado frente a la gama alta. Las diferencias en cámara y pantalla se han reducido mucho, y la mayoría de la gente no necesita el chip más potente del mercado.",
       "Al comparar opciones en esta categoría, lo primero que recomendamos revisar es la batería y la velocidad de carga — es donde más se nota la diferencia en el uso diario, más que el rendimiento puro del procesador.",
-      "Usa el comparador para poner dos modelos de gama media frente a frente y revisar la categoría de precio-calidad, que resume qué tan bien aprovechado está cada dólar invertido.",
-    ],
+      "Usa el comparador para poner dos modelos de gama media frente a frente y revisar la categoría de precio-calidad, que resume qué tan bien aprovechado está cada dólar invertido."
+    ]
   },
   {
     id: "como-elegir-tablet",
@@ -28,25 +26,45 @@ export const ARTICLES = [
     content: [
       "Antes de comparar modelos específicos, conviene definir para qué vas a usar la tablet: ¿lectura y streaming, dibujo y productividad, o entretenimiento para niños? La respuesta cambia por completo qué modelo te conviene.",
       "Si el uso principal es dibujo o tomar notas, la compatibilidad con lápiz óptico y la calidad de pantalla pesan más que el rendimiento bruto. Si es solo para ver videos y navegar, casi cualquier modelo de gama media te va a servir bien.",
-      "La portabilidad también importa más de lo que parece: una tablet que pesa 200g más se siente muy distinta después de sostenerla media hora leyendo.",
-      ],
+      "La portabilidad también importa más de lo que parece: una tablet que pesa 200g más se siente muy distinta después de sostenerla media hora leyendo."
+    ]
   },
   {
-    id: "galaxy-s26-ultra-vs-s25-ultra",  title: "Samsung Galaxy S26 Ultra vs Galaxy S25 Ultra: ¿vale la pena el cambio?",
-    image: "https://images.unsplash.com/photo-1592286927505-1def25115e04?w=800&q=80",
+    id: "galaxy-s26-ultra-vs-s25-ultra",
+    title: "Samsung Galaxy S26 Ultra vs Galaxy S25 Ultra: ¿vale la pena el cambio?",
+    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80",
     excerpt: "El Galaxy S26 Ultra estrena carga de 60W, cámara 200MP f/1.4 más luminosa y Privacy Display manteniendo el precio de $1,299. Te contamos qué cambia frente al S25 Ultra.",
     date: "2026-08-12",
     content: [
       "El Galaxy S26 Ultra llega con tres cambios concretos frente a su antecesor: carga de 60W (la primera vez que un Galaxy S Ultra supera los 45W), una cámara principal de 200MP con apertura f/1.4 más luminosa para fotos con poca luz, y la nueva pantalla Privacy Display, que oscurece la vista lateral para que nadie más pueda ver tu pantalla en público.",
       "El cuerpo también se adelgazó a 214g, unos gramos menos que el S25 Ultra, sin sacrificar batería. Y quizás lo más importante para quien está decidiendo: Samsung mantuvo el mismo precio de $1,299 que tenía el modelo anterior, así que la actualización no viene con sobrecosto.",
-      "¿Vale la pena cambiar? Si vienes de un Galaxy S24 Ultra o algo más antiguo, el salto se siente en carga, cámara y pantalla, y es un buen momento para actualizar. Si ya tienes un S25 Ultra, los cambios son notorios pero no urgentes — es una mejora de un año, no un rediseño completo.",
+      "¿Vale la pena cambiar? Si vienes de un Galaxy S24 Ultra o algo más antiguo, el salto se siente en carga, cámara y pantalla, y es un buen momento para actualizar. Si ya tienes un S25 Ultra, los cambios son notorios pero no urgentes — es una mejora de un año, no un rediseño completo."
     ],
     links: [
       { label: "Ver comparación completa: Galaxy S26 Ultra vs Galaxy S25 Ultra", path: "/comparar/samsung-galaxy-s26-ultra-vs-samsung-galaxy-s25-ultra" },
-      { label: "Explorar el catálogo de celulares", path: "/celulares" },
-    ],
+      { label: "Explorar el catálogo de celulares", path: "/celulares" }
+    ]
   },
-  
+  {
+    id: "iphone-plegable-bomba-2026",
+    title: "iPhone plegable: el teléfono que va a sacudir la industria",
+    image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&q=80",
+    excerpt: "Apple prepara su primer iPhone plegable: pantalla de 7.8 pulgadas sin pliegue visible, chip A20 de 2nm y precio superior a $2,000. Te contamos por qué será una bomba en la industria móvil.",
+    date: "2026-08-13",
+    content: [
+      "La industria móvil lleva años esperando este momento: Apple finalmente entraría al mercado de los plegables. Y cuando Apple llega tarde a una categoría, suele llegar a redefinirla — pasó con el iPhone original, con el iPad y con el Apple Watch. Esto es todo lo que sabemos del llamado iPhone Fold.",
+      "Diseño tipo libro, sin pliegue visible. Los reportes apuntan a un plegable tipo libro que se abre como un mini iPad: pantalla interna de aproximadamente 7.8 pulgadas y externa de 5.5 pulgadas. La gran promesa: una bisagra de metal líquido que eliminaría el pliegue visible, el mayor defecto de los plegables actuales.",
+      "Chip A20 de 2 nanómetros. Sería de los primeros teléfonos con chip de 2nm: más potencia y mejor eficiencia para mover dos pantallas y multitarea real al mismo tiempo.",
+      "Cámaras bajo la pantalla. Face ID y la cámara frontal quedarían escondidos bajo el panel: cero perforaciones en la pantalla interna. Una pantalla totalmente limpia.",
+      "El precio: el iPhone más caro de la historia. Se estima entre $2,000 y $2,500 dólares. Apple no competirá en precio: creará la categoría del ultra premium plegable.",
+      "¿Por qué será una bomba en la industria? Porque obligará a Samsung, Google y Xiaomi a responder rápido. El mercado plegable, que hoy es de nicho, podría volverse mainstream de la noche a la mañana — igual que pasó cuando el iPhone original obligó a reinventar todos los celulares.",
+      "¿Esperarlo o comprar ahora? Si estás en el ecosistema Apple y te llaman los plegables: espera unos meses. Si necesitas teléfono hoy, los reyes actuales siguen siendo excelentes compras y no te vas a arrepentir."
+    ],
+    links: [
+      { label: "Ver comparación: iPhone 16 Pro Max vs Galaxy S25 Ultra", path: "/comparar/iphone-16-pro-max-vs-samsung-galaxy-s25-ultra" },
+      { label: "Explorar el catálogo de celulares", path: "/celulares" }
+    ]
+  }
 ];
 
 export function getArticleById(id) {
