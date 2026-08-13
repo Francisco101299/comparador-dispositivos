@@ -46,7 +46,7 @@ export const ARTICLES = [
       { label: "Explorar el catálogo de celulares", path: "/celulares" },
     ],
   },
-  },
+  
 ];
 
 export function getArticleById(id) {
