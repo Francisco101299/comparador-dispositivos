@@ -47,7 +47,12 @@ export default function HomePage() {
 src="/banner-hero.png"
 alt="Duelo de Características — Compara, decide y elige mejor"
 className="w-full"
-style={{ maxWidth: 1200, mixBlendMode: "lighten" }}
+style={{
+maxWidth: 1200,
+mixBlendMode: "lighten",
+WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%)",
+maskImage: "linear-gradient(to bottom, transparent 0%, black 12%)"
+}}
 />
 </div>
           <CategoryNav />
