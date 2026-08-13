@@ -1,6 +1,6 @@
 // ============================================================================
 // scripts/generate-sitemap.mjs
-// Genera public/sitemap.xml a partir del catálogo real + artículos del blog.
+// Genera public/sitemap.xml a partir del catálogo real de dispositivos y blog.
 // Uso: node scripts/generate-sitemap.mjs
 // ============================================================================
 import { writeFileSync } from "node:fs";
@@ -13,13 +13,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_URL = "https://comparador-dispositivos.vercel.app";
 const today = new Date().toISOString().slice(0, 10);
 
-// Intenta cargar el blog (si existe). Si no hay archivo de blog, continúa sin fallar.
+// Intenta cargar los posts del blog. Si no existe el archivo, continúa sin fallar.
 let POSTS = [];
 try {
   const blogMod = await import("../src/data/blog.js");
   POSTS = blogMod.POSTS || blogMod.default || [];
 } catch (e) {
-  // No hay archivo de blog todavía
+  // No hay archivo de blog todavía o dio error, seguimos sin él.
 }
 
 const staticUrls = [
