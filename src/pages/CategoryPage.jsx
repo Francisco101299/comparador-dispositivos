@@ -15,6 +15,7 @@ const VALID_TYPES = {
   celulares: { types: ["Celular"], label: "Celulares" },
   computadoras: { types: ["Desktop", "Laptop"], label: "Computadoras" },
   tablets: { types: ["Tablet"], label: "Tablets" },
+  relojes: { types: ["Smartwatch"], label: "Relojes" },
 };
 
 export default function CategoryPage() {
