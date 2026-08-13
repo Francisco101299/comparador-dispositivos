@@ -43,8 +43,13 @@ export default function HomePage() {
       <div className="relative px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-4">
-            <Logo size={36} />
-          </div>
+<img
+src="/banner.png"
+alt="Duelo de Características — Compara, decide y elige mejor"
+className="w-full rounded-xl"
+style={{ maxWidth: 560, border: "1px solid #2A2F3A" }}
+/>
+</div>
           <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             ¿Cuál gana?
