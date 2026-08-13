@@ -30,9 +30,9 @@ export const ARTICLES = [
       "Si el uso principal es dibujo o tomar notas, la compatibilidad con lápiz óptico y la calidad de pantalla pesan más que el rendimiento bruto. Si es solo para ver videos y navegar, casi cualquier modelo de gama media te va a servir bien.",
       "La portabilidad también importa más de lo que parece: una tablet que pesa 200g más se siente muy distinta después de sostenerla media hora leyendo.",
       ],
-    {
-    id: "galaxy-s26-ultra-vs-s25-ultra",
-    title: "Samsung Galaxy S26 Ultra vs Galaxy S25 Ultra: ¿vale la pena el cambio?",
+  },
+  {
+    id: "galaxy-s26-ultra-vs-s25-ultra",  title: "Samsung Galaxy S26 Ultra vs Galaxy S25 Ultra: ¿vale la pena el cambio?",
     image: "https://images.unsplash.com/photo-1592286927505-1def25115e04?w=800&q=80",
     excerpt: "El Galaxy S26 Ultra estrena carga de 60W, cámara 200MP f/1.4 más luminosa y Privacy Display manteniendo el precio de $1,299. Te contamos qué cambia frente al S25 Ultra.",
     date: "2026-08-12",
