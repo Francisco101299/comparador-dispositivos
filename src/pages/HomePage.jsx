@@ -42,12 +42,12 @@ export default function HomePage() {
 
       <div className="relative px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
+<div className="flex justify-center mb-4">
 <img
-src="/banner.png"
+src="/banner-hero.png"
 alt="Duelo de Características — Compara, decide y elige mejor"
-className="w-full rounded-xl"
-style={{ maxWidth: 560, border: "1px solid #2A2F3A" }}
+className="w-full"
+style={{ maxWidth: 960 }}
 />
 </div>
           <CategoryNav />
