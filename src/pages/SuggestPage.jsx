@@ -36,7 +36,7 @@ export default function SuggestPage() {
       />
       <style>{FONT_IMPORT}</style>
 
-      <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
+      <div className="relative px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-3">
             <Logo size={28} />
@@ -53,7 +53,7 @@ export default function SuggestPage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 -mt-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-10 mt-6">
         <form
           onSubmit={handleSubmit}
           className="rounded-lg shadow-lg p-4 sm:p-5 flex flex-col gap-4"
