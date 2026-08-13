@@ -42,8 +42,10 @@ export default function ArticlePage() {
           </h1>
         </div>
       </div>
-
-      <div className="max-w-2xl mx-auto px-5 sm:px-10 py-10">
+<div className="max-w-2xl mx-auto px-5 sm:px-10 py-10">
+        {article.image && (
+          <img src={article.image} alt={article.title} className="w-full h-56 sm:h-72 object-cover rounded-lg mb-6" loading="lazy" />
+        )}
         <div className="rounded-lg shadow-lg p-5 sm:p-7 flex flex-col gap-4" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           {article.content.map((paragraph, i) => (
             <p key={i} className="text-sm sm:text-base leading-relaxed" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
