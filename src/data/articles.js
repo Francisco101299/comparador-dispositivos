@@ -33,7 +33,7 @@ export const ARTICLES = [
   },
   {
     id: "galaxy-s26-ultra-vs-s25-ultra",  title: "Samsung Galaxy S26 Ultra vs Galaxy S25 Ultra: ¿vale la pena el cambio?",
-    image: "https://images.unsplash.com/photo-1592286927505-1def25115e04?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800&q=80",
     excerpt: "El Galaxy S26 Ultra estrena carga de 60W, cámara 200MP f/1.4 más luminosa y Privacy Display manteniendo el precio de $1,299. Te contamos qué cambia frente al S25 Ultra.",
     date: "2026-08-12",
     content: [
