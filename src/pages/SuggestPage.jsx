@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import SeoHead from "../components/SeoHead";
 import Logo from "../components/Logo";
-import SiteBanner from "../components/SiteBanner";
+
 
 const DEST_EMAIL = "franckxx101219990@gmail.com";
 
@@ -54,7 +54,7 @@ export default function SuggestPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-5 sm:px-10 mt-6 pb-10">
-        <SiteBanner />
+        
         <form
           onSubmit={handleSubmit}
           className="rounded-lg shadow-lg p-4 sm:p-5 flex flex-col gap-4"
