@@ -6,7 +6,7 @@
 // no se modificó.
 // ============================================================================
 import { slugify } from "../lib/slugify.js";
-ñlimport { EXTRA_SPECS_1 } from "./extraSpecs1.js";
+import { EXTRA_SPECS_1 } from "./extraSpecs1.js";
 import { EXTRA_SPECS_2 } from "./extraSpecs2.js";
 import { EXTRA_SPECS_3 } from "./extraSpecs3.js";
 import { DEVICES_SMARTWATCHES } from "./smartwatches.js";
