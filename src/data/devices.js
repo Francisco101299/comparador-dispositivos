@@ -6,7 +6,7 @@
 // no se modificó.
 // ============================================================================
 import { slugify } from "../lib/slugify.js";
-import { EXTRA_SPECS_1 } from "./extraSpecs1.js";
+ñlimport { EXTRA_SPECS_1 } from "./extraSpecs1.js";
 import { EXTRA_SPECS_2 } from "./extraSpecs2.js";
 import { EXTRA_SPECS_3 } from "./extraSpecs3.js";
 import { DEVICES_SMARTWATCHES } from "./smartwatches.js";
@@ -28,8 +28,7 @@ const DEVICES = [
   { id: "pixel10pro", name: "Google Pixel 10 Pro", type: "Celular", year: 2025, price: "$999", scores: { rendimiento: 87, pantalla: 91, bateria: 84, camara: 93, portabilidad: 78, precioCalidad: 72 }, details: { rendimiento: "Tensor G5", pantalla: "6.3\" OLED 120Hz", bateria: "4870mAh, Qi2 Pixelsnap", camara: "Triple 50MP + IA Gemini", portabilidad: "207g", precioCalidad: "Muy buena cámara con IA" } }, 
   // Aquí sigue el resto de tus dispositivos originales (iPhone 16 Pro Max, etc.)
   { id: "iphone16promax", name: "iPhone 16 Pro Max", type: "Celular", year: 2024, price: "$1,199", scores: { rendimiento: 98, pantalla: 96, bateria: 92, camara: 97, portabilidad: 70, precioCalidad: 65 }, details: { rendimiento: "Chip A18 Pro 3nm", pantalla: "6.9\" Super Retina XDR OLED 120Hz ProMotion, 2000 nits", bateria: "Hasta 33h video, carga MagSafe 25W", camara: "Triple 48MP (principal) + 48MP ultra gran angular + 12MP telefoto 5x, cámara frontal 12MP TrueDepth", portabilidad: "227g, titanio grado 5, IP68", precioCalidad: "Tope de gama de Apple 2024" } },
-  { id: "iphone16promax", name: "iPhone 16 Pro Max", type: "Celular", year: 2024, price: "$1,199", scores: { rendimiento: 98, pantalla: 96, bateria: 90, camara: 97, portabilidad: 70, precioCalidad: 65 }, details: { rendimiento: "Chip A18 Pro", pantalla: "6.9\" OLED 120Hz", bateria: "Hasta 33h video", camara: "Triple 48MP, zoom 5x", portabilidad: "227g", precioCalidad: "Gama premium" } },
-  { id: "iphone16pro", name: "iPhone 16 Pro", type: "Celular", year: 2024, price: "$999", scores: { rendimiento: 97, pantalla: 94, bateria: 85, camara: 95, portabilidad: 78, precioCalidad: 68 }, details: { rendimiento: "Chip A18 Pro", pantalla: "6.3\" OLED 120Hz", bateria: "Hasta 27h video", camara: "Triple 48MP", portabilidad: "199g", precioCalidad: "Premium" } },
+ { id: "iphone16pro", name: "iPhone 16 Pro", type: "Celular", year: 2024, price: "$999", scores: { rendimiento: 97, pantalla: 94, bateria: 85, camara: 95, portabilidad: 78, precioCalidad: 68 }, details: { rendimiento: "Chip A18 Pro", pantalla: "6.3\" OLED 120Hz", bateria: "Hasta 27h video", camara: "Triple 48MP", portabilidad: "199g", precioCalidad: "Premium" } },
   { id: "iphone16", name: "iPhone 16", type: "Celular", year: 2024, price: "$799", scores: { rendimiento: 90, pantalla: 88, bateria: 82, camara: 87, portabilidad: 82, precioCalidad: 74 }, details: { rendimiento: "Chip A18", pantalla: "6.1\" OLED 60Hz", bateria: "Hasta 22h video", camara: "Doble 48MP", portabilidad: "170g", precioCalidad: "Buen equilibrio" } },
   { id: "iphone15", name: "iPhone 15", type: "Celular", year: 2023, price: "$699", scores: { rendimiento: 84, pantalla: 84, bateria: 78, camara: 82, portabilidad: 83, precioCalidad: 78 }, details: { rendimiento: "Chip A16", pantalla: "6.1\" OLED 60Hz", bateria: "Hasta 20h video", camara: "Doble 48MP", portabilidad: "171g", precioCalidad: "Bajó de precio" } },
   { id: "s25ultra", name: "Samsung Galaxy S25 Ultra", type: "Celular", year: 2025, price: "$1,299", scores: { rendimiento: 97, pantalla: 97, bateria: 88, camara: 96, portabilidad: 68, precioCalidad: 64 }, details: { rendimiento: "Snapdragon 8 Elite", pantalla: "6.9\" AMOLED 120Hz", bateria: "5000mAh", camara: "Cuádruple 200MP", portabilidad: "218g", precioCalidad: "Gama premium" } },
