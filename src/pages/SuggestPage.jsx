@@ -1,8 +1,7 @@
 // ============================================================================
 // src/pages/SuggestPage.jsx
-// Formulario para que la gente sugiera un dispositivo que falte. Al enviar,
-// abre la app de correo del usuario con el mensaje ya redactado — no
-// requiere backend ni registrarse en ningún servicio externo.
+// Formulario para sugerir un dispositivo que falte. Al enviar, abre la app
+// de correo del usuario con el mensaje ya redactado.
 // ============================================================================
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -54,7 +53,7 @@ export default function SuggestPage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 mt-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-10 mt-6 pb-10">
         <SiteBanner />
         <form
           onSubmit={handleSubmit}
@@ -108,4 +107,16 @@ export default function SuggestPage() {
           <button
             type="submit"
             disabled={!canSend}
-            className="w-full py-
+            className="w-full py-3 rounded-md font-semibold text-sm uppercase tracking-wide disabled:opacity-40 transition-opacity"
+            style={{ backgroundColor: COLORS.ink, color: "#fff", fontFamily: "'Space Grotesk', sans-serif" }}
+          >
+            Enviar sugerencia
+          </button>
+          <p className="text-xs text-center" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+            Al enviar se abrirá tu app de correo con el mensaje ya escrito.
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+              }
