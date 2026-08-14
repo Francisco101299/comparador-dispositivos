@@ -4,7 +4,7 @@
 // Responsive: columna en móvil, fila en desktop.
 // ============================================================================
 import { Link } from "react-router-dom";
-import Logo from "./Logo";
+import Logo from "../components/Logo";
 import { COLORS } from "../data/theme";
 
 export default function SiteBanner() {
