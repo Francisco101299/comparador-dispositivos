@@ -77,10 +77,11 @@ export const ARTICLES = [
       "Por dentro corre con el procesador más reciente de Qualcomm (Snapdragon 8 Elite Gen 5), pantalla plana de 1.5K con bordes ultra delgados, batería de gran capacidad y carga rápida de 120W. El precio de salida ronda los $1,500 dólares, y por ahora solo está disponible en China — todavía no se confirma si llegará a más países.",
       "Es un dispositivo pensado más para quienes crean contenido de video que para el uso diario común, pero marca una dirección interesante: cámaras que se mueven físicamente en vez de depender solo de estabilización por software. Habrá que ver si otras marcas siguen ese camino.",
     ],
-    links: [
+      links: [
+      { label: "Ver ficha completa del Honor Robot Phone", path: "/celulares/honor-robot-phone" },
       { label: "Explorar el catálogo de celulares", path: "/celulares" },
-    ],
-  },
+    ] 
+      },
 ];
 
 export function getArticleById(id) {
