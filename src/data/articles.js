@@ -64,7 +64,23 @@ export const ARTICLES = [
       { label: "Ver comparación: iPhone 16 Pro Max vs Galaxy S25 Ultra", path: "/comparar/iphone-16-pro-max-vs-samsung-galaxy-s25-ultra" },
       { label: "Explorar el catálogo de celulares", path: "/celulares" }
     ]
-  }
+  },
+  {
+    id: "honor-robot-phone",
+    title: "Honor Robot Phone: el celular con brazo robótico ya es real",
+    image: "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=800&q=80",
+    excerpt: "Honor lanzó el Robot Phone, un celular con un brazo robótico de titanio que mueve la cámara de 200MP para seguir sujetos automáticamente. Desde $1,500, por ahora solo en China.",
+    date: "2026-08-12",
+    content: [
+      "Honor acaba de lanzar oficialmente el Robot Phone, un celular que se sale por completo del diseño tradicional. Su característica principal es un brazo robótico de titanio con 4 grados de libertad integrado en la parte trasera, que mueve físicamente la cámara principal de 200MP para seguir sujetos en movimiento, hacer tomas cinematográficas automáticas, y ofrecer estabilización de nivel profesional.",
+      "El sistema de cámara se desarrolló en colaboración con ARRI (la marca detrás de cámaras usadas en cine profesional), lo que le da al Robot Phone grabación con perfiles de color de nivel cinematográfico — algo que ningún otro celular ofrece de forma nativa. Además de la cámara principal con gimbal, trae una cámara telefoto y una ultra gran angular de 50MP.",
+      "Por dentro corre con el procesador más reciente de Qualcomm (Snapdragon 8 Elite Gen 5), pantalla plana de 1.5K con bordes ultra delgados, batería de gran capacidad y carga rápida de 120W. El precio de salida ronda los $1,500 dólares, y por ahora solo está disponible en China — todavía no se confirma si llegará a más países.",
+      "Es un dispositivo pensado más para quienes crean contenido de video que para el uso diario común, pero marca una dirección interesante: cámaras que se mueven físicamente en vez de depender solo de estabilización por software. Habrá que ver si otras marcas siguen ese camino.",
+    ],
+    links: [
+      { label: "Explorar el catálogo de celulares", path: "/celulares" },
+    ],
+  },
 ];
 
 export function getArticleById(id) {
