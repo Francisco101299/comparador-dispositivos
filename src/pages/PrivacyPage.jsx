@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         description="Política de privacidad de Duelo de Especificaciones: qué datos se recopilan al visitar el sitio y cómo se usan."
         canonical={typeof window !== "undefined" ? window.location.origin + "/privacidad" : "/privacidad"}
       />
-      <style>{FONT_IMPORT}</style>
+      
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-2xl mx-auto text-center">
