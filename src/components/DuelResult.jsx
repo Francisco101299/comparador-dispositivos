@@ -12,6 +12,7 @@ import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
+import CommunityVote from "./CommunityVote";
 import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
@@ -191,6 +192,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       </div>
 
       <SpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />
+      <CommunityVote devA={devA} devB={devB} />
 
       <div className="rounded-lg p-5 text-sm sm:text-base leading-relaxed" style={{ backgroundColor: COLORS.panelDark, color: "#E7E9EE", fontFamily: "'Inter', sans-serif" }}>
         <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>Veredicto</div>
