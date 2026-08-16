@@ -45,9 +45,21 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
       pool = pool.filter((d) => TYPE_GROUPS[forcedCategory].includes(d.type));
     }
     if (!q) return pool.slice(0, 6);
-    return pool.filter((d) => normalize(d.name).includes(q)).slice(0, 6);
+    // Busca por palabras sueltas (en cualquier orden), no solo frase exacta.
+    // Así "Samsung S" encuentra "Samsung Galaxy S23" aunque "Galaxy" esté en medio.
+    const words = q.split(/\s+/).filter(Boolean);
+    const matches = pool.filter((d) => {
+      const name = normalize(d.name);
+      return words.every((w) => name.includes(w));
+    });
+    // Prioriza los que empiezan con lo que escribiste, luego el resto
+    matches.sort((a, b) => {
+      const aStarts = normalize(a.name).startsWith(q) ? 0 : 1;
+      const bStarts = normalize(b.name).startsWith(q) ? 0 : 1;
+      return aStarts - bStarts;
+    });
+    return matches.slice(0, 6);
   }, [query, excludeId, forcedCategory]);
-
   return (
     <div className="relative" ref={boxRef}>
       <div className="relative">
