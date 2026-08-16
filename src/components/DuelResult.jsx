@@ -1,19 +1,18 @@
 // ============================================================================
 // src/components/DuelResult.jsx
-// Resultado del duelo con precios por país. Prioridad:
-//   1. Precio local específico (si el dispositivo lo tiene)
-//   2. Conversión aproximada desde USD (fallback, con leyenda "estimación")
-//   3. "Precio no disponible"
+// Resultado del duelo con precios por país, ficha técnica estilo versus,
+// botones de compartir y veredicto.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Crown, RotateCcw } from "lucide-react";
 import { COLORS } from "../data/theme";
-import { CATS, overallOf } from "../data/devices";
+import { CATS } from "../data/devices";
 import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
+import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
@@ -90,7 +89,6 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         <WeightPicker weights={weights} onChange={handleWeightsChange} onReset={handleWeightsReset} />
       </div>
 
-      {/* Selector de país */}
       <div className="mb-5 rounded-lg p-3 flex flex-col items-center gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <span className="text-xs uppercase tracking-widest" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
           Ver precios en:
@@ -183,7 +181,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         </div>
       </div>
 
-      <div className="rounded-lg p-4 sm:p-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+      <div className="rounded-lg p-4 sm:p-6 mb-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <div className="text-xs uppercase tracking-widest mb-2 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
           Categoría por categoría
         </div>
@@ -193,15 +191,20 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       </div>
 
       <SpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />
+
+      <div className="rounded-lg p-5 text-sm sm:text-base leading-relaxed" style={{ backgroundColor: COLORS.panelDark, color: "#E7E9EE", fontFamily: "'Inter', sans-serif" }}>
         <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>Veredicto</div>
         {verdictText(devA, devB)}
       </div>
-      <ShareButtons devA={devA} devB={devB} />
+
+      <div className="mt-4">
+        <ShareButtons devA={devA} devB={devB} />
+      </div>
 
       {anyEstimate && (
         <p className="text-[10px] text-center mt-4 leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-          * Los precios marcados como "Estimación por conversión" son un cálculo aproximado a partir del precio en EE.UU., y pueden variar según la tienda, impuestos locales, aranceles de importación y el tipo de cambio del día. No representan necesariame
-          </p>
+          * Los precios marcados como "Estimación por conversión" son un cálculo aproximado a partir del precio en EE.UU., y pueden variar según la tienda, impuestos locales, aranceles de importación y el tipo de cambio del día. No representan necesariamente el precio final de venta.
+        </p>
       )}
 
       {onReset ? (
@@ -215,4 +218,4 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       )}
     </div>
   );
-}
+      }
