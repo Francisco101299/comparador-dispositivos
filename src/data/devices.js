@@ -415,7 +415,14 @@ const DEVICES_FALTANTES = [
   { id: "redminote11", name: "Xiaomi Redmi Note 11", type: "Celular", year: 2022, price: "$249", scores: { rendimiento: 58, pantalla: 76, bateria: 82, camara: 68, portabilidad: 80, precioCalidad: 86 }, details: { rendimiento: "Snapdragon 680", pantalla: "6.43\" AMOLED 90Hz", bateria: "5000mAh", camara: "Cuádruple 50MP", portabilidad: "179g", precioCalidad: "Uno de los gama de entrada más vendidos" } },
 ];
 DEVICES.push(...DEVICES_FALTANTES);
-
+// --- Limpieza de IDs duplicados: si un id se agregó en varias tandas,
+// se conserva la versión más reciente (la última gana) y se descarta la repetida.
+{
+  const porId = new Map();
+  for (const d of DEVICES) porId.set(d.id, d);
+  DEVICES.length = 0;
+  DEVICES.push(...porId.values());
+}
 const EXTRA = { ...EXTRA_SPECS_1, ...EXTRA_SPECS_2, ...EXTRA_SPECS_3 };
 for (const d of DEVICES) {
   const ex = EXTRA[d.id];
