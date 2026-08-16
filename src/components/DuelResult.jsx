@@ -17,6 +17,7 @@ import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
+import ShareButtons from "./ShareButtons";
 
 function PriceBlock({ price, color }) {
   return (
@@ -195,6 +196,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>Veredicto</div>
         {verdictText(devA, devB)}
       </div>
+      <ShareButtons devA={devA} devB={devB} />
 
       {anyEstimate && (
         <p className="text-[10px] text-center mt-4 leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
