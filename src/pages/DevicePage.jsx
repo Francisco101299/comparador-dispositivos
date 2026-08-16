@@ -12,7 +12,16 @@ import ScoreDial from "../components/ScoreDial";
 import DeviceIcon from "../components/DeviceIcon";
 import Logo from "../components/Logo";
 
-const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets" };
+const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets", relojes: "Relojes" };
+
+// Extrae el número de un precio tipo "$999" o "$1,199" para poder ordenar
+// dispositivos por cercanía de precio (rivales de rango similar).
+function parsePriceNumber(priceStr) {
+  if (!priceStr || typeof priceStr !== "string") return null;
+  const n = parseFloat(priceStr.replace(/[^0-9.]/g, ""));
+  return isNaN(n) ? null : n;
+}
+
 export default function DevicePage() {
   const { slugType, slug } = useParams();
   const device = getDeviceBySlug(slugType, slug);
@@ -32,10 +41,22 @@ export default function DevicePage() {
     ]),
   ];
 
+  const currentPrice = parsePriceNumber(device.price);
   const others = getDevicesByType(device.type)
     .filter((d) => d.id !== device.id)
+    .sort((a, b) => {
+      // Si tenemos precio de referencia, prioriza rivales de precio similar
+      // (comparaciones que la gente realmente busca en Google).
+      if (currentPrice !== null) {
+        const priceA = parsePriceNumber(a.price);
+        const priceB = parsePriceNumber(b.price);
+        const diffA = priceA !== null ? Math.abs(priceA - currentPrice) : Infinity;
+        const diffB = priceB !== null ? Math.abs(priceB - currentPrice) : Infinity;
+        return diffA - diffB;
+      }
+      return 0;
+    })
     .slice(0, 6);
-
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} ogType={meta.ogType} jsonLd={jsonLd} />
