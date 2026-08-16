@@ -44,17 +44,19 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto text-center">
 <div className="flex justify-center mb-4">
 <img
-src="/banner-hero.png"
-alt="Duelo de Características — Compara, decide y elige mejor"
-className="w-full"
-style={{
-maxWidth: 1200,
-mixBlendMode: "lighten",
-WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%)",
-maskImage: "linear-gradient(to bottom, transparent 0%, black 12%)"
-}}
+  src="/banner-hero.png"
+  alt="Duelo de Características — Compara, decide y elige mejor"
+  width={1600}
+  height={900}
+  fetchPriority="high"
+  className="w-full h-auto"
+  style={{
+    maxWidth: 1200,
+    mixBlendMode: "lighten",
+    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%)",
+    maskImage: "linear-gradient(to bottom, transparent 0%, black 12%)"
+  }}
 />
-</div>
           <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             ¿Cuál gana?
