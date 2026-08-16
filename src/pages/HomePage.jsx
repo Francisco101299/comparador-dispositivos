@@ -57,6 +57,7 @@ export default function HomePage() {
     maskImage: "linear-gradient(to bottom, transparent 0%, black 12%)"
   }}
 />
+  </h1>
           <CategoryNav />
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             ¿Cuál gana?
