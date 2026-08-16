@@ -8,7 +8,7 @@ import { COLORS } from "../data/theme";
 
 export default function NotFoundPage() {
   useEffect(() => {
-    document.title = "Página no encontrada | Duelo de Especificaciones";
+    document.title = "Página no encontrada | Duelo de Características";
     let tag = document.querySelector('meta[name="robots"]');
     if (!tag) {
       tag = document.createElement("meta");
