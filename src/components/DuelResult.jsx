@@ -13,7 +13,7 @@ import { CATS, overallOf } from "../data/devices";
 import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import ScoreDial from "./ScoreDial";
-import DuelBar from "./DuelBar";
+import SpecsTable from "./SpecsTable";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
@@ -192,7 +192,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         ))}
       </div>
 
-      <div className="mt-6 rounded-lg p-5 text-sm sm:text-base leading-relaxed" style={{ backgroundColor: COLORS.panelDark, color: "#E7E9EE", fontFamily: "'Inter', sans-serif" }}>
+      <SpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />
         <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>Veredicto</div>
         {verdictText(devA, devB)}
       </div>
