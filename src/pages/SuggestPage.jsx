@@ -34,7 +34,7 @@ export default function SuggestPage() {
         description="¿No encuentras tu celular, computadora o tablet? Sugiérelo y lo agregamos al comparador."
         canonical={typeof window !== "undefined" ? window.location.origin + "/sugerir" : "/sugerir"}
       />
-      <style>{FONT_IMPORT}</style>
+      
 
       <div className="relative px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
