@@ -19,7 +19,7 @@ export default function ContactPage() {
         description="Ponte en contacto con Duelo de Especificaciones para dudas, sugerencias o comentarios."
         canonical={typeof window !== "undefined" ? window.location.origin + "/contacto" : "/contacto"}
       />
-      <style>{FONT_IMPORT}</style>
+      
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-2xl mx-auto text-center">
