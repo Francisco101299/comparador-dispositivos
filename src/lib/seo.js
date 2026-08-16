@@ -8,7 +8,7 @@
 // ============================================================================
 import { overallOf } from "../data/devices.js";
 
-export const SITE_NAME = "Duelo de Especificaciones";
+export const SITE_NAME = "Duelo de Características";
 export const SITE_URL = "https://www.duelodeespecificaciones.com"; // TODO: reemplazar por el dominio real
 
 function truncate(str, max) {
