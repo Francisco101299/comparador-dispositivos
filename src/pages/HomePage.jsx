@@ -68,7 +68,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 -mt-6">
+    <div className="relative z-30 max-w-3xl mx-auto px-5 sm:px-10 -mt-6">
         <h2 className="sr-only">Elige dos dispositivos para comparar</h2>
         <div className="rounded-lg shadow-lg p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-3 items-start" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           <TypeaheadInput label="Dispositivo A (ej. iPhone 16 Pro)" accent={COLORS.a} value={devA} onSelect={setDevA} excludeId={devB ? devB.id : null} forcedCategory={category} />
