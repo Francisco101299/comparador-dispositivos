@@ -1,9 +1,7 @@
 // ============================================================================
 // src/components/DuelResult.jsx
-// Muestra el resultado del duelo: ícono y tarjeta de puntuación de cada
-// dispositivo (con insignias "Mejor en..."), gráfica de radar, barras
-// comparativas por categoría, veredicto y selector de país para precios
-// referenciales. Compartido entre HomePage y ComparisonPage.
+// Resultado del duelo con precios referenciales por país (incluye Costa Rica
+// y Europa). El precio se muestra destacado bajo el nombre de cada equipo.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -17,25 +15,31 @@ import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 
-// Países con su factor de conversión respecto al precio en USD y símbolo de moneda
+// Países con factor de conversión desde USD (factor general y factor Apple,
+// porque Apple suele tener recargos mayores en Latinoamérica).
 const COUNTRIES = [
-  { code: "US", name: "EE.UU.", factor: 1.0, currency: "$", locale: "en-US" },
-  { code: "MX", name: "México", factor: 1.1, currency: "$", locale: "es-MX" },
-  { code: "CO", name: "Colombia", factor: 1.15, currency: "$", locale: "es-CO" },
-  { code: "AR", name: "Argentina", factor: 1.3, currency: "$", locale: "es-AR" },
-  { code: "CL", name: "Chile", factor: 1.08, currency: "$", locale: "es-CL" },
-  { code: "PE", name: "Perú", factor: 1.08, currency: "S/", locale: "es-PE" },
-  { code: "ES", name: "España", factor: 1.12, currency: "€", locale: "es-ES" },
+  { code: "US", name: "EE.UU.", factor: 1.0, appleFactor: 1.0, currency: "$", locale: "en-US" },
+  { code: "MX", name: "México", factor: 1.1, appleFactor: 1.15, currency: "$", locale: "es-MX" },
+  { code: "CR", name: "Costa Rica", factor: 1.3, appleFactor: 1.73, currency: "$", locale: "es-CR" },
+  { code: "CO", name: "Colombia", factor: 1.15, appleFactor: 1.25, currency: "$", locale: "es-CO" },
+  { code: "AR", name: "Argentina", factor: 1.3, appleFactor: 1.6, currency: "$", locale: "es-AR" },
+  { code: "CL", name: "Chile", factor: 1.08, appleFactor: 1.15, currency: "$", locale: "es-CL" },
+  { code: "PE", name: "Perú", factor: 1.08, appleFactor: 1.15, currency: "S/", locale: "es-PE" },
+  { code: "ES", name: "España", factor: 1.12, appleFactor: 1.2, currency: "€", locale: "es-ES" },
+  { code: "EU", name: "Europa", factor: 1.15, appleFactor: 1.25, currency: "€", locale: "de-DE" },
 ];
 
-// Convierte un precio tipo "$1,199" al precio referencial del país seleccionado
-function formatPriceForCountry(priceStr, country) {
+function isAppleDevice(name) {
+  return /iphone|ipad|macbook|imac|mac mini|mac studio|mac pro/i.test(name || "");
+}
+
+// Convierte un precio tipo "$1,199" al precio referencial del país elegido
+function formatPriceForCountry(priceStr, country, apple) {
   if (!priceStr || typeof priceStr !== "string") return priceStr;
-  // Extrae solo los dígitos (quita $, comas, puntos)
   const numeric = parseInt(String(priceStr).replace(/[^0-9]/g, ""), 10);
   if (isNaN(numeric)) return priceStr;
-  const converted = Math.round(numeric * country.factor);
-  // Formatea según el locale del país
+  const factor = apple ? country.appleFactor : country.factor;
+  const converted = Math.round(numeric * factor);
   try {
     const formatted = converted.toLocaleString(country.locale, {
       minimumFractionDigits: 0,
@@ -51,7 +55,6 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
   const [countryCode, setCountryCode] = useState("US");
 
-  // Cargar país guardado al montar
   useEffect(() => {
     try {
       const saved = localStorage.getItem("preferredCountry");
@@ -61,7 +64,6 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
     } catch {}
   }, []);
 
-  // Guardar país cuando cambia
   const handleCountryChange = (code) => {
     setCountryCode(code);
     try {
@@ -74,12 +76,10 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const calculateWeightedOverall = (scores, weights) => {
     let totalWeight = 0;
     let weightedSum = 0;
-    
     CATS.forEach((c) => {
       weightedSum += (scores[c.key] || 0) * weights[c.key];
       totalWeight += weights[c.key];
     });
-    
     return Math.round(weightedSum / totalWeight);
   };
 
@@ -91,31 +91,26 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const badgesA = CATS.filter((c) => devA.scores[c.key] > devB.scores[c.key]).slice(0, 2);
   const badgesB = CATS.filter((c) => devB.scores[c.key] > devA.scores[c.key]).slice(0, 2);
 
-  const handleWeightsChange = (newWeights) => {
-    setWeights(newWeights);
-  };
+  const handleWeightsChange = (newWeights) => setWeights(newWeights);
+  const handleWeightsReset = () => setWeights(DEFAULT_WEIGHTS);
 
-  const handleWeightsReset = () => {
-    setWeights(DEFAULT_WEIGHTS);
-  };
-
-  const priceA = formatPriceForCountry(devA.price, currentCountry);
-  const priceB = formatPriceForCountry(devB.price, currentCountry);
+  const priceA = formatPriceForCountry(devA.price, currentCountry, isAppleDevice(devA.name));
+  const priceB = formatPriceForCountry(devB.price, currentCountry, isAppleDevice(devB.name));
 
   return (
     <div>
       <h2 className="sr-only">Resultado: {devA.name} contra {devB.name}</h2>
-      
+
       <div className="mb-6">
         <WeightPicker weights={weights} onChange={handleWeightsChange} onReset={handleWeightsReset} />
       </div>
 
       {/* Selector de país */}
-      <div className="mb-5 rounded-lg p-3 flex flex-col sm:flex-row items-center justify-between gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-        <label className="text-xs uppercase tracking-widest" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+      <div className="mb-5 rounded-lg p-3 flex flex-col items-center gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+        <span className="text-xs uppercase tracking-widest" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
           Ver precios en:
-        </label>
-        <div className="flex flex-wrap gap-1.5">
+        </span>
+        <div className="flex flex-wrap justify-center gap-1.5">
           {COUNTRIES.map((c) => (
             <button
               key={c.code}
@@ -140,11 +135,14 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             <DeviceIcon device={devA} size={44} color={COLORS.a} bg={COLORS.aSoft} />
           </div>
           <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}>{devA.type}</div>
-          <Link to={`/${devA.slugType}/${devA.slug}`} className="font-semibold text-sm sm:text-base mb-3 block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
+          <Link to={`/${devA.slugType}/${devA.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devA.name}
           </Link>
+          <div className="text-base sm:text-lg font-bold mt-1 mb-2" style={{ color: COLORS.a, fontFamily: "'IBM Plex Mono', monospace" }}>
+            {priceA}
+          </div>
           <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
-          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year} · {priceA}</div>
+          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year}</div>
           {badgesA.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
               {badgesA.map((c) => (
@@ -165,11 +163,14 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             <DeviceIcon device={devB} size={44} color={COLORS.b} bg={COLORS.bSoft} />
           </div>
           <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}>{devB.type}</div>
-          <Link to={`/${devB.slugType}/${devB.slug}`} className="font-semibold text-sm sm:text-base mb-3 block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
+          <Link to={`/${devB.slugType}/${devB.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devB.name}
           </Link>
+          <div className="text-base sm:text-lg font-bold mt-1 mb-2" style={{ color: COLORS.b, fontFamily: "'IBM Plex Mono', monospace" }}>
+            {priceB}
+          </div>
           <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
-          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year} · {priceB}</div>
+          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year}</div>
           {badgesB.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
               {badgesB.map((c) => (
@@ -229,5 +230,5 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         </Link>
       )}
     </div>
-    );
-      }
+  );
+                }
