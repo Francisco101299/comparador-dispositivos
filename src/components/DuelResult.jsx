@@ -1,7 +1,7 @@
 // ============================================================================
 // src/components/DuelResult.jsx
-// Resultado del duelo con precios referenciales por país (incluye Costa Rica
-// y Europa). El precio se muestra destacado bajo el nombre de cada equipo.
+// Resultado del duelo con precios referenciales en MONEDA LOCAL por país
+// (colones, pesos, euros, soles...). El precio va destacado bajo el nombre.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -15,39 +15,42 @@ import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 
-// Países con factor de conversión desde USD (factor general y factor Apple,
-// porque Apple suele tener recargos mayores en Latinoamérica).
+// Países: factor de mercado (impuestos/importación), factor Apple (recargo
+// mayor), moneda local y tipo de cambio aproximado (moneda por 1 USD).
 const COUNTRIES = [
-  { code: "US", name: "EE.UU.", factor: 1.0, appleFactor: 1.0, currency: "$", locale: "en-US" },
-  { code: "MX", name: "México", factor: 1.1, appleFactor: 1.15, currency: "$", locale: "es-MX" },
-  { code: "CR", name: "Costa Rica", factor: 1.3, appleFactor: 1.73, currency: "$", locale: "es-CR" },
-  { code: "CO", name: "Colombia", factor: 1.15, appleFactor: 1.25, currency: "$", locale: "es-CO" },
-  { code: "AR", name: "Argentina", factor: 1.3, appleFactor: 1.6, currency: "$", locale: "es-AR" },
-  { code: "CL", name: "Chile", factor: 1.08, appleFactor: 1.15, currency: "$", locale: "es-CL" },
-  { code: "PE", name: "Perú", factor: 1.08, appleFactor: 1.15, currency: "S/", locale: "es-PE" },
-  { code: "ES", name: "España", factor: 1.12, appleFactor: 1.2, currency: "€", locale: "es-ES" },
-  { code: "EU", name: "Europa", factor: 1.15, appleFactor: 1.25, currency: "€", locale: "de-DE" },
+  { code: "US", name: "EE.UU.", factor: 1.0, appleFactor: 1.0, currency: "USD", locale: "en-US", rate: 1 },
+  { code: "MX", name: "México", factor: 1.1, appleFactor: 1.15, currency: "MXN", locale: "es-MX", rate: 18.5 },
+  { code: "CR", name: "Costa Rica", factor: 1.3, appleFactor: 1.73, currency: "CRC", locale: "es-CR", rate: 510 },
+  { code: "CO", name: "Colombia", factor: 1.15, appleFactor: 1.25, currency: "COP", locale: "es-CO", rate: 4100 },
+  { code: "AR", name: "Argentina", factor: 1.3, appleFactor: 1.6, currency: "ARS", locale: "es-AR", rate: 1300 },
+  { code: "CL", name: "Chile", factor: 1.08, appleFactor: 1.15, currency: "CLP", locale: "es-CL", rate: 950 },
+  { code: "PE", name: "Perú", factor: 1.08, appleFactor: 1.15, currency: "PEN", locale: "es-PE", rate: 3.75 },
+  { code: "ES", name: "España", factor: 1.12, appleFactor: 1.2, currency: "EUR", locale: "es-ES", rate: 0.92 },
+  { code: "EU", name: "Europa", factor: 1.15, appleFactor: 1.25, currency: "EUR", locale: "de-DE", rate: 0.92 },
 ];
 
 function isAppleDevice(name) {
   return /iphone|ipad|macbook|imac|mac mini|mac studio|mac pro/i.test(name || "");
 }
 
-// Convierte un precio tipo "$1,199" al precio referencial del país elegido
+// Convierte "$1,199" USD al precio referencial en moneda local del país
 function formatPriceForCountry(priceStr, country, apple) {
   if (!priceStr || typeof priceStr !== "string") return priceStr;
   const numeric = parseInt(String(priceStr).replace(/[^0-9]/g, ""), 10);
   if (isNaN(numeric)) return priceStr;
   const factor = apple ? country.appleFactor : country.factor;
-  const converted = Math.round(numeric * factor);
+  let local = numeric * factor * country.rate;
+  // En monedas grandes (colones, pesos...) redondea a miles para leer mejor
+  local = local >= 100000 ? Math.round(local / 1000) * 1000 : Math.round(local);
   try {
-    const formatted = converted.toLocaleString(country.locale, {
-      minimumFractionDigits: 0,
+    const fmt = new Intl.NumberFormat(country.locale, {
+      style: "currency",
+      currency: country.currency,
       maximumFractionDigits: 0,
-    });
-    return `≈ ${country.currency}${formatted}`;
+    }).format(local);
+    return `≈ ${fmt}`;
   } catch {
-    return `≈ ${country.currency}${converted}`;
+    return `≈ ${local}`;
   }
 }
 
@@ -217,7 +220,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       </div>
 
       <p className="text-[10px] text-center mt-4" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-        * Precios referenciales convertidos desde USD. Varían según tienda, impuestos y tipo de cambio local.
+        * Precios referenciales en moneda local con tipo de cambio aproximado. Varían según tienda, impuestos y tipo de cambio del día.
       </p>
 
       {onReset ? (
@@ -231,4 +234,4 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       )}
     </div>
   );
-                }
+      }
