@@ -72,7 +72,7 @@ export default function CategoryPage() {
       <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} jsonLd={jsonLd} />
       <style>{FONT_IMPORT}</style>
 
-      <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
+      <div className="relative z-20 px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-3">
             <Logo size={28} />
