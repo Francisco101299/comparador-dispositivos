@@ -39,7 +39,7 @@ export default function ComparisonPage() {
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} ogType="website" jsonLd={jsonLd} />
-      <style>{FONT_IMPORT}</style>
+      
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
