@@ -1,7 +1,9 @@
 // ============================================================================
 // src/components/DuelResult.jsx
-// Resultado del duelo con precios referenciales en MONEDA LOCAL por país
-// (colones, pesos, euros, soles...). El precio va destacado bajo el nombre.
+// Resultado del duelo con precios por país. Prioridad:
+//   1. Precio local específico (si el dispositivo lo tiene)
+//   2. Conversión aproximada desde USD (fallback, con leyenda "estimación")
+//   3. "Precio no disponible"
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -9,49 +11,29 @@ import { Crown, RotateCcw } from "lucide-react";
 import { COLORS } from "../data/theme";
 import { CATS, overallOf } from "../data/devices";
 import { verdictText } from "../lib/verdict";
+import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import ScoreDial from "./ScoreDial";
 import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 
-// Países: factor de mercado (impuestos/importación), factor Apple (recargo
-// mayor), moneda local y tipo de cambio aproximado (moneda por 1 USD).
-const COUNTRIES = [
-  { code: "US", name: "EE.UU.", factor: 1.0, appleFactor: 1.0, currency: "USD", locale: "en-US", rate: 1 },
-  { code: "MX", name: "México", factor: 1.1, appleFactor: 1.15, currency: "MXN", locale: "es-MX", rate: 18.5 },
-  { code: "CR", name: "Costa Rica", factor: 1.3, appleFactor: 1.73, currency: "CRC", locale: "es-CR", rate: 510 },
-  { code: "CO", name: "Colombia", factor: 1.15, appleFactor: 1.25, currency: "COP", locale: "es-CO", rate: 4100 },
-  { code: "AR", name: "Argentina", factor: 1.3, appleFactor: 1.6, currency: "ARS", locale: "es-AR", rate: 1300 },
-  { code: "CL", name: "Chile", factor: 1.08, appleFactor: 1.15, currency: "CLP", locale: "es-CL", rate: 950 },
-  { code: "PE", name: "Perú", factor: 1.08, appleFactor: 1.15, currency: "PEN", locale: "es-PE", rate: 3.75 },
-  { code: "ES", name: "España", factor: 1.12, appleFactor: 1.2, currency: "EUR", locale: "es-ES", rate: 0.92 },
-  { code: "EU", name: "Europa", factor: 1.15, appleFactor: 1.25, currency: "EUR", locale: "de-DE", rate: 0.92 },
-];
-
-function isAppleDevice(name) {
-  return /iphone|ipad|macbook|imac|mac mini|mac studio|mac pro/i.test(name || "");
-}
-
-// Convierte "$1,199" USD al precio referencial en moneda local del país
-function formatPriceForCountry(priceStr, country, apple) {
-  if (!priceStr || typeof priceStr !== "string") return priceStr;
-  const numeric = parseInt(String(priceStr).replace(/[^0-9]/g, ""), 10);
-  if (isNaN(numeric)) return priceStr;
-  const factor = apple ? country.appleFactor : country.factor;
-  let local = numeric * factor * country.rate;
-  // En monedas grandes (colones, pesos...) redondea a miles para leer mejor
-  local = local >= 100000 ? Math.round(local / 1000) * 1000 : Math.round(local);
-  try {
-    const fmt = new Intl.NumberFormat(country.locale, {
-      style: "currency",
-      currency: country.currency,
-      maximumFractionDigits: 0,
-    }).format(local);
-    return `≈ ${fmt}`;
-  } catch {
-    return `≈ ${local}`;
-  }
+function PriceBlock({ price, color }) {
+  return (
+    <div className="mt-1 mb-2">
+      <div className="text-base sm:text-lg font-bold" style={{ color, fontFamily: "'IBM Plex Mono', monospace" }}>
+        {price.text}
+      </div>
+      {price.available && (
+        <div
+          className="text-[9px] uppercase tracking-widest mt-0.5"
+          style={{ color: price.isEstimate ? COLORS.muted : color, fontFamily: "'Space Grotesk', sans-serif" }}
+        >
+          {price.label}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
@@ -74,8 +56,6 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
     } catch {}
   };
 
-  const currentCountry = COUNTRIES.find((c) => c.code === countryCode) || COUNTRIES[0];
-
   const calculateWeightedOverall = (scores, weights) => {
     let totalWeight = 0;
     let weightedSum = 0;
@@ -97,8 +77,9 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const handleWeightsChange = (newWeights) => setWeights(newWeights);
   const handleWeightsReset = () => setWeights(DEFAULT_WEIGHTS);
 
-  const priceA = formatPriceForCountry(devA.price, currentCountry, isAppleDevice(devA.name));
-  const priceB = formatPriceForCountry(devB.price, currentCountry, isAppleDevice(devB.name));
+  const priceA = resolvePrice(devA, countryCode);
+  const priceB = resolvePrice(devB, countryCode);
+  const anyEstimate = priceA.isEstimate || priceB.isEstimate;
 
   return (
     <div>
@@ -141,9 +122,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           <Link to={`/${devA.slugType}/${devA.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devA.name}
           </Link>
-          <div className="text-base sm:text-lg font-bold mt-1 mb-2" style={{ color: COLORS.a, fontFamily: "'IBM Plex Mono', monospace" }}>
-            {priceA}
-          </div>
+          <PriceBlock price={priceA} color={COLORS.a} />
           <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year}</div>
           {badgesA.length > 0 && (
@@ -169,9 +148,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           <Link to={`/${devB.slugType}/${devB.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devB.name}
           </Link>
-          <div className="text-base sm:text-lg font-bold mt-1 mb-2" style={{ color: COLORS.b, fontFamily: "'IBM Plex Mono', monospace" }}>
-            {priceB}
-          </div>
+          <PriceBlock price={priceB} color={COLORS.b} />
           <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year}</div>
           {badgesB.length > 0 && (
@@ -219,9 +196,11 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         {verdictText(devA, devB)}
       </div>
 
-      <p className="text-[10px] text-center mt-4" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-        * Precios referenciales en moneda local con tipo de cambio aproximado. Varían según tienda, impuestos y tipo de cambio del día.
-      </p>
+      {anyEstimate && (
+        <p className="text-[10px] text-center mt-4 leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+          * Los precios marcados como "Estimación por conversión" son un cálculo aproximado a partir del precio en EE.UU., y pueden variar según la tienda, impuestos locales, aranceles de importación y el tipo de cambio del día. No representan necesariame
+          </p>
+      )}
 
       {onReset ? (
         <button onClick={onReset} className="mt-4 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
@@ -234,4 +213,4 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       )}
     </div>
   );
-      }
+}
