@@ -2,10 +2,10 @@
 // src/components/DuelResult.jsx
 // Muestra el resultado del duelo: ícono y tarjeta de puntuación de cada
 // dispositivo (con insignias "Mejor en..."), gráfica de radar, barras
-// comparativas por categoría, y veredicto. Compartido entre HomePage y
-// ComparisonPage.
+// comparativas por categoría, veredicto y selector de país para precios
+// referenciales. Compartido entre HomePage y ComparisonPage.
 // ============================================================================
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Crown, RotateCcw } from "lucide-react";
 import { COLORS } from "../data/theme";
@@ -17,8 +17,59 @@ import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 
+// Países con su factor de conversión respecto al precio en USD y símbolo de moneda
+const COUNTRIES = [
+  { code: "US", name: "EE.UU.", factor: 1.0, currency: "$", locale: "en-US" },
+  { code: "MX", name: "México", factor: 1.1, currency: "$", locale: "es-MX" },
+  { code: "CO", name: "Colombia", factor: 1.15, currency: "$", locale: "es-CO" },
+  { code: "AR", name: "Argentina", factor: 1.3, currency: "$", locale: "es-AR" },
+  { code: "CL", name: "Chile", factor: 1.08, currency: "$", locale: "es-CL" },
+  { code: "PE", name: "Perú", factor: 1.08, currency: "S/", locale: "es-PE" },
+  { code: "ES", name: "España", factor: 1.12, currency: "€", locale: "es-ES" },
+];
+
+// Convierte un precio tipo "$1,199" al precio referencial del país seleccionado
+function formatPriceForCountry(priceStr, country) {
+  if (!priceStr || typeof priceStr !== "string") return priceStr;
+  // Extrae solo los dígitos (quita $, comas, puntos)
+  const numeric = parseInt(String(priceStr).replace(/[^0-9]/g, ""), 10);
+  if (isNaN(numeric)) return priceStr;
+  const converted = Math.round(numeric * country.factor);
+  // Formatea según el locale del país
+  try {
+    const formatted = converted.toLocaleString(country.locale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+    return `≈ ${country.currency}${formatted}`;
+  } catch {
+    return `≈ ${country.currency}${converted}`;
+  }
+}
+
 export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
+  const [countryCode, setCountryCode] = useState("US");
+
+  // Cargar país guardado al montar
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("preferredCountry");
+      if (saved && COUNTRIES.find((c) => c.code === saved)) {
+        setCountryCode(saved);
+      }
+    } catch {}
+  }, []);
+
+  // Guardar país cuando cambia
+  const handleCountryChange = (code) => {
+    setCountryCode(code);
+    try {
+      localStorage.setItem("preferredCountry", code);
+    } catch {}
+  };
+
+  const currentCountry = COUNTRIES.find((c) => c.code === countryCode) || COUNTRIES[0];
 
   const calculateWeightedOverall = (scores, weights) => {
     let totalWeight = 0;
@@ -48,12 +99,38 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
     setWeights(DEFAULT_WEIGHTS);
   };
 
+  const priceA = formatPriceForCountry(devA.price, currentCountry);
+  const priceB = formatPriceForCountry(devB.price, currentCountry);
+
   return (
     <div>
       <h2 className="sr-only">Resultado: {devA.name} contra {devB.name}</h2>
       
       <div className="mb-6">
         <WeightPicker weights={weights} onChange={handleWeightsChange} onReset={handleWeightsReset} />
+      </div>
+
+      {/* Selector de país */}
+      <div className="mb-5 rounded-lg p-3 flex flex-col sm:flex-row items-center justify-between gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+        <label className="text-xs uppercase tracking-widest" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+          Ver precios en:
+        </label>
+        <div className="flex flex-wrap gap-1.5">
+          {COUNTRIES.map((c) => (
+            <button
+              key={c.code}
+              onClick={() => handleCountryChange(c.code)}
+              className="text-xs px-2.5 py-1 rounded-full font-medium transition-colors"
+              style={{
+                backgroundColor: countryCode === c.code ? COLORS.ink : "#F0F2F5",
+                color: countryCode === c.code ? "#fff" : COLORS.ink,
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-8">
@@ -67,7 +144,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             {devA.name}
           </Link>
           <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
-          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year} · {devA.price}</div>
+          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year} · {priceA}</div>
           {badgesA.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
               {badgesA.map((c) => (
@@ -92,7 +169,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             {devB.name}
           </Link>
           <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
-          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year} · {devB.price}</div>
+          <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year} · {priceB}</div>
           {badgesB.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
               {badgesB.map((c) => (
@@ -138,15 +215,19 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         {verdictText(devA, devB)}
       </div>
 
+      <p className="text-[10px] text-center mt-4" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+        * Precios referenciales convertidos desde USD. Varían según tienda, impuestos y tipo de cambio local.
+      </p>
+
       {onReset ? (
-        <button onClick={onReset} className="mt-6 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
+        <button onClick={onReset} className="mt-4 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
           <RotateCcw size={14} /> Nueva comparación
         </button>
       ) : (
-        <Link to={resetTo} className="mt-6 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md w-fit" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
+        <Link to={resetTo} className="mt-4 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md w-fit" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
           <RotateCcw size={14} /> Nueva comparación
         </Link>
       )}
     </div>
     );
-}
+      }
