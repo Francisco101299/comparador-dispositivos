@@ -18,7 +18,7 @@ export default function BlogPage() {
         description="Artículos y guías para elegir celulares, computadoras y tablets: comparativas de gama media, consejos de compra y más."
         canonical={typeof window !== "undefined" ? window.location.origin + "/blog" : "/blog"}
       />
-      <style>{FONT_IMPORT}</style>
+      
 
       <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
