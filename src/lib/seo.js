@@ -37,7 +37,7 @@ export function homeMeta() {
 // Página de categoría (/celulares, /computadoras)
 // ---------------------------------------------------------------------------
 export function categoryMeta(slugType, count) {
-  const label = slugType === "celulares" ? "celulares" : slugType === "tablets" ? "tablets" : "computadoras";
+  const label = slugType === "celulares" ? "celulares" : slugType === "tablets" ? "tablets" : slugType === "relojes" ? "relojes" : slugType === "drones" ? "drones" : "computadoras";
   return {
     title: `Ficha técnica de ${label}: catálogo completo con ${count} modelos`,
     description: `Explora la ficha técnica de ${count} ${label}: rendimiento, pantalla, batería, cámara y precio. Compara cualquier par en segundos.`,
