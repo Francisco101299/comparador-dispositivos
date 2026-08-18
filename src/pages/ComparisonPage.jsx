@@ -8,6 +8,7 @@ import { getDeviceBySlugAny } from "../data/devices";
 import { comparisonMeta, comparisonJsonLd, breadcrumbJsonLd } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import DuelResult from "../components/DuelResult";
+import Comments from "../components/Comments";
 import Logo from "../components/Logo";
 
 export default function ComparisonPage() {
@@ -60,6 +61,7 @@ export default function ComparisonPage() {
 
       <div className="max-w-3xl mx-auto px-5 sm:px-10 py-10">
         <DuelResult devA={devA} devB={devB} resetTo="/" />
+        <Comments />
       </div>
     </div>
   );
