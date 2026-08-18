@@ -1,8 +1,8 @@
 // ============================================================================
 // src/components/Comments.jsx
 // Comentarios de la comunidad vía Cusdis (sin cuenta para comentar).
-// Si el navegador bloquea el widget (Brave/bloqueadores), siempre queda
-// visible un botón alternativo para comentar en Facebook.
+// El widget se reinicia en CADA carga o navegación (corrige el bug de
+// "solo sirve una vez").
 // ============================================================================
 import { useEffect } from "react";
 import { COLORS } from "../data/theme";
@@ -11,12 +11,15 @@ const CUSDIS_APP_ID = "27195755-841e-4d7b-9839-b830e800fbf5";
 
 export default function Comments() {
   useEffect(() => {
-    if (document.getElementById("cusdis-script")) return;
+    // Quita la instancia anterior del script para que Cusdis se
+    // redibuje en cada carga de página o navegación dentro del sitio.
+    const old = document.getElementById("cusdis-script");
+    if (old) old.remove();
+
     const s = document.createElement("script");
     s.id = "cusdis-script";
     s.src = "https://cusdis.com/js/cusdis.es.js";
     s.async = true;
-    s.defer = true;
     document.body.appendChild(s);
   }, []);
 
@@ -59,4 +62,4 @@ export default function Comments() {
       </div>
     </div>
   );
-}
+      }
