@@ -1,82 +1,121 @@
 // ============================================================================
 // src/components/SpecsTable.jsx
-// Ficha técnica lado a lado (estilo versus). Extrae correctamente los
-// precios del sistema de pricing.js (objetos {text, label, isEstimate}).
+// Ficha técnica comparada POR SECTORES (estilo versus.com): cada sector con
+// encabezado, filas de características lado a lado y puntuación del sector.
 // ============================================================================
 import { COLORS } from "../data/theme";
 
-export default function SpecsTable({ devA, devB, priceA, priceB }) {
-  // Helper: extraer texto y etiqueta del precio (soporta objeto o string)
-  const getPriceInfo = (priceObj, fallback) => {
-    if (!priceObj) return { text: fallback, label: "", isEstimate: false };
-    if (typeof priceObj === "string") return { text: priceObj, label: "", isEstimate: false };
-    return {
-      text: priceObj.text || fallback || "—",
-      label: priceObj.label || "",
-      isEstimate: priceObj.isEstimate || false,
-    };
-  };
-
-  const infoA = getPriceInfo(priceA, devA.price);
-  const infoB = getPriceInfo(priceB, devB.price);
-
-  const rows = [
-    { label: "Año", a: String(devA.year), b: String(devB.year) },
-    {
-      label: "Precio",
-      a: infoA.text,
-      aLabel: infoA.label,
-      aEstimate: infoA.isEstimate,
-      b: infoB.text,
-      bLabel: infoB.label,
-      bEstimate: infoB.isEstimate,
-      isPrice: true,
-    },
-    { label: "Chip / Procesador", a: devA.details?.rendimiento, b: devB.details?.rendimiento },
-    { label: "Pantalla", a: devA.details?.pantalla, b: devB.details?.pantalla },
-    { label: "Batería", a: devA.details?.bateria, b: devB.details?.bateria },
-    { label: "Cámara", a: devA.details?.camara, b: devB.details?.camara },
-    { label: "Peso / Portabilidad", a: devA.details?.portabilidad, b: devB.details?.portabilidad },
-    { label: "Memoria", a: devA.details?.memoria, b: devB.details?.memoria },
-    { label: "Carga / Energía", a: devA.details?.energia, b: devB.details?.energia },
-  ].filter((r) => (r.a || r.b) && (r.isPrice || true));
-
+function ScoreBar({ value, color }) {
   return (
-    <div className="rounded-lg p-4 sm:p-6 mt-6 mb-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-      <div className="text-xs uppercase tracking-widest mb-3 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-        Ficha técnica
+    <div className="flex items-center gap-1.5">
+      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "#E2E5EB" }}>
+        <div className="h-full rounded-full" style={{ width: `${value || 0}%`, backgroundColor: color }} />
       </div>
-      <div className="flex flex-col">
-        {rows.map((r) => (
-          <div key={r.label} className="py-2.5 border-b last:border-b-0" style={{ borderColor: COLORS.line }}>
-            <div className="text-[10px] uppercase tracking-widest text-center mb-1" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-              {r.label}
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm px-1">
-              <div>
-                <span className="font-medium break-words block" style={{ color: COLORS.a, fontFamily: "'IBM Plex Mono', monospace" }}>
-                  {r.a || "—"}
-                </span>
-                {r.isPrice && r.aLabel && (
-                  <span className="text-[9px] uppercase tracking-widest mt-0.5 block" style={{ color: r.aEstimate ? COLORS.muted : COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {r.aLabel}
-                  </span>
-                )}
-              </div>
-              <div className="text-right">
-                <span className="font-medium break-words block" style={{ color: COLORS.b, fontFamily: "'IBM Plex Mono', monospace" }}>
-                  {r.b || "—"}
-                </span>
-                {r.isPrice && r.bLabel && (
-                  <span className="text-[9px] uppercase tracking-widest mt-0.5 block" style={{ color: r.bEstimate ? COLORS.muted : COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {r.bLabel}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <span className="text-[10px] font-bold shrink-0" style={{ color, fontFamily: "'IBM Plex Mono', monospace" }}>
+        {typeof value === "number" ? value : "—"}
+      </span>
     </div>
   );
-     }
+}
+
+export default function SpecsTable({ devA, devB, priceA, priceB }) {
+  const dA = devA.details || {};
+  const dB = devB.details || {};
+  const sA = devA.scores || {};
+  const sB = devB.scores || {};
+
+  const sections = [
+    {
+      title: "Rendimiento",
+      scoreKey: "rendimiento",
+      rows: [{ label: "Chip / Procesador", a: dA.rendimiento, b: dB.rendimiento }],
+    },
+    {
+      title: "Pantalla",
+      scoreKey: "pantalla",
+      rows: [{ label: "Pantalla", a: dA.pantalla, b: dB.pantalla }],
+    },
+    {
+      title: "Batería",
+      scoreKey: "bateria",
+      rows: [
+        { label: "Batería", a: dA.bateria, b: dB.bateria },
+        { label: "Carga / Energía", a: dA.energia, b: dB.energia },
+      ],
+    },
+    {
+      title: "Cámara",
+      scoreKey: "camara",
+      rows: [{ label: "Cámara", a: dA.camara, b: dB.camara }],
+    },
+    {
+      title: "Portabilidad",
+      scoreKey: "portabilidad",
+      rows: [{ label: "Peso / Diseño", a: dA.portabilidad, b: dB.portabilidad }],
+    },
+    {
+      title: "Memoria y almacenamiento",
+      scoreKey: "memoria",
+      rows: [{ label: "RAM / Almacenamiento", a: dA.memoria, b: dB.memoria }],
+    },
+    {
+      title: "General",
+      scoreKey: "precioCalidad",
+      rows: [
+        { label: "Año", a: String(devA.year), b: String(devB.year) },
+        { label: "Precio", a: (priceA && priceA.text) || devA.price, b: (priceB && priceB.text) || devB.price },
+      ],
+    },
+  ];
+
+  return (
+    <div className="rounded-lg mt-6 overflow-hidden" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+      <div className="p-4 pb-3 text-center" style={{ backgroundColor: COLORS.panelDark }}>
+        <div className="text-xs uppercase tracking-widest" style={{ color: "#fff", fontFamily: "'Space Grotesk', sans-serif" }}>
+          Ficha técnica por sectores
+        </div>
+      </div>
+
+      {sections.map((sec) => (
+        <div key={sec.title}>
+          <div
+            className="py-2 px-3 text-center text-xs sm:text-sm font-bold uppercase tracking-widest border-y"
+            style={{ backgroundColor: "#F4F6F9", borderColor: COLORS.line, color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}
+          >
+            {sec.title}
+          </div>
+
+          {sec.rows.map((r) =>
+            (r.a || r.b) ? (
+              <div key={r.label} className="py-2.5 border-b" style={{ borderColor: COLORS.line }}>
+                <div className="text-[10px] uppercase tracking-widest text-center mb-1.5 px-2" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+                  {r.label}
+                </div>
+                <div className="grid grid-cols-2 gap-3 px-3 text-xs sm:text-sm">
+                  <span className="font-medium break-words text-center" style={{ color: COLORS.a, fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {r.a || "—"}
+                  </span>
+                  <span className="font-medium break-words text-center" style={{ color: COLORS.b, fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {r.b || "—"}
+                  </span>
+                </div>
+              </div>
+            ) : null
+          )}
+
+          {sec.scoreKey && (typeof sA[sec.scoreKey] === "number" || typeof sB[sec.scoreKey] === "number") && (
+            <div className="py-2.5 border-b" style={{ borderColor: COLORS.line }}>
+              <div className="text-[10px] uppercase tracking-widest text-center mb-1.5" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+                Puntuación del sector
+              </div>
+              <div className="grid grid-cols-2 gap-3 px-3">
+                <ScoreBar value={sA[sec.scoreKey]} color={COLORS.a} />
+                <ScoreBar value={sB[sec.scoreKey]} color={COLORS.b} />
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+      }
