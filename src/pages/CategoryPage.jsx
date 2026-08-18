@@ -18,6 +18,8 @@ const VALID_TYPES = {
   computadoras: { types: ["Desktop", "Laptop"], label: "Computadoras" },
   tablets: { types: ["Tablet"], label: "Tablets" },
   relojes: { types: ["Smartwatch"], label: "Relojes" },
+  drones: { types: ["Dron"], label: "Drones" },
+  
 };
 
 const SORT_OPTIONS = [
