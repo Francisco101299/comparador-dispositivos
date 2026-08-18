@@ -13,6 +13,8 @@ const CATEGORIES = [
   { label: "Computadoras", path: "/computadoras" },
   { label: "Tablets", path: "/tablets" },
   { label: "Relojes", path: "/relojes" },
+  { label: "Drones", path: "/drones" },
+
 ];
 
 const MORE_LINKS = [
