@@ -1,9 +1,8 @@
 // ============================================================================
 // src/components/SpecsTable.jsx
-// Ficha técnica comparada POR SECTORES (estilo versus.com): encabezados,
-// filas lado a lado, puntuación del sector y sección "Conectividad y diseño"
-// (red, núcleos, tipo de pantalla, resistencia, tamaño y audio).
-// El tipo de pantalla y la certificación IP se detectan solos del texto.
+// Ficha técnica por sectores (estilo versus) para TODOS los dispositivos.
+// Las características nuevas (red, núcleos, resistencia, audio) se deducen
+// automáticamente del chip/gama cuando el dato exacto no existe.
 // ============================================================================
 import { COLORS } from "../data/theme";
 
@@ -20,21 +19,64 @@ function ScoreBar({ value, color }) {
   );
 }
 
+const chipOf = (d) => (d.details && d.details.rendimiento) || "";
+
+function priceNumber(p) {
+  if (!p || typeof p !== "string") return 0;
+  const n = parseInt(p.replace(/[^0-9]/g, ""), 10);
+  return isNaN(n) ? 0 : n;
+}
+
 function screenType(p) {
   if (!p) return null;
   if (/AMOLED|POLED/i.test(p)) return "AMOLED";
-  if (/OLED/i.test(p)) return "OLED";
-  if (/LCD/i.test(p)) return "LCD";
+  if (/OLED|Retina XDR/i.test(p)) return "OLED";
+  if (/LCD|Retina/i.test(p)) return "LCD";
   return null;
 }
 
-function resistance(dev) {
+function getRed(dev) {
+  if (dev.specs && dev.specs.red) return dev.specs.red;
+  if (dev.type !== "Celular") return null;
+  const chip = chipOf(dev);
+  if (/Dimensity/.test(chip)) return "5G";
+  if (/4G/.test(chip)) return "4G";
+  if (/Helio|Unisoc|SC98|QM215/.test(chip)) return "4G";
+  if (/Snapdragon (680|685|662|665|670|730)/.test(chip)) return "4G";
+  if (/Chip A/.test(chip)) {
+    const m = chip.match(/A(\d+)/);
+    return m && parseInt(m[1], 10) >= 14 ? "5G" : "4G";
+  }
+  return (dev.year || 0) >= 2019 ? "5G" : "4G";
+}
+
+function getNucleos(dev) {
+  if (dev.specs && dev.specs.nucleos) return dev.specs.nucleos;
+  const chip = chipOf(dev);
+  if (!chip) return null;
+  if (/Chip A/.test(chip)) return "6 núcleos";
+  if (/Chip M/.test(chip)) return "8 núcleos o más";
+  if (/SC9832|QM215/.test(chip)) return "4 núcleos";
+  return "8 núcleos (octa-core)";
+}
+
+function getResistencia(dev) {
   if (dev.specs && dev.specs.resistencia) return dev.specs.resistencia;
   const txt = `${(dev.details && dev.details.portabilidad) || ""} ${(dev.details && dev.details.pantalla) || ""}`;
   const m = txt.match(/IP\d{2}/);
   if (m) return m[0];
   if (/MIL-STD/i.test(txt)) return "MIL-STD-810";
-  return null;
+  if (dev.type !== "Celular") return null;
+  const p = priceNumber(dev.price);
+  if (p >= 800) return "IP68 (típico de gama alta)";
+  if (p >= 400) return "IP54–IP67 (típico de gama media)";
+  return "Sin certificación (típico de gama baja)";
+}
+
+function getAudio(dev) {
+  if (dev.specs && dev.specs.audio) return dev.specs.audio;
+  if (dev.type === "Celular") return priceNumber(dev.price) >= 250 ? "Altavoces estéreo" : "Altavoz mono";
+  return "Altavoces estéreo";
 }
 
 export default function SpecsTable({ devA, devB, priceA, priceB }) {
@@ -51,7 +93,7 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
       scoreKey: "rendimiento",
       rows: [
         { label: "Chip / Procesador", a: dA.rendimiento, b: dB.rendimiento },
-        { label: "Núcleos", a: xA.nucleos, b: xB.nucleos },
+        { label: "Núcleos", a: getNucleos(devA), b: getNucleos(devB) },
       ],
     },
     {
@@ -78,10 +120,10 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
     {
       title: "Conectividad y diseño",
       rows: [
-        { label: "Red móvil", a: xA.red, b: xB.red },
-        { label: "Resistencia (agua / golpes)", a: resistance(devA), b: resistance(devB) },
+        { label: "Red móvil", a: getRed(devA), b: getRed(devB) },
+        { label: "Resistencia (agua / golpes)", a: getResistencia(devA), b: getResistencia(devB) },
         { label: "Tamaño", a: xA.tamano, b: xB.tamano },
-        { label: "Audio", a: xA.audio, b: xB.audio },
+        { label: "Audio", a: getAudio(devA), b: getAudio(devB) },
       ],
     },
     {
@@ -152,6 +194,10 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
           )}
         </div>
       ))}
+
+      <p className="text-[9px] text-center px-4 py-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+        * Cuando el fabricante no especifica el dato aquí, se muestra el valor típico de su gama.
+      </p>
     </div>
   );
-          }
+        }
