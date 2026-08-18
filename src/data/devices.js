@@ -416,6 +416,7 @@ const DEVICES_FALTANTES = [
   { id: "redminote11", name: "Xiaomi Redmi Note 11", type: "Celular", year: 2022, price: "$249", scores: { rendimiento: 58, pantalla: 76, bateria: 82, camara: 68, portabilidad: 80, precioCalidad: 86 }, details: { rendimiento: "Snapdragon 680", pantalla: "6.43\" AMOLED 90Hz", bateria: "5000mAh", camara: "Cuádruple 50MP", portabilidad: "179g", precioCalidad: "Uno de los gama de entrada más vendidos" } },
 ];
 DEVICES.push(...DEVICES_FALTANTES);
+
 // Drones de consumo con cámara (DJI, Autel, Potensic, FIMI, Parrot y más)
 const DEVICES_DRONES = [
 { id: "djimini5pro", name: "DJI Mini 5 Pro", type: "Dron", year: 2025, price: "$799", scores: { rendimiento: 90, pantalla: 88, bateria: 84, camara: 92, portabilidad: 96, precioCalidad: 78, memoria: 80, energia: 80 }, details: { rendimiento: "68 km/h, sensores omnidireccionales", pantalla: "Transmisión O4+ hasta 20 km", bateria: "36 min de vuelo", camara: "50MP 1\", 4K/60 HDR", portabilidad: "249 g, plegable", precioCalidad: "El mini más completo", memoria: "42GB + microSD", energia: "Carga PD rápida" } },
