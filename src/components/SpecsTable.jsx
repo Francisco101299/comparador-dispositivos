@@ -1,7 +1,9 @@
 // ============================================================================
 // src/components/SpecsTable.jsx
-// Ficha técnica comparada POR SECTORES (estilo versus.com): cada sector con
-// encabezado, filas de características lado a lado y puntuación del sector.
+// Ficha técnica comparada POR SECTORES (estilo versus.com): encabezados,
+// filas lado a lado, puntuación del sector y sección "Conectividad y diseño"
+// (red, núcleos, tipo de pantalla, resistencia, tamaño y audio).
+// El tipo de pantalla y la certificación IP se detectan solos del texto.
 // ============================================================================
 import { COLORS } from "../data/theme";
 
@@ -18,22 +20,47 @@ function ScoreBar({ value, color }) {
   );
 }
 
+function screenType(p) {
+  if (!p) return null;
+  if (/AMOLED|POLED/i.test(p)) return "AMOLED";
+  if (/OLED/i.test(p)) return "OLED";
+  if (/LCD/i.test(p)) return "LCD";
+  return null;
+}
+
+function resistance(dev) {
+  if (dev.specs && dev.specs.resistencia) return dev.specs.resistencia;
+  const txt = `${(dev.details && dev.details.portabilidad) || ""} ${(dev.details && dev.details.pantalla) || ""}`;
+  const m = txt.match(/IP\d{2}/);
+  if (m) return m[0];
+  if (/MIL-STD/i.test(txt)) return "MIL-STD-810";
+  return null;
+}
+
 export default function SpecsTable({ devA, devB, priceA, priceB }) {
   const dA = devA.details || {};
   const dB = devB.details || {};
   const sA = devA.scores || {};
   const sB = devB.scores || {};
+  const xA = devA.specs || {};
+  const xB = devB.specs || {};
 
   const sections = [
     {
       title: "Rendimiento",
       scoreKey: "rendimiento",
-      rows: [{ label: "Chip / Procesador", a: dA.rendimiento, b: dB.rendimiento }],
+      rows: [
+        { label: "Chip / Procesador", a: dA.rendimiento, b: dB.rendimiento },
+        { label: "Núcleos", a: xA.nucleos, b: xB.nucleos },
+      ],
     },
     {
       title: "Pantalla",
       scoreKey: "pantalla",
-      rows: [{ label: "Pantalla", a: dA.pantalla, b: dB.pantalla }],
+      rows: [
+        { label: "Pantalla", a: dA.pantalla, b: dB.pantalla },
+        { label: "Tipo de pantalla", a: screenType(dA.pantalla), b: screenType(dB.pantalla) },
+      ],
     },
     {
       title: "Batería",
@@ -47,6 +74,15 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
       title: "Cámara",
       scoreKey: "camara",
       rows: [{ label: "Cámara", a: dA.camara, b: dB.camara }],
+    },
+    {
+      title: "Conectividad y diseño",
+      rows: [
+        { label: "Red móvil", a: xA.red, b: xB.red },
+        { label: "Resistencia (agua / golpes)", a: resistance(devA), b: resistance(devB) },
+        { label: "Tamaño", a: xA.tamano, b: xB.tamano },
+        { label: "Audio", a: xA.audio, b: xB.audio },
+      ],
     },
     {
       title: "Portabilidad",
@@ -118,4 +154,4 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
       ))}
     </div>
   );
-      }
+          }
