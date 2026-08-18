@@ -10,6 +10,7 @@ import { EXTRA_SPECS_1 } from "./extraSpecs1.js";
 import { EXTRA_SPECS_2 } from "./extraSpecs2.js";
 import { EXTRA_SPECS_3 } from "./extraSpecs3.js";
 import { DEVICES_SMARTWATCHES } from "./smartwatches.js";
+import { EXTRA_SPECS_4 } from "./extraSpecs4.js";
 const CATS = [
   { key: "rendimiento", label: "Rendimiento" },
   { key: "pantalla", label: "Pantalla" },
@@ -423,12 +424,13 @@ DEVICES.push(...DEVICES_FALTANTES);
   DEVICES.length = 0;
   DEVICES.push(...porId.values());
 }
-const EXTRA = { ...EXTRA_SPECS_1, ...EXTRA_SPECS_2, ...EXTRA_SPECS_3 };
+const EXTRA = { ...EXTRA_SPECS_1, ...EXTRA_SPECS_2, ...EXTRA_SPECS_3, ...EXTRA_SPECS_4 };
 for (const d of DEVICES) {
   const ex = EXTRA[d.id];
   if (!ex) continue;
   if (ex.m) { d.scores.memoria = ex.m[0]; d.details.memoria = ex.m[1]; }
   if (ex.e) { d.scores.energia = ex.e[0]; d.details.energia = ex.e[1]; }
+  if (ex.s) { d.specs = ex.s; }
 }
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
