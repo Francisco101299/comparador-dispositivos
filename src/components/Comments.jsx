@@ -1,7 +1,8 @@
 // ============================================================================
 // src/components/Comments.jsx
-// Comentarios escritos DIRECTAMENTE en la página (sin Facebook), guardados y
-// visibles para todos vía Cusdis (gratis, sin cuenta para comentar).
+// Comentarios de la comunidad vía Cusdis (sin cuenta para comentar).
+// Si el navegador bloquea el widget (Brave/bloqueadores), siempre queda
+// visible un botón alternativo para comentar en Facebook.
 // ============================================================================
 import { useEffect } from "react";
 import { COLORS } from "../data/theme";
@@ -22,6 +23,7 @@ export default function Comments() {
   const pageId = typeof window !== "undefined" ? window.location.pathname : "/";
   const pageTitle = typeof window !== "undefined" ? document.title : "Duelo de Características";
   const pageUrl = typeof window !== "undefined" ? window.location.href : "/";
+  const fbHref = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(pageUrl);
 
   return (
     <div className="rounded-lg p-4 sm:p-5 mt-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
@@ -31,6 +33,7 @@ export default function Comments() {
       <p className="text-xs text-center mb-4" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
         Escribe tu opinión aquí mismo — no necesitas cuenta ni Facebook.
       </p>
+
       <div
         id="cusdis_thread"
         data-host="https://cusdis.com"
@@ -39,6 +42,21 @@ export default function Comments() {
         data-page-url={pageUrl}
         data-page-title={pageTitle}
       />
+
+      <div className="mt-4 pt-3 border-t" style={{ borderColor: COLORS.line }}>
+        <p className="text-[10px] text-center mb-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
+          ¿No aparece el cuadro para escribir? Tu navegador lo está bloqueando (común en Brave). Usa esta alternativa:
+        </p>
+        <a
+          href={fbHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block text-center text-sm font-semibold py-2.5 rounded-md"
+          style={{ backgroundColor: "#1877F2", color: "#fff", fontFamily: "'Inter', sans-serif" }}
+        >
+          💬 Comentar en Facebook
+        </a>
+      </div>
     </div>
   );
 }
