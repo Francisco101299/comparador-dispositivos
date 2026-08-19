@@ -12,6 +12,7 @@ import SeoHead from "../components/SeoHead";
 import CategoryNav from "../components/CategoryNav";
 import DeviceIcon from "../components/DeviceIcon";
 import Logo from "../components/Logo";
+import ShopButtons from "../components/ShopButtons";
 
 const VALID_TYPES = {
   celulares: { types: ["Celular"], label: "Celulares" },
@@ -125,17 +126,23 @@ export default function CategoryPage() {
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {sorted.map((d) => (
             <li key={d.id}>
-              <Link
-                to={`/${d.slugType}/${d.slug}`}
-                className="flex items-center justify-between gap-3 rounded-md px-4 py-3 text-sm hover:bg-[#F3F4F7] transition-colors"
-                style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}`, fontFamily: "'Inter', sans-serif" }}
+              <div
+                className="rounded-md px-4 py-3"
+                style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}
               >
-                <span className="flex items-center gap-3 min-w-0">
-                  <DeviceIcon device={d} size={36} />
-                  <span style={{ color: COLORS.ink }} className="truncate">{d.name}</span>
-                </span>
-                <span className="text-xs shrink-0" style={{ color: COLORS.muted }}>{d.year} · {d.price}</span>
-              </Link>
+                <Link
+                  to={`/${d.slugType}/${d.slug}`}
+                  className="flex items-center justify-between gap-3 text-sm hover:underline"
+                  style={{ fontFamily: "'Inter', sans-serif", color: COLORS.ink }}
+                >
+                  <span className="flex items-center gap-3 min-w-0">
+                    <DeviceIcon device={d} size={36} />
+                    <span className="truncate">{d.name}</span>
+                  </span>
+                  <span className="text-xs shrink-0" style={{ color: COLORS.muted }}>{d.year} · {d.price}</span>
+                </Link>
+                <ShopButtons device={d} />
+              </div>
             </li>
           ))}
         </ul>
