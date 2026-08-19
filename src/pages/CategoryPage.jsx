@@ -19,6 +19,11 @@ const VALID_TYPES = {
   tablets: { types: ["Tablet"], label: "Tablets" },
   relojes: { types: ["Smartwatch"], label: "Relojes" },
   drones: { types: ["Dron"], label: "Drones" },
+  taladros: { types: ["Taladro"], label: "Taladros" },
+  amoladoras: { types: ["Amoladora"], label: "Amoladoras" },
+  atornilladores: { types: ["Atornillador"], label: "Atornilladores" },
+  rotomartillos: { types: ["Rotomartillo"], label: "Rotomartillos" },
+  herramientas: { types: ["Taladro", "Amoladora", "Atornillador", "Rotomartillo"], label: "Herramientas" },
   
 };
 
