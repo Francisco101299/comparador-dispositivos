@@ -18,6 +18,7 @@ const BlogPage = lazy(() => import("./pages/BlogPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const CookiesPage = lazy(() => import("./pages/CookiesPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 function PageFallback() {
   return <div style={{ minHeight: "100vh", backgroundColor: "#EDEFF3" }} aria-hidden="true" />;
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/preguntas-frecuentes" element={<FaqPage />} />
           <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/contacto" element={<ContactPage />} />
+          <Route path="/politica-cookies" element={<CookiesPage />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
