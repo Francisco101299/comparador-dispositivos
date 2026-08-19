@@ -1,135 +1,148 @@
 // ============================================================================
 // src/pages/DevicePage.jsx
-// Ficha técnica individual de un dispositivo en /celulares/:slug o
-// /computadoras/:slug. Contenido único indexable con Schema.org Product.
+// Ficha individual: foto, puntuación, especificaciones reales, botones de
+// precios (Amazon / Mercado Libre / AliExpress) y duelos sugeridos.
 // ============================================================================
 import { Link, useParams, Navigate } from "react-router-dom";
-import { COLORS, FONT_IMPORT } from "../data/theme";
-import { CATS, overallOf, getDeviceBySlug, getDevicesByType } from "../data/devices";
-import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } from "../lib/seo";
+import { COLORS } from "../data/theme";
+import { DEVICES, getDeviceBySlug, overallOf } from "../data/devices";
 import SeoHead from "../components/SeoHead";
-import ScoreDial from "../components/ScoreDial";
 import DeviceIcon from "../components/DeviceIcon";
-import Logo from "../components/Logo";
+import ScoreDial from "../components/ScoreDial";
+import ShopButtons from "../components/ShopButtons";
 
-const CATEGORY_LABEL = { celulares: "Celulares", computadoras: "Computadoras", tablets: "Tablets", relojes: "Relojes" };
+const LABELS = {
+  rendimiento: "Rendimiento",
+  pantalla: "Pantalla",
+  bateria: "Batería",
+  camara: "Cámara",
+  portabilidad: "Portabilidad",
+  precioCalidad: "Precio-calidad",
+  memoria: "Memoria y almacenamiento",
+  energia: "Carga y energía",
+  potencia: "Potencia",
+  velocidad: "Velocidad y precisión",
+  durabilidad: "Durabilidad",
+  versatilidad: "Versatilidad",
+  ergonomia: "Comodidad de uso",
+};
 
-// Extrae el número de un precio tipo "$999" o "$1,199" para poder ordenar
-// dispositivos por cercanía de precio (rivales de rango similar).
-function parsePriceNumber(priceStr) {
-  if (!priceStr || typeof priceStr !== "string") return null;
-  const n = parseFloat(priceStr.replace(/[^0-9.]/g, ""));
-  return isNaN(n) ? null : n;
+const CATALOG_LABEL = {
+  celulares: "Celulares",
+  computadoras: "Computadoras",
+  tablets: "Tablets",
+  relojes: "Relojes",
+  drones: "Drones",
+  herramientas: "Herramientas",
+  taladros: "Taladros",
+  amoladoras: "Amoladoras",
+  atornilladores: "Atornilladores",
+  rotomartillos: "Rotomartillos",
+  sierras: "Sierras",
+  lijadoras: "Lijadoras",
+  esmeriles: "Esmeriles",
+  compresores: "Compresores",
+  generadores: "Generadores",
+  hidrolavadoras: "Hidrolavadoras",
+  soldadoras: "Soldadoras",
+};
+
+function parsePrice(p) {
+  const n = parseInt(String(p || "").replace(/[^0-9]/g, ""), 10);
+  return isNaN(n) ? 0 : n;
 }
 
 export default function DevicePage() {
   const { slugType, slug } = useParams();
   const device = getDeviceBySlug(slugType, slug);
+  if (!device) return <Navigate to="/404" replace />;
 
-  if (!device) {
-    return <Navigate to="/404" replace />;
-  }
-
-  const meta = deviceMeta(device);
   const overall = overallOf(device);
-  const jsonLd = [
-    deviceProductJsonLd(device),
-    breadcrumbJsonLd([
-      { name: "Inicio", path: "/" },
-      { name: CATEGORY_LABEL[device.slugType], path: `/${device.slugType}` },
-      { name: device.name, path: meta.path },
-    ]),
-  ];
+  const price = parsePrice(device.price);
+  const suggested = DEVICES.filter((d) => d.id !== device.id && d.type === device.type)
+    .sort((a, b) => Math.abs(parsePrice(a.price) - price) - Math.abs(parsePrice(b.price) - price))
+    .slice(0, 4);
 
-  const currentPrice = parsePriceNumber(device.price);
-  const others = getDevicesByType(device.type)
-    .filter((d) => d.id !== device.id)
-    .sort((a, b) => {
-      // Si tenemos precio de referencia, prioriza rivales de precio similar
-      // (comparaciones que la gente realmente busca en Google).
-      if (currentPrice !== null) {
-        const priceA = parsePriceNumber(a.price);
-        const priceB = parsePriceNumber(b.price);
-        const diffA = priceA !== null ? Math.abs(priceA - currentPrice) : Infinity;
-        const diffB = priceB !== null ? Math.abs(priceB - currentPrice) : Infinity;
-        return diffA - diffB;
-      }
-      return 0;
-    })
-    .slice(0, 6);
+  const title = `${device.name}: ficha técnica, precio y comparación`;
+  const description = `Características de ${device.name} (${device.year}). Compara ${device.name} con otros dispositivos y mira su precio en Amazon, Mercado Libre y AliExpress.`;
+
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
-      <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} ogType={meta.ogType} jsonLd={jsonLd} />
-      
+      <SeoHead title={title} description={description} canonical={`/${slugType}/${slug}`} />
 
-      <div className="relative overflow-hidden px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="flex justify-center mb-3">
-            <Logo size={28} />
-          </div>
-          <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
+      <div className="relative z-20 px-5 sm:px-10 pt-10 pb-8" style={{ backgroundColor: COLORS.panelDark }}>
+        <div className="max-w-3xl mx-auto">
+          <nav className="text-[11px] mb-4" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
             <Link to="/" className="underline">Inicio</Link> ·{" "}
-            <Link to={`/${device.slugType}`} className="underline">{CATEGORY_LABEL[device.slugType]}</Link> · {device.name}
-          </nav>
-          <div className="flex justify-center mb-3">
-            <DeviceIcon device={device} size={64} color="#F0553B" bg="#1D2129" />
-          </div>
-          <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase mb-3 px-3 py-1 rounded-full" style={{ color: "#B9BEC9", border: "1px solid #2A2F3A" }}>
-            {device.type} · {device.year}
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <Link to={`/${slugType}`} className="underline">{CATALOG_LABEL[slugType] || slugType}</Link> ·{" "}
             {device.name}
-          </h1>
-          <p className="mt-2 text-sm sm:text-base" style={{ color: "#9BA1AD", fontFamily: "'Inter', sans-serif" }}>
-            Ficha técnica completa, puntuación por categoría y precio de referencia {device.price}.
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 -mt-6">
-        <div className="rounded-lg shadow-lg p-6 text-center" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-          <ScoreDial value={overall} color={COLORS.a} label="Puntuación general" />
-          <div className="text-sm mt-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-            {device.year} · {device.price}
+          </nav>
+          <div className="flex items-center gap-4">
+            <DeviceIcon device={device} size={72} />
+            <div>
+              <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>
+                {device.type} · {device.year}
+              </div>
+              <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                {device.name}
+              </h1>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 sm:px-10 py-10">
-        <h2 className="text-lg font-semibold mb-4" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
-          Especificaciones por categoría
-        </h2>
-        <div className="rounded-lg divide-y" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-          {CATS.map((c) => (
-            <div key={c.key} className="p-4 flex items-center justify-between gap-4">
-              <div>
-                <div className="text-sm font-medium" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>{c.label}</div>
-                <div className="text-xs mt-0.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>{device.details[c.key]}</div>
+      <div className="max-w-3xl mx-auto px-5 sm:px-10 py-8">
+        <div className="rounded-lg p-5 mb-6 flex flex-col sm:flex-row items-center gap-5" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+          <ScoreDial value={overall} color={COLORS.a} label="Puntuación" />
+          <div className="flex-1 text-center sm:text-left">
+            <div className="text-lg font-bold" style={{ color: COLORS.ink, fontFamily: "'IBM Plex Mono', monospace" }}>
+              {device.price}
+            </div>
+            <div className="text-[10px] uppercase tracking-widest mt-0.5" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+              Precio de referencia EE.UU.
+            </div>
+            <ShopButtons device={device} />
+          </div>
+        </div>
+
+        <div className="rounded-lg p-5 mb-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+          <div className="text-xs uppercase tracking-widest mb-3" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+            Especificaciones
+          </div>
+          {Object.entries(device.details || {}).map(([key, text]) => (
+            <div key={key} className="py-2.5 border-b last:border-b-0" style={{ borderColor: COLORS.line }}>
+              <div className="text-[10px] uppercase tracking-widest mb-1" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+                {LABELS[key] || key}
               </div>
-              <div className="text-xl font-bold tabular-nums shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace", color: COLORS.a }}>
-                {device.scores[c.key]}
+              <div className="text-sm" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
+                {text}
               </div>
             </div>
           ))}
         </div>
 
-        <h2 className="text-lg font-semibold mt-10 mb-4" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
-          Compara {device.name} con otro {device.type.toLowerCase()}
-        </h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {others.map((o) => (
-            <li key={o.id}>
-              <Link
-                to={`/comparar/${comparisonSlug(device, o)}`}
-                className="block rounded-md px-4 py-3 text-sm hover:bg-[#F3F4F7] transition-colors"
-                style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}`, color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}
-              >
-                {device.name} vs {o.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {suggested.length > 0 && (
+          <div className="rounded-lg p-5" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
+            <div className="text-xs uppercase tracking-widest mb-3" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
+              🥊 Compáralo con su rival más cercano
+            </div>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {suggested.map((d) => (
+                <li key={d.id}>
+                  <Link
+                    to={`/comparar/${device.slug}-vs-${d.slug}`}
+                    className="flex items-center justify-between gap-2 rounded-md px-3 py-2.5 text-sm hover:bg-[#F3F4F7] transition-colors"
+                    style={{ border: `1px solid ${COLORS.line}`, fontFamily: "'Inter', sans-serif", color: COLORS.ink }}
+                  >
+                    <span className="truncate">vs {d.name}</span>
+                    <span className="text-xs shrink-0" style={{ color: COLORS.muted }}>{d.price}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
-          }
+  }
