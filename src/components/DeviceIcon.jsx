@@ -6,8 +6,7 @@
 // derechos de autor.
 // ============================================================================
 import { useState } from "react";
-import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff } from "lucide-react";
-
+import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff, Wrench, Hammer, Disc, Gauge, Zap, Droplets, Slice, Eraser, Cog, Flame } from "lucide-react";
 const ICONS = {
   Celular: Smartphone,
   Laptop: Laptop,
@@ -15,7 +14,19 @@ const ICONS = {
   Tablet: Tablet,
   Smartwatch: Watch,
   Dron: PlaneTakeoff,
+  Taladro: Cog,
+  Amoladora: Disc,
+  Atornillador: Wrench,
+  Rotomartillo: Hammer,
+  Sierra: Slice,
+  Lijadora: Eraser,
+  Esmeril: Disc,
+  Compresor: Gauge,
+  Generador: Zap,
+  Hidrolavadora: Droplets,
+  Soldadora: Flame,
 };
+
 
 // Fotos genéricas por categoría (Unsplash, licencia libre). Varias variantes
 // para que no todos los dispositivos del mismo tipo muestren la misma foto.
