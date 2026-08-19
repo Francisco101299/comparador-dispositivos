@@ -11,13 +11,24 @@ import { normalize } from "../lib/normalize";
 import DeviceIcon from "./DeviceIcon";
 
 const TYPE_GROUPS = {
-  Celular: ["Celular"],
-  Computadora: ["Desktop", "Laptop"],
-  Tablet: ["Tablet"],
-  Smartwatch: ["Smartwatch"],
-  Dron: ["Dron"],
-  Herramienta: ["Taladro", "Amoladora", "Atornillador", "Rotomartillo", "Sierra", "Lijadora", "Esmeril", "Compresor", "Generador", "Hidrolavadora", "Soldadora"],
-
+Tecnologia: ["Celular", "Desktop", "Laptop", "Tablet", "Smartwatch", "Dron"],
+Celular: ["Celular"],
+Computadora: ["Desktop", "Laptop"],
+Tablet: ["Tablet"],
+Smartwatch: ["Smartwatch"],
+Dron: ["Dron"],
+Herramienta: ["Taladro", "Amoladora", "Atornillador", "Rotomartillo", "Sierra", "Lijadora", "Esmeril", "Compresor", "Generador", "Hidrolavadora", "Soldadora"],
+Taladro: ["Taladro"],
+Amoladora: ["Amoladora"],
+Atornillador: ["Atornillador"],
+Rotomartillo: ["Rotomartillo"],
+Sierra: ["Sierra"],
+Lijadora: ["Lijadora"],
+Esmeril: ["Esmeril"],
+Compresor: ["Compresor"],
+Generador: ["Generador"],
+Hidrolavadora: ["Hidrolavadora"],
+Soldadora: ["Soldadora"],
 };
 
 export default function TypeaheadInput({ label, accent, value, onSelect, excludeId, forcedCategory }) {
