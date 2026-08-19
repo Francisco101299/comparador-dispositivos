@@ -1,8 +1,9 @@
 // ============================================================================
 // src/components/DeviceIcon.jsx
-// Foto real si el dispositivo tiene `image`; si no, foto fija por categoría
-// (tecnología: Unsplash / herramientas: fotos de producto); si la foto falla,
-// ícono de respaldo.
+// Foto real si el dispositivo tiene `image`; si no, foto por categoría.
+// En HERRAMIENTAS, cada modelo recibe una variación de color distinta según
+// su id (como los catálogos reales: mismo tipo de herramienta, distinto color)
+// para que dos modelos iguales no se vean idénticos. Si la foto falla, ícono.
 // ============================================================================
 import { useState } from "react";
 import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff, Wrench, Hammer, Disc, Gauge, Zap, Droplets, Slice, Eraser, Cog, Flame } from "lucide-react";
@@ -68,6 +69,10 @@ const PHOTOS = {
   Soldadora: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/2fa2fa74e-de1e-477b-a386-966c6d8d4f3e3031.png"],
 };
 
+const TOOL_TYPES = ["Taladro", "Amoladora", "Atornillador", "Rotomartillo", "Sierra", "Lijadora", "Esmeril", "Compresor", "Generador", "Hidrolavadora", "Soldadora"];
+// Variaciones de color para que cada modelo se vea distinto
+const HUES = [0, 40, 90, 150, 200, 280];
+
 function hashId(id) {
   let h = 0;
   for (const c of id || "") h += c.charCodeAt(0);
@@ -81,6 +86,9 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
   const photo =
     device.image || (photos.length ? photos[hashId(device.id) % photos.length] : null);
 
+  const isTool = TOOL_TYPES.includes(device.type);
+  const hue = isTool ? HUES[hashId(device.id) % HUES.length] : 0;
+
   if (photo && !failed) {
     return (
       <img
@@ -91,7 +99,11 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
         loading="lazy"
         onError={() => setFailed(true)}
         className="object-cover rounded-md shrink-0"
-        style={{ width: size, height: size }}
+        style={{
+          width: size,
+          height: size,
+          filter: hue ? `hue-rotate(${hue}deg) saturate(1.05)` : undefined,
+        }}
       />
     );
   }
