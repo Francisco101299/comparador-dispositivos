@@ -554,7 +554,7 @@ for (const d of DEVICES) {
 }
 
 export function overallOf(device) {
-const vals = CATS.map((c) => device.scores[c.key]).filter((v) => typeof v === "number");
+const vals = catsFor(device).map((c) => device.scores[c.key]).filter((v) => typeof v === "number");
 return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
