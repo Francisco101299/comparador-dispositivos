@@ -82,6 +82,26 @@ export const ARTICLES = [
       { label: "Explorar el catálogo de celulares", path: "/celulares" },
     ] 
       },
+  {
+id: "honor-600-vs-redmi-note-15-pro-plus",
+title: "HONOR 600 vs Redmi Note 15 Pro+: cuál gana en 2026",
+image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80",
+excerpt: "Mismo precio ($499), pero enfoques distintos: batería gigante de 7000mAh en el HONOR frente a carga de 100W, IP68 y 512GB del Redmi. Te decimos cuál conviene según tu uso.",
+date: "2026-08-20",
+content: [
+"El HONOR 600 y el Redmi Note 15 Pro+ son los dos gama media más comentados de 2026, y ambos cuestan $499. A simple vista parecen similares —cámaras de 200MP, pantallas AMOLED de 120Hz y baterías enormes—, pero en el uso diario cada uno brilla en cosas distintas.",
+"En batería, el HONOR 600 es el rey de la autonomía: 7000mAh con carga de 80W, una de las baterías más grandes de la categoría. El Redmi Note 15 Pro+ se queda en 6500mAh, pero carga más rápido (100W). Si tu día es largo y no siempre tienes un enchufe cerca, el HONOR te da más tranquilidad; si prefieres recuperar carga en minutos, el Redmi.",
+"En pantalla, el Redmi es más grande y con mayor resolución: 6.83 pulgadas AMOLED 1.5K a 120Hz, ideal para series y juegos. El HONOR monta una 6.57 pulgadas AMOLED 120Hz, más compacta y cómoda a una mano.",
+"En cámara, ambos usan sensores de 200MP, pero el del Redmi es más grande (1/1.4 pulgadas) y captura más luz, lo que se nota en fotos nocturnas. El HONOR responde con un ultra gran angular de 12MP, más versátil para paisajes y fotos en grupo.",
+"En rendimiento, el Snapdragon 7s Gen 4 del Redmi supera ligeramente al 7 Gen 4 del HONOR, y además dobla el almacenamiento: 512GB frente a 256GB, con la misma RAM de 12GB. Para gamers y quienes lo guardan todo, punto para el Redmi.",
+"En diseño, el HONOR es más ligero y delgado (185g y 7.8mm). El Redmi, en cambio, ofrece certificación IP68 contra agua y polvo, algo poco común en su precio y muy valioso en el día a día.",
+"Veredicto: elige el HONOR 600 si priorizas autonomía extrema y un teléfono ligero; elige el Redmi Note 15 Pro+ si quieres más pantalla, carga más rápida, resistencia al agua y el doble de almacenamiento. Por precio-calidad, ambos están entre lo mejor de 2026 — la decisión depende de tu uso."
+],
+links: [
+{ label: "Ver comparación completa: HONOR 600 vs Redmi Note 15 Pro+", path: "/comparar/honor-600-vs-redmi-note-15-pro" },
+{ label: "Explorar el catálogo de celulares", path: "/celulares" },
+],
+},
 ];
 
 export function getArticleById(id) {
