@@ -22,22 +22,7 @@ const CATS = [
 { key: "memoria", label: "Memoria y almacenamiento" },
 { key: "energia", label: "Carga y energía" },
   ];
-  // Categorías para herramientas eléctricas
-export const TOOL_TYPES = ["Taladro", "Amoladora", "Atornillador", "Rotomartillo"];
-export const TOOL_CATS = [
-  { key: "potencia", label: "Potencia" },
-  { key: "bateria", label: "Batería y autonomía" },
-  { key: "velocidad", label: "Velocidad y precisión" },
-  { key: "durabilidad", label: "Durabilidad" },
-  { key: "portabilidad", label: "Peso y ergonomía" },
-  { key: "versatilidad", label: "Versatilidad" },
-  { key: "ergonomia", label: "Comodidad de uso" },
-  { key: "precioCalidad", label: "Precio-calidad" },
-
-export function catsFor(device) {
-  return TOOL_TYPES.includes(device.type) ? TOOL_CATS : CATS;
-}
-];
+  
 // Base de datos local: puntuaciones (0-100) estimadas de forma comparativa, no son benchmarks oficiales.
 const DEVICES = [
   { id: "honorrobotphone", name: "HONOR Robot Phone", type: "Celular", year: 2026, price: "$1,099", scores: { rendimiento: 93, pantalla: 90, bateria: 95, camara: 94, portabilidad: 68, precioCalidad: 72, memoria: 88, energia: 90 }, details: { rendimiento: "Snapdragon 8 Elite Gen 5 + brazo robótico", pantalla: "6.79\" OLED 120Hz", bateria: "8300mAh, carga 80W", camara: "200MP + gimbal 4DoF + 50MP frontal", portabilidad: "220g", precioCalidad: "Innovación premium", memoria: "12GB RAM + 512GB", energia: "Carga 80W con batería de silicio-carbono" } },
@@ -529,6 +514,21 @@ for (const d of DEVICES) {
   if (ex.e) { d.scores.energia = ex.e[0]; d.details.energia = ex.e[1]; }
   if (ex.s) { d.specs = ex.s; }
 }
+export const TOOL_TYPES = ["Taladro", "Amoladora", "Atornillador", "Rotomartillo", "Sierra", "Lijadora", "Esmeril", "Compresor", "Generador", "Hidrolavadora", "Soldadora"];
+export const TOOL_CATS = [
+  { key: "potencia", label: "Potencia" },
+  { key: "bateria", label: "Batería y autonomía" },
+  { key: "velocidad", label: "Velocidad y precisión" },
+  { key: "durabilidad", label: "Durabilidad" },
+  { key: "portabilidad", label: "Peso y ergonomía" },
+  { key: "versatilidad", label: "Versatilidad" },
+  { key: "ergonomia", label: "Comodidad de uso" },
+  { key: "precioCalidad", label: "Precio-calidad" },
+];
+export function catsFor(device) {
+  return TOOL_TYPES.includes(device.type) ? TOOL_CATS : CATS;
+}
+const TOOL_SLUGS = { Taladro: "taladros", Amoladora: "amoladoras", Atornillador: "atornilladores", Rotomartillo: "rotomartillos", Sierra: "sierras", Lijadora: "lijadoras", Esmeril: "esmeriles", Compresor: "compresores", Generador: "generadores", Hidrolavadora: "hidrolavadoras", Soldadora: "soldadoras" };
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
   if (type === "Celular") return "celulares";
