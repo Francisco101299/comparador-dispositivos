@@ -14,6 +14,7 @@ const CATEGORIES = [
   { label: "Tablets", path: "/tablets" },
   { label: "Relojes", path: "/relojes" },
   { label: "Drones", path: "/drones" },
+  { label: "Herramientas", path: "/herramientas" },
 
 ];
 
