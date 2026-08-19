@@ -3,7 +3,7 @@
 // Selector visual grande (3 íconos) para elegir qué categoría de
 // dispositivo se va a buscar: Celular, Computadora o Tablet.
 // ============================================================================
-import { Smartphone, Laptop, Tablet, Watch, PlaneTakeoff } from "lucide-react";
+import { Smartphone, Laptop, Tablet, Watch, PlaneTakeoff, Wrench } from "lucide-react";
 import { COLORS } from "../data/theme";
 
 const OPTIONS = [
@@ -12,6 +12,7 @@ const OPTIONS = [
   { key: "Tablet", label: "Tablet", icon: Tablet },
 { key: "Smartwatch", label: "Reloj", icon: Watch },
   { key: "Dron", label: "Dron", icon: PlaneTakeoff },
+  { key: "Herramienta", label: "Herramienta", icon: Wrench },
 ];
 
 export default function CategoryPicker({ value, onChange }) {
