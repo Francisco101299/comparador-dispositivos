@@ -16,6 +16,7 @@ import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
 import ShareButtons from "./ShareButtons";
+import ShopButtons from "./ShopButtons";
 
 function PriceBlock({ price, color }) {
   return (
@@ -151,6 +152,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             {devA.name}
           </Link>
           <PriceBlock price={priceA} color={COLORS.a} />
+          <ShopButtons device={devA} />
           <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year}</div>
           {badgesA.length > 0 && (
@@ -177,6 +179,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             {devB.name}
           </Link>
           <PriceBlock price={priceB} color={COLORS.b} />
+          <ShopButtons device={devB} />
           <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year}</div>
           {badgesB.length > 0 && (
