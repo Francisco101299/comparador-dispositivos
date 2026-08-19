@@ -1,7 +1,7 @@
 // ============================================================================
 // src/components/DuelResult.jsx
-// Resultado del duelo: primero las tarjetas con fotos, luego los pesos,
-// precios por país, ficha por sectores, votación, veredicto y compartir.
+// Resultado del duelo: tarjetas con fotos, pesos, radar, ficha técnica por
+// sectores (única sección de specs), votación, veredicto y compartir.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -12,7 +12,6 @@ import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
-import DuelBar from "./DuelBar";
 import DeviceIcon from "./DeviceIcon";
 import RadarChart from "./RadarChart";
 import WeightPicker, { DEFAULT_WEIGHTS } from "./WeightPicker";
@@ -140,7 +139,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         </div>
       </div>
 
-      {/* Tarjetas con fotos PRIMERO */}
+      {/* Tarjetas con fotos */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="rounded-lg p-5 text-center relative" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           {aWins && <Crown size={20} className="absolute -top-2.5 left-1/2 -translate-x-1/2" style={{ color: COLORS.gold }} />}
@@ -196,7 +195,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
         </div>
       </div>
 
-      {/* ¿Qué te importa más? (ahora debajo de las fotos) */}
+      {/* ¿Qué te importa más? */}
       <div className="mb-6">
         <WeightPicker weights={weights} onChange={handleWeightsChange} onReset={handleWeightsReset} />
       </div>
@@ -214,15 +213,6 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
             <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS.b }} /> {devB.name}
           </span>
         </div>
-      </div>
-
-      <div className="rounded-lg p-4 sm:p-6 mb-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-        <div className="text-xs uppercase tracking-widest mb-2 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-          Categoría por categoría
-        </div>
-        {CATS.map((c) => (
-          <DuelBar key={c.key} label={c.label} scoreA={devA.scores[c.key]} scoreB={devB.scores[c.key]} detailA={devA.details[c.key]} detailB={devB.details[c.key]} />
-        ))}
       </div>
 
       <SpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />
@@ -310,4 +300,4 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       )}
     </div>
   );
-                }
+        }
