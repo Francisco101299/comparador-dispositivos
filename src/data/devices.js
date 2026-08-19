@@ -11,6 +11,7 @@ import { EXTRA_SPECS_2 } from "./extraSpecs2.js";
 import { EXTRA_SPECS_3 } from "./extraSpecs3.js";
 import { DEVICES_SMARTWATCHES } from "./smartwatches.js";
 import { EXTRA_SPECS_4 } from "./extraSpecs4.js";
+import { DEVICES_TOOLS } from "./tools.js";
 const CATS = [
   { key: "rendimiento", label: "Rendimiento" },
   { key: "pantalla", label: "Pantalla" },
@@ -20,6 +21,22 @@ const CATS = [
   { key: "precioCalidad", label: "Precio-calidad" },
 { key: "memoria", label: "Memoria y almacenamiento" },
 { key: "energia", label: "Carga y energía" },
+  ];
+  // Categorías para herramientas eléctricas
+export const TOOL_TYPES = ["Taladro", "Amoladora", "Atornillador", "Rotomartillo"];
+export const TOOL_CATS = [
+  { key: "potencia", label: "Potencia" },
+  { key: "bateria", label: "Batería y autonomía" },
+  { key: "velocidad", label: "Velocidad y precisión" },
+  { key: "durabilidad", label: "Durabilidad" },
+  { key: "portabilidad", label: "Peso y ergonomía" },
+  { key: "versatilidad", label: "Versatilidad" },
+  { key: "ergonomia", label: "Comodidad de uso" },
+  { key: "precioCalidad", label: "Precio-calidad" },
+
+export function catsFor(device) {
+  return TOOL_TYPES.includes(device.type) ? TOOL_CATS : CATS;
+}
 ];
 // Base de datos local: puntuaciones (0-100) estimadas de forma comparativa, no son benchmarks oficiales.
 const DEVICES = [
@@ -494,6 +511,7 @@ const DEVICES_LAPTOPS_EXTRA = [
 { id: "xiaomiredmibook16", name: "Xiaomi RedmiBook 16", type: "Laptop", year: 2024, price: "$699", scores: { rendimiento: 70, pantalla: 78, bateria: 80, camara: 52, portabilidad: 84, precioCalidad: 84 }, details: { rendimiento: "Intel Core i5-13500H", pantalla: "16\" 2.5K 120Hz", bateria: "Hasta 12h", camara: "1080p", portabilidad: "1.7kg", precioCalidad: "Pantalla top por el precio" } },
 ];
 DEVICES.push(...DEVICES_LAPTOPS_EXTRA);
+DEVICES.push(...DEVICES_TOOLS);
 
 // --- Limpieza de IDs duplicados: si un id se agregó en varias tandas,
 // se conserva la versión más reciente (la última gana) y se descarta la repetida.
