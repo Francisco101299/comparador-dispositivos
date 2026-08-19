@@ -1,7 +1,7 @@
 // ============================================================================
 // src/components/DeviceIcon.jsx
 // Foto real si el dispositivo tiene `image`; si no, foto genérica por
-// categoría (Unsplash, licencia libre); si la foto falla, ícono de respaldo.
+// categoría; si la foto falla, ícono de respaldo.
 // ============================================================================
 import { useState } from "react";
 import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff, Wrench, Hammer, Disc, Gauge, Zap, Droplets, Slice, Eraser, Cog, Flame } from "lucide-react";
@@ -54,16 +54,16 @@ const PHOTOS = {
     "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
     "https://images.unsplash.com/photo-1508614589041-895b88991e3e",
   ],
-  Taladro: ["https://images.unsplash.com/photo-1504148456320-7d9474199363"],
-  Rotomartillo: ["https://images.unsplash.com/photo-1530124566582-618bc91cc6ac"],
-  Atornillador: ["https://images.unsplash.com/photo-1504148456320-7d9474199363"],
-  Amoladora: ["https://images.unsplash.com/photo-1555628932-35151b3a5e1f"],
-  Sierra: ["https://images.unsplash.com/photo-1572981779307-38b8cabb2402"],
-  Lijadora: ["https://images.unsplash.com/photo-1580901368919-7738efb0f87e"],
-  Esmeril: ["https://images.unsplash.com/photo-1530124566582-618bc91cc6ac"],
-  Compresor: ["https://images.unsplash.com/photo-1581092160562-40aa08e78837"],
-  Generador: ["https://images.unsplash.com/photo-1581092918056-0c4c3acd3789"],
-  Hidrolavadora: ["https://images.unsplash.com/photo-1581093458791-9d42e3c7e117"],
+  Taladro: ["https://loremflickr.com/320/320/drill?lock=101"],
+  Atornillador: ["https://loremflickr.com/320/320/drill?lock=102"],
+  Rotomartillo: ["https://loremflickr.com/320/320/drill?lock=103"],
+  Amoladora: ["https://loremflickr.com/320/320/grinder?lock=201"],
+  Esmeril: ["https://loremflickr.com/320/320/grinder?lock=202"],
+  Sierra: ["https://loremflickr.com/320/320/saw?lock=301"],
+  Lijadora: ["https://loremflickr.com/320/320/sander?lock=401"],
+  Compresor: ["https://loremflickr.com/320/320/compressor?lock=501"],
+  Generador: ["https://loremflickr.com/320/320/generator?lock=601"],
+  Hidrolavadora: ["https://loremflickr.com/320/320/pressurewasher?lock=701"],
   Soldadora: ["https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1"],
 };
 
@@ -83,7 +83,7 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
   if (photo && !failed) {
     return (
       <img
-        src={`${photo}?auto=format&fit=crop&w=160&q=60`}
+        src={`${photo}`}
         alt={device.name}
         width={size}
         height={size}
