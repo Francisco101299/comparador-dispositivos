@@ -58,6 +58,17 @@ const PHOTOS = {
     "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
     "https://images.unsplash.com/photo-1508614589041-895b88991e3e",
   ],
+  Taladro: ["https://images.unsplash.com/photo-1504148456320-7d9474199363"],
+  Rotomartillo: ["https://images.unsplash.com/photo-1530124566582-618bc91cc6ac"],
+  Atornillador: ["https://images.unsplash.com/photo-1504148456320-7d9474199363"],
+  Amoladora: ["https://images.unsplash.com/photo-1555628932-35151b3a5e1f"],
+  Sierra: ["https://images.unsplash.com/photo-1572981779307-38b8cabb2402"],
+  Lijadora: ["https://images.unsplash.com/photo-1580910051074-3eb694886505"],
+  Esmeril: ["https://images.unsplash.com/photo-1530124566582-618bc91cc6ac"],
+  Compresor: ["https://images.unsplash.com/photo-1581092160562-40aa08e78837"],
+  Generador: ["https://images.unsplash.com/photo-1581092918056-0c4c3acd3789"],
+  Hidrolavadora: ["https://images.unsplash.com/photo-1581093458791-9d42e3c7e117"],
+  Soldadora: ["https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1"],
 };
 
 function hashId(id) {
