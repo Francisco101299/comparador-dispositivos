@@ -23,8 +23,8 @@ const MORE_LINKS = [
   { label: "Blog", path: "/blog" },
   { label: "Preguntas frecuentes", path: "/preguntas-frecuentes" },
   { label: "Acerca de", path: "/acerca-de" },
+  { label: "Cookies y afiliados", path: "/politica-cookies" },
 ];
-
 function Dropdown({ label, items }) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
