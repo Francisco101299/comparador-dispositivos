@@ -1,7 +1,8 @@
 // ============================================================================
 // src/components/DeviceIcon.jsx
-// Foto real si el dispositivo tiene `image`; si no, foto genérica por
-// categoría; si la foto falla, ícono de respaldo.
+// Foto real si el dispositivo tiene `image`; si no, foto fija por categoría
+// (tecnología: Unsplash / herramientas: fotos de producto); si la foto falla,
+// ícono de respaldo.
 // ============================================================================
 import { useState } from "react";
 import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff, Wrench, Hammer, Disc, Gauge, Zap, Droplets, Slice, Eraser, Cog, Flame } from "lucide-react";
@@ -54,17 +55,17 @@ const PHOTOS = {
     "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
     "https://images.unsplash.com/photo-1508614589041-895b88991e3e",
   ],
-  Taladro: ["https://loremflickr.com/320/320/drill?lock=101"],
-  Atornillador: ["https://loremflickr.com/320/320/drill?lock=102"],
-  Rotomartillo: ["https://loremflickr.com/320/320/drill?lock=103"],
-  Amoladora: ["https://loremflickr.com/320/320/grinder?lock=201"],
-  Esmeril: ["https://loremflickr.com/320/320/grinder?lock=202"],
-  Sierra: ["https://loremflickr.com/320/320/saw?lock=301"],
-  Lijadora: ["https://loremflickr.com/320/320/sander?lock=401"],
-  Compresor: ["https://loremflickr.com/320/320/compressor?lock=501"],
-  Generador: ["https://loremflickr.com/320/320/generator?lock=601"],
-  Hidrolavadora: ["https://loremflickr.com/320/320/pressurewasher?lock=701"],
-  Soldadora: ["https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1"],
+  Taladro: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/3fa2fa74e-de1e-477b-a386-966c6d8d4f3e6577.png"],
+  Atornillador: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/0fa2fa74e-de1e-477b-a386-966c6d8d4f3e7969.png"],
+  Rotomartillo: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/1fa2fa74e-de1e-477b-a386-966c6d8d4f3e4242.png"],
+  Amoladora: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/6fa2fa74e-de1e-477b-a386-966c6d8d4f3e5684.png"],
+  Esmeril: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/2fa2fa74e-de1e-477b-a386-966c6d8d4f3e3545.png"],
+  Sierra: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/0fa2fa74e-de1e-477b-a386-966c6d8d4f3e1862.png"],
+  Lijadora: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/0fa2fa74e-de1e-477b-a386-966c6d8d4f3e8363.png"],
+  Compresor: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/4fa2fa74e-de1e-477b-a386-966c6d8d4f3e3141.png"],
+  Generador: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/0fa2fa74e-de1e-477b-a386-966c6d8d4f3e4514.png"],
+  Hidrolavadora: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/1fa2fa74e-de1e-477b-a386-966c6d8d4f3e2116.png"],
+  Soldadora: ["https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/2fa2fa74e-de1e-477b-a386-966c6d8d4f3e3031.png"],
 };
 
 function hashId(id) {
@@ -83,7 +84,7 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
   if (photo && !failed) {
     return (
       <img
-        src={`${photo}`}
+        src={photo}
         alt={device.name}
         width={size}
         height={size}
@@ -106,4 +107,4 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
       <Icon size={Math.round(size * 0.55)} color={color || "#5B6270"} strokeWidth={1.75} />
     </div>
   );
-}
+  }
