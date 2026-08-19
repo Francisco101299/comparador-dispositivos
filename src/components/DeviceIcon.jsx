@@ -1,12 +1,11 @@
 // ============================================================================
 // src/components/DeviceIcon.jsx
-// Muestra la foto real del dispositivo si tiene campo `image`; si no, una
-// foto genérica de la categoría (Unsplash, licencia libre); si la foto falla,
-// el ícono ilustrativo. NO usamos fotos reales de productos con marca por
-// derechos de autor.
+// Foto real si el dispositivo tiene `image`; si no, foto genérica por
+// categoría (Unsplash, licencia libre); si la foto falla, ícono de respaldo.
 // ============================================================================
 import { useState } from "react";
 import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff, Wrench, Hammer, Disc, Gauge, Zap, Droplets, Slice, Eraser, Cog, Flame } from "lucide-react";
+
 const ICONS = {
   Celular: Smartphone,
   Laptop: Laptop,
@@ -27,9 +26,6 @@ const ICONS = {
   Soldadora: Flame,
 };
 
-
-// Fotos genéricas por categoría (Unsplash, licencia libre). Varias variantes
-// para que no todos los dispositivos del mismo tipo muestren la misma foto.
 const PHOTOS = {
   Celular: [
     "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
@@ -63,7 +59,7 @@ const PHOTOS = {
   Atornillador: ["https://images.unsplash.com/photo-1504148456320-7d9474199363"],
   Amoladora: ["https://images.unsplash.com/photo-1555628932-35151b3a5e1f"],
   Sierra: ["https://images.unsplash.com/photo-1572981779307-38b8cabb2402"],
-  Lijadora: ["https://images.unsplash.com/photo-1580910051074-3eb694886505"],
+  Lijadora: ["https://images.unsplash.com/photo-1580901368919-7738efb0f87e"],
   Esmeril: ["https://images.unsplash.com/photo-1530124566582-618bc91cc6ac"],
   Compresor: ["https://images.unsplash.com/photo-1581092160562-40aa08e78837"],
   Generador: ["https://images.unsplash.com/photo-1581092918056-0c4c3acd3789"],
@@ -110,4 +106,4 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
       <Icon size={Math.round(size * 0.55)} color={color || "#5B6270"} strokeWidth={1.75} />
     </div>
   );
-    }
+}
