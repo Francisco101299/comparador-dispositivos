@@ -535,6 +535,10 @@ function categorySlug(type) {
   if (type === "Tablet") return "tablets";
 if (type === "Smartwatch") return "relojes";
   if (type === "Dron") return "drones";
+  if (type === "Taladro") return "taladros";
+if (type === "Amoladora") return "amoladoras";
+if (type === "Atornillador") return "atornilladores";
+if (type === "Rotomartillo") return "rotomartillos";
 return "computadoras";
 }
 
