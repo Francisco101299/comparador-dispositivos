@@ -5,6 +5,8 @@
 // se muestra también la puntuación general del sector como resumen.
 // ============================================================================
 import { COLORS } from "../data/theme";
+import { TOOL_TYPES } from "../data/devices";
+import ToolSpecsTable from "./ToolSpecsTable";
 
 function priceNumber(p) {
   if (!p || typeof p !== "string") return 0;
@@ -394,6 +396,9 @@ function scoreFeature(label, value, dev) {
 }
 
 export default function SpecsTable({ devA, devB, priceA, priceB }) {
+  if (TOOL_TYPES.includes(devA.type)) {
+    return <ToolSpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />;
+  }
   const dA = devA.details || {};
   const dB = devB.details || {};
   const sA = devA.scores || {};
