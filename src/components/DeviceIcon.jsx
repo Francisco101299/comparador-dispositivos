@@ -1,11 +1,13 @@
 // ============================================================================
 // src/components/DeviceIcon.jsx
-// Ícono estilizado según el tipo de dispositivo (Celular, Laptop, Desktop,
-// Tablet). Si en el futuro un dispositivo tiene un campo `image` con una URL
-// real, se muestra esa foto en vez del ícono — por ahora ningún dispositivo
-// la tiene, así que todos usan el ícono por defecto.
+// Muestra la foto real del dispositivo si tiene campo `image`; si no, una
+// foto genérica de la categoría (Unsplash, licencia libre); si la foto falla,
+// el ícono ilustrativo. NO usamos fotos reales de productos con marca por
+// derechos de autor.
 // ============================================================================
+import { useState } from "react";
 import { Smartphone, Laptop, Monitor, Tablet, Watch, PlaneTakeoff } from "lucide-react";
+
 const ICONS = {
   Celular: Smartphone,
   Laptop: Laptop,
@@ -14,15 +16,62 @@ const ICONS = {
   Smartwatch: Watch,
   Dron: PlaneTakeoff,
 };
+
+// Fotos genéricas por categoría (Unsplash, licencia libre). Varias variantes
+// para que no todos los dispositivos del mismo tipo muestren la misma foto.
+const PHOTOS = {
+  Celular: [
+    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+    "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd",
+    "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c",
+    "https://images.unsplash.com/photo-1580910051074-3eb694886505",
+  ],
+  Laptop: [
+    "https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+    "https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+  ],
+  Desktop: [
+    "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
+    "https://images.unsplash.com/photo-1587202372775-e229f172b9d7",
+  ],
+  Tablet: [
+    "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
+    "https://images.unsplash.com/photo-1561154464-82e9adf327c7",
+  ],
+  Smartwatch: [
+    "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+    "https://images.unsplash.com/photo-1544117519-31a4b719223d",
+  ],
+  Dron: [
+    "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
+    "https://images.unsplash.com/photo-1508614589041-895b88991e3e",
+  ],
+};
+
+function hashId(id) {
+  let h = 0;
+  for (const c of id || "") h += c.charCodeAt(0);
+  return h;
+}
+
 export default function DeviceIcon({ device, size = 40, color, bg }) {
-  if (device.image) {
+  const [failed, setFailed] = useState(false);
+
+  const photos = PHOTOS[device.type] || [];
+  const photo =
+    device.image || (photos.length ? photos[hashId(device.id) % photos.length] : null);
+
+  if (photo && !failed) {
     return (
       <img
-        src={device.image}
+        src={`${photo}?auto=format&fit=crop&w=160&q=60`}
         alt={device.name}
         width={size}
         height={size}
-        className="object-contain rounded-md"
+        loading="lazy"
+        onError={() => setFailed(true)}
+        className="object-cover rounded-md shrink-0"
         style={{ width: size, height: size }}
       />
     );
@@ -39,4 +88,4 @@ export default function DeviceIcon({ device, size = 40, color, bg }) {
       <Icon size={Math.round(size * 0.55)} color={color || "#5B6270"} strokeWidth={1.75} />
     </div>
   );
-}
+    }
