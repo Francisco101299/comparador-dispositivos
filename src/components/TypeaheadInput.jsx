@@ -16,6 +16,7 @@ const TYPE_GROUPS = {
   Tablet: ["Tablet"],
   Smartwatch: ["Smartwatch"],
   Dron: ["Dron"],
+  Herramienta: ["Taladro", "Amoladora", "Atornillador", "Rotomartillo", "Sierra", "Lijadora", "Esmeril", "Compresor", "Generador", "Hidrolavadora", "Soldadora"],
 
 };
 
