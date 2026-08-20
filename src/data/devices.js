@@ -531,7 +531,8 @@ export function catsFor(device) {
 const TOOL_SLUGS = { Taladro: "taladros", Amoladora: "amoladoras", Atornillador: "atornilladores", Rotomartillo: "rotomartillos", Sierra: "sierras", Lijadora: "lijadoras", Esmeril: "esmeriles", Compresor: "compresores", Generador: "generadores", Hidrolavadora: "hidrolavadoras", Soldadora: "soldadoras" };
 // Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
 function categorySlug(type) {
-  if (type === "Celular") return "celulares";
+if (TOOL_SLUGS[type]) return TOOL_SLUGS[type];
+if (type === "Celular") return "celulares";
   if (type === "Tablet") return "tablets";
 if (type === "Smartwatch") return "relojes";
   if (type === "Dron") return "drones";
