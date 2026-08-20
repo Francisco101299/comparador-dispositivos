@@ -100,7 +100,26 @@ content: [
 links: [
 { label: "Ver comparación completa: HONOR 600 vs Redmi Note 15 Pro+", path: "/comparar/honor-600-vs-redmi-note-15-pro" },
 { label: "Explorar el catálogo de celulares", path: "/celulares" },
+]
+},
+  {
+id: "mejor-taladro-calidad-precio-2026",
+title: "El mejor taladro calidad-precio de 2026: guía rápida",
+image: "https://images.unsplash.com/photo-1504148456320-7d9474199363?w=800&q=80",
+excerpt: "Comparamos los taladros más vendidos de 2026 (desde $45 hasta $179) y te decimos cuál conviene según tu uso: casa, taller u obra.",
+date: "2026-08-20",
+content: [
+"Si estás por comprar tu primer taladro o quieres jubilar uno que ya no da más, esta guía te ahorra tiempo: comparamos los modelos más vendidos de 2026 en relación calidad-precio y te decimos cuál conviene según tu uso.",
+"Para uso doméstico y armado de muebles, el Black+Decker BDCD120 ($59) y el Bosch GSB 13 RE ($55) son las compras más inteligentes: ligeros, baratos y suficientes para madera, metal y pared liviana. El Bosch agrega percusión, útil si vas a tocar concreto ocasionalmente.",
+"Si ya haces trabajos de taller o instalaciones, el DeWalt DCD791 ($179) es el punto dulce: motor brushless de 70 Nm, dos baterías 20V y la durabilidad de la marca que más usan los profesionales en Latinoamérica. No es el más barato, pero es el que menos te va a fallar.",
+"Para concreto y obra necesitas percusión de verdad: el Makita DHP484 ($149) y el Pretul TAL-850 ($45) cumplen, pero en gamas muy distintas. El Pretul es cableado y rudo para su precio; el Makita es inalámbrico y comparte batería con todo el ecosistema 18V de Makita.",
+"Recomendación rápida: doméstico → Bosch GSB 13 RE; taller y uso frecuente → DeWalt DCD791; obra y presupuesto ajustado → Pretul TAL-850. Y si ya tienes baterías de una marca, quédate en ese ecosistema: las baterías son el gasto grande.",
+"¿Quieres ver los números lado a lado? Usa el comparador de herramientas y pon dos modelos frente a frente en potencia, batería, velocidad y durabilidad antes de decidir."
 ],
+links: [
+{ label: "Comparar: DeWalt DCD791 vs Makita DHP484", path: "/comparar/dewalt-dcd791-vs-makita-dhp484" },
+{ label: "Explorar el catálogo de taladros", path: "/taladros" },
+]
 },
 ];
 
