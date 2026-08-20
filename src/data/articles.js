@@ -105,7 +105,7 @@ links: [
   {
 id: "mejor-taladro-calidad-precio-2026",
 title: "El mejor taladro calidad-precio de 2026: guía rápida",
-image: "https://images.unsplash.com/photo-1504148456320-7d9474199363?w=800&q=80",
+image: "https://image.qwenlm.ai/public_source/dbabf79d-c786-4935-8f94-5a03c12d5b53/3fa2fa74e-de1e-477b-a386-966c6d8d4f3e6577.png",
 excerpt: "Comparamos los taladros más vendidos de 2026 (desde $45 hasta $179) y te decimos cuál conviene según tu uso: casa, taller u obra.",
 date: "2026-08-20",
 content: [
