@@ -14,6 +14,7 @@ import TypeaheadInput from "../components/TypeaheadInput";
 import CategoryNav from "../components/CategoryNav";
 import CategoryPicker from "../components/CategoryPicker";
 import Logo from "../components/Logo";
+import UpdateBanner from "../components/UpdateBanner";
 
 export default function HomePage() {
   const [devA, setDevA] = useState(null);
@@ -38,6 +39,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} />
+      <UpdateBanner />
 
       <div className="relative z-20 px-5 sm:px-10 pt-10 pb-8 sm:pb-10" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="max-w-3xl mx-auto text-center">
