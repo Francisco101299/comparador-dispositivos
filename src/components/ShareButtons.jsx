@@ -6,12 +6,14 @@
 import { useState } from "react";
 import { Share2, Copy, Check } from "lucide-react";
 import { COLORS } from "../data/theme";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function ShareButtons({ devA, devB }) {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const url = typeof window !== "undefined" ? window.location.href : "";
-  const text = `¿${devA.name} o ${devB.name}? Mira quién gana en esta comparación:`;
+  const text = t("share.message", { a: devA.name, b: devB.name });
 
   const handleWhatsApp = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`;
@@ -39,7 +41,7 @@ export default function ShareButtons({ devA, devB }) {
   return (
     <div className="flex items-center justify-center gap-2 mt-4">
       <span className="text-xs flex items-center gap-1" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-        <Share2 size={13} /> Compartir:
+        <Share2 size={13} /> {t("share.label")}
       </span>
       <button
         type="button"
@@ -56,7 +58,7 @@ export default function ShareButtons({ devA, devB }) {
         style={{ backgroundColor: copied ? COLORS.b : "#F0F2F5", color: copied ? "#fff" : COLORS.ink, fontFamily: "'Inter', sans-serif" }}
       >
         {copied ? <Check size={12} /> : <Copy size={12} />}
-        {copied ? "¡Copiado!" : "Copiar link"}
+        {copied ? t("share.copied") : t("share.copyLink")}
       </button>
     </div>
   );
