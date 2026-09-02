@@ -1,9 +1,14 @@
 // ============================================================================
 // src/components/LanguageSwitcher.jsx
-// Botones pequeños para cambiar entre Español e Inglés.
+// Botones con banderas (emoji) para cambiar entre Español e Inglés.
 // ============================================================================
 import { LANGUAGES } from "../lib/i18n";
 import { useLanguage } from "../lib/LanguageContext";
+
+const FLAGS = {
+  es: "🇪🇸",
+  en: "🇺🇸",
+};
 
 export default function LanguageSwitcher() {
   const { lang, setLang } = useLanguage();
@@ -15,16 +20,20 @@ export default function LanguageSwitcher() {
           key={l.code}
           type="button"
           onClick={() => setLang(l.code)}
-          className="text-[11px] px-2 py-1 rounded-full font-medium uppercase transition-colors"
+          aria-label={l.label}
+          title={l.label}
+          className="flex items-center justify-center text-base rounded-full transition-opacity"
           style={{
+            width: 30,
+            height: 30,
             backgroundColor: lang === l.code ? "#fff" : "transparent",
-            color: lang === l.code ? "#14181F" : "#9BA1AD",
             border: "1px solid #2A2F3A",
+            opacity: lang === l.code ? 1 : 0.6,
           }}
         >
-          {l.code}
+          {FLAGS[l.code]}
         </button>
       ))}
     </div>
   );
-}
+  }
