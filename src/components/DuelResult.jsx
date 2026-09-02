@@ -1,7 +1,9 @@
 // ============================================================================
 // src/components/DuelResult.jsx
 // Resultado del duelo: tarjetas con fotos, pesos, radar, ficha técnica por
-// sectores (única sección de specs), votación, veredicto y compartir.
+// sectores, votación, veredicto y compartir. Textos de interfaz traducidos
+// según idioma (el veredicto automático y los nombres de categoría de CATS
+// siguen en español por ahora).
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -10,6 +12,7 @@ import { COLORS } from "../data/theme";
 import { CATS, overallOf } from "../data/devices";
 import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
+import { useLanguage } from "../lib/LanguageContext";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
 import DeviceIcon from "./DeviceIcon";
@@ -39,6 +42,7 @@ function PriceBlock({ price, color }) {
 export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
   const [countryCode, setCountryCode] = useState("US");
+  const { t } = useLanguage();
 
   const pairKey = `duelo:${devA.slug}-vs-${devB.slug}`;
   const [myVote, setMyVote] = useState(null);
@@ -115,12 +119,12 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
 
   return (
     <div>
-      <h2 className="sr-only">Resultado: {devA.name} contra {devB.name}</h2>
+      <h2 className="sr-only">{devA.name} vs {devB.name}</h2>
 
       {/* Selector de país */}
       <div className="mb-5 rounded-lg p-3 flex flex-col items-center gap-2" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <span className="text-xs uppercase tracking-widest" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-          Ver precios en:
+          {t("duel.pricesIn")}
         </span>
         <div className="flex flex-wrap justify-center gap-1.5">
           {COUNTRIES.map((c) => (
@@ -153,7 +157,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           </Link>
           <PriceBlock price={priceA} color={COLORS.a} />
           <ShopButtons device={devA} />
-          <ScoreDial value={overallA} color={COLORS.a} label="Puntuación" />
+          <ScoreDial value={overallA} color={COLORS.a} label={t("duel.score")} />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devA.year}</div>
           {badgesA.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
@@ -163,7 +167,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
                   className="text-[10px] font-semibold px-2 py-1 rounded-full uppercase tracking-wide"
                   style={{ backgroundColor: COLORS.aSoft, color: COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                  🏆 Mejor {c.label.toLowerCase()}
+                  🏆 {c.label}
                 </span>
               ))}
             </div>
@@ -180,7 +184,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           </Link>
           <PriceBlock price={priceB} color={COLORS.b} />
           <ShopButtons device={devB} />
-          <ScoreDial value={overallB} color={COLORS.b} label="Puntuación" />
+          <ScoreDial value={overallB} color={COLORS.b} label={t("duel.score")} />
           <div className="text-xs mt-2" style={{ color: COLORS.muted }}>{devB.year}</div>
           {badgesB.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1.5 mt-3">
@@ -190,7 +194,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
                   className="text-[10px] font-semibold px-2 py-1 rounded-full uppercase tracking-wide"
                   style={{ backgroundColor: COLORS.bSoft, color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                  🏆 Mejor {c.label.toLowerCase()}
+                  🏆 {c.label}
                 </span>
               ))}
             </div>
@@ -205,7 +209,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
 
       <div className="rounded-lg p-4 sm:p-6 mb-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <div className="text-xs uppercase tracking-widest mb-3 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-          Vista general
+          {t("duel.overview")}
         </div>
         <RadarChart devA={devA} devB={devB} colorA={COLORS.a} colorB={COLORS.b} />
         <div className="flex items-center justify-center gap-5 mt-2">
@@ -222,10 +226,10 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
 
       <div className="rounded-lg p-4 sm:p-5 mt-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
         <div className="text-xs uppercase tracking-widest mb-1 text-center" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-          ¿Y tú qué opinas?
+          {t("duel.opinion")}
         </div>
         <p className="text-xs text-center mb-3" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-          Vota por tu favorito o deja tu comentario en Facebook.
+          {t("duel.voteSubtitle")}
         </p>
         <div className="grid grid-cols-2 gap-3">
           <button
@@ -262,7 +266,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
               </div>
             </div>
             <p className="text-[10px] text-center mt-1.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              {totalVotes} voto{totalVotes === 1 ? "" : "s"} en este dispositivo · los votos se guardan en tu navegador
+              {t("duel.votes", { count: totalVotes, plural: totalVotes === 1 ? "" : "s" })}
             </p>
           </div>
         )}
@@ -273,12 +277,12 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           className="block text-center text-xs mt-3 underline"
           style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}
         >
-          💬 Opinar y comentar en Facebook
+          {t("duel.fbComment")}
         </a>
       </div>
 
       <div className="mt-6 rounded-lg p-5 text-sm sm:text-base leading-relaxed" style={{ backgroundColor: COLORS.panelDark, color: "#E7E9EE", fontFamily: "'Inter', sans-serif" }}>
-        <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>Veredicto</div>
+        <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>{t("duel.verdict")}</div>
         {verdictText(devA, devB)}
       </div>
 
@@ -288,19 +292,19 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
 
       {anyEstimate && (
         <p className="text-[10px] text-center mt-4 leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-          * Los precios marcados como "Estimación por conversión" son un cálculo aproximado a partir del precio en EE.UU., y pueden variar según la tienda, impuestos locales, aranceles de importación y el tipo de cambio del día. No representan necesariamente el precio final de venta.
+          {t("duel.estimateNote")}
         </p>
       )}
 
       {onReset ? (
         <button onClick={onReset} className="mt-4 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
-          <RotateCcw size={14} /> Nueva comparación
+          <RotateCcw size={14} /> {t("duel.newComparison")}
         </button>
       ) : (
         <Link to={resetTo} className="mt-4 mx-auto flex items-center gap-2 text-sm px-4 py-2 rounded-md w-fit" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif", border: `1px solid ${COLORS.line}` }}>
-          <RotateCcw size={14} /> Nueva comparación
+          <RotateCcw size={14} /> {t("duel.newComparison")}
         </Link>
       )}
     </div>
   );
-        }
+    }
