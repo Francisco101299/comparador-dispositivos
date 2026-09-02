@@ -99,6 +99,7 @@ export const TRANSLATIONS = {
     "share.copyLink": "Copiar link",
     "share.copied": "¡Copiado!",
     "share.message": "¿{a} o {b}? Mira quién gana en esta comparación:",
+    "shop.viewPrices": "Ver precios",
   },
   en: {
     "nav.categories": "Categories",
@@ -183,6 +184,7 @@ export const TRANSLATIONS = {
     "share.copyLink": "Copy link",
     "share.copied": "Copied!",
     "share.message": "{a} or {b}? See who wins this comparison:",
+    "shop.viewPrices": "View prices",
   },
 };
 
