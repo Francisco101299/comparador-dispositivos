@@ -46,7 +46,12 @@ export const TRANSLATIONS = {
     "device.subtitle": "Ficha técnica completa, puntuación por categoría y precio de referencia {price}.",
     "device.specsTitle": "Especificaciones por categoría",
     "device.overallScore": "Puntuación general",
-    "device.compareTitle": "Compara {name} con otro {type}",
+"device.compareTitle": "Compara {name} con otro {type}",
+    "type.Celular": "celular",
+    "type.Desktop": "computadora",
+    "type.Laptop": "laptop",
+    "type.Tablet": "tablet",
+    "type.Smartwatch": "reloj",
   },
   en: {
     "nav.categories": "Categories",
@@ -79,6 +84,11 @@ export const TRANSLATIONS = {
     "device.specsTitle": "Specifications by category",
     "device.overallScore": "Overall score",
     "device.compareTitle": "Compare {name} with another {type}",
+    "type.Celular": "phone",
+    "type.Desktop": "computer",
+    "type.Laptop": "laptop",
+    "type.Tablet": "tablet",
+    "type.Smartwatch": "watch",
   },
 };
 
