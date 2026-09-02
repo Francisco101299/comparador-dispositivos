@@ -141,6 +141,10 @@ export const TRANSLATIONS = {
     "type.Hidrolavadora": "hidrolavadora",
     "type.Soldadora": "soldadora",
     "typeahead.noResults": "Sin resultados. Prueba otro nombre o quita el filtro de categoría.",
+    "blog.seoTitle": "Blog: guías y comparativas",
+    "blog.seoDescription": "Artículos y guías para elegir celulares, computadoras y tablets: comparativas de gama media, consejos de compra y más.",
+    "blog.subtitle": "Guías y comparativas para elegir mejor.",
+    "blog.articlesListSrOnly": "Listado de artículos",
   },
   en: {
     "nav.categories": "Categories",
@@ -267,6 +271,10 @@ export const TRANSLATIONS = {
     "type.Hidrolavadora": "pressure washer",
     "type.Soldadora": "welder",
     "typeahead.noResults": "No results. Try another name or remove the category filter.",
+    "blog.seoTitle": "Blog: guides and comparisons",
+    "blog.seoDescription": "Articles and guides to choose phones, computers and tablets: mid-range comparisons, buying tips and more.",
+    "blog.subtitle": "Guides and comparisons to choose better.",
+    "blog.articlesListSrOnly": "Article list",
   },
 };
 export function t(lang, key, vars = {}) {
