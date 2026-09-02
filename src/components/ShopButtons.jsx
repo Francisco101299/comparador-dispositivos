@@ -5,12 +5,14 @@
 // AFFILIATE.amazon y TODOS los links empezarán a generar comisión.
 // ============================================================================
 import { COLORS } from "../data/theme";
+import { useLanguage } from "../lib/LanguageContext";
 
 const AFFILIATE = {
   amazon: "", // ← pega aquí tu tag, ej: "comparadordis-20"
 };
 
 export default function ShopButtons({ device }) {
+  const { t } = useLanguage();
   if (!device) return null;
   const q = encodeURIComponent(device.name.trim());
   const links = [
@@ -36,7 +38,7 @@ export default function ShopButtons({ device }) {
         className="text-[9px] uppercase tracking-widest text-center mb-1.5"
         style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}
       >
-        Ver precios
+        {t("shop.viewPrices")}
       </div>
       <div className="flex flex-wrap justify-center gap-1.5">
         {links.map((l) => (
@@ -59,4 +61,4 @@ export default function ShopButtons({ device }) {
       </div>
     </div>
   );
-        }
+}
