@@ -7,44 +7,46 @@
 import { useState } from "react";
 import { Cpu, Wrench, ChevronDown } from "lucide-react";
 import { COLORS } from "../data/theme";
-
-const GROUPS = [
-  {
-    key: "Tecnologia",
-    label: "Tecnología",
-    icon: Cpu,
-    subs: [
-      { key: "Tecnologia", label: "Todo" },
-      { key: "Celular", label: "Celulares" },
-      { key: "Computadora", label: "Computadoras" },
-      { key: "Tablet", label: "Tablets" },
-      { key: "Smartwatch", label: "Relojes" },
-      { key: "Dron", label: "Drones" },
-    ],
-  },
-  {
-    key: "Herramienta",
-    label: "Herramientas",
-    icon: Wrench,
-    subs: [
-      { key: "Herramienta", label: "Todas" },
-      { key: "Taladro", label: "Taladros" },
-      { key: "Rotomartillo", label: "Percutores" },
-      { key: "Atornillador", label: "Atornilladores" },
-      { key: "Amoladora", label: "Amoladoras" },
-      { key: "Sierra", label: "Sierras" },
-      { key: "Lijadora", label: "Lijadoras" },
-      { key: "Esmeril", label: "Esmeriles" },
-      { key: "Soldadora", label: "Soldadoras" },
-      { key: "Compresor", label: "Compresores" },
-      { key: "Generador", label: "Generadores" },
-      { key: "Hidrolavadora", label: "Hidrolavadoras" },
-    ],
-  },
-];
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function CategoryPicker({ value, onChange }) {
+  const { t } = useLanguage();
   const [openGroup, setOpenGroup] = useState(null);
+
+  const GROUPS = [
+    {
+      key: "Tecnologia",
+      label: t("category.group.tech"),
+      icon: Cpu,
+      subs: [
+        { key: "Tecnologia", label: t("category.sub.techAll") },
+        { key: "Celular", label: t("category.sub.phones") },
+        { key: "Computadora", label: t("category.sub.computers") },
+        { key: "Tablet", label: t("category.sub.tablets") },
+        { key: "Smartwatch", label: t("category.sub.watches") },
+        { key: "Dron", label: t("category.sub.drones") },
+      ],
+    },
+    {
+      key: "Herramienta",
+      label: t("category.group.tools"),
+      icon: Wrench,
+      subs: [
+        { key: "Herramienta", label: t("category.sub.toolsAll") },
+        { key: "Taladro", label: t("category.sub.drill") },
+        { key: "Rotomartillo", label: t("category.sub.hammerDrill") },
+        { key: "Atornillador", label: t("category.sub.screwdriver") },
+        { key: "Amoladora", label: t("category.sub.grinder") },
+        { key: "Sierra", label: t("category.sub.saw") },
+        { key: "Lijadora", label: t("category.sub.sander") },
+        { key: "Esmeril", label: t("category.sub.benchGrinder") },
+        { key: "Soldadora", label: t("category.sub.welder") },
+        { key: "Compresor", label: t("category.sub.compressor") },
+        { key: "Generador", label: t("category.sub.generator") },
+        { key: "Hidrolavadora", label: t("category.sub.pressureWasher") },
+      ],
+    },
+  ];
 
   const activeGroup = GROUPS.find((g) => g.subs.some((s) => s.key === value));
 
@@ -104,4 +106,4 @@ export default function CategoryPicker({ value, onChange }) {
       )}
     </div>
   );
-                }
+          }
