@@ -36,6 +36,13 @@ export const TRANSLATIONS = {
     "home.database": "Base de datos local de {count} celulares, computadoras, tablets y relojes. Empieza a escribir para ver sugerencias.",
     "footer.privacy": "Política de privacidad",
     "footer.contact": "Contacto",
+    "category.subtitle": "{count} modelos con ficha técnica completa. Toca cualquiera para ver su detalle o compararlo.",
+    "category.sortBy": "Ordenar por:",
+    "category.sortScore": "Puntuación",
+    "category.sortPriceLow": "Precio: menor a mayor",
+    "category.sortPriceHigh": "Precio: mayor a menor",
+    "category.sortYear": "Año: más reciente",
+    "breadcrumb.home": "Inicio",
   },
   en: {
     "nav.categories": "Categories",
@@ -57,6 +64,13 @@ export const TRANSLATIONS = {
     "home.database": "Local database of {count} phones, computers, tablets and watches. Start typing to see suggestions.",
     "footer.privacy": "Privacy policy",
     "footer.contact": "Contact",
+    "category.subtitle": "{count} models with full specs. Tap any to see details or compare it.",
+    "category.sortBy": "Sort by:",
+    "category.sortScore": "Score",
+    "category.sortPriceLow": "Price: low to high",
+    "category.sortPriceHigh": "Price: high to low",
+    "category.sortYear": "Year: newest",
+    "breadcrumb.home": "Home",
   },
 };
 
