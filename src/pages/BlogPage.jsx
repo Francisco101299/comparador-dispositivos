@@ -7,15 +7,18 @@ import { COLORS, FONT_IMPORT } from "../data/theme";
 import { ARTICLES } from "../data/articles";
 import SeoHead from "../components/SeoHead";
 import Logo from "../components/Logo";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function BlogPage() {
+  const { t, lang } = useLanguage();
+  const dateLocale = lang === "en" ? "en-US" : "es-MX";
   const sorted = [...ARTICLES].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead
-        title="Blog: guías y comparativas"
-        description="Artículos y guías para elegir celulares, computadoras y tablets: comparativas de gama media, consejos de compra y más."
+        title={t("blog.seoTitle")}
+        description={t("blog.seoDescription")}
         canonical={typeof window !== "undefined" ? window.location.origin + "/blog" : "/blog"}
       />
       
@@ -26,19 +29,19 @@ export default function BlogPage() {
             <Logo size={28} />
           </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
-            <Link to="/" className="underline">Inicio</Link> · Blog
+            <Link to="/" className="underline">{t("breadcrumb.home")}</Link> · Blog
           </nav>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             Blog
           </h1>
           <p className="mt-2 text-sm sm:text-base" style={{ color: "#9BA1AD", fontFamily: "'Inter', sans-serif" }}>
-            Guías y comparativas para elegir mejor.
+            {t("blog.subtitle")}
           </p>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-5 sm:px-10 py-10">
-        <h2 className="sr-only">Listado de artículos</h2>
+        <h2 className="sr-only">{t("blog.articlesListSrOnly")}</h2>
         <div className="flex flex-col gap-4">
           {sorted.map((a) => (
             <Link
@@ -52,7 +55,7 @@ export default function BlogPage() {
               )}
               <div className="p-5">
               <div className="text-xs mb-1.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-                {new Date(a.date + "T00:00:00").toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })}
+                {new Date(a.date + "T00:00:00").toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" })}
               </div>
               <div className="font-semibold text-base mb-1.5" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
                 {a.title}
@@ -67,4 +70,4 @@ export default function BlogPage() {
       </div>
     </div>
   );
-                                                                                          }
+}
