@@ -5,6 +5,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import { LanguageProvider } from "./lib/LanguageContext";
 import PageViewTracker from "./components/PageViewTracker";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -26,6 +27,7 @@ function PageFallback() {
 
 export default function App() {
   return (
+    <LanguageProvider>
     <BrowserRouter>
       <ScrollToTop />
 <PageViewTracker />
@@ -48,5 +50,6 @@ export default function App() {
         </Routes>
       </Suspense>
     </BrowserRouter>
+    </LanguageProvider>
   );
-}
+  }
