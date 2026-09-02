@@ -1,30 +1,14 @@
 // ============================================================================
 // src/components/CategoryNav.jsx
-// Menú compacto: "Categorías" (Celulares/Computadoras/Tablets) y "Más"
-// (Blog, Acerca de, FAQ, Sugerir dispositivo) — dos desplegables en vez de
-// cinco botones sueltos, para que no se vea saturado en pantallas chicas.
+// Menú compacto: "Categorías" y "Más" — con textos traducidos según el
+// idioma activo, más el selector de idioma (ES/EN).
 // ============================================================================
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from "../lib/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-const CATEGORIES = [
-  { label: "Celulares", path: "/celulares" },
-  { label: "Computadoras", path: "/computadoras" },
-  { label: "Tablets", path: "/tablets" },
-  { label: "Relojes", path: "/relojes" },
-  { label: "Drones", path: "/drones" },
-  { label: "Herramientas", path: "/herramientas" },
-
-];
-
-const MORE_LINKS = [
-  { label: "¿Falta tu dispositivo?", path: "/sugerir" },
-  { label: "Blog", path: "/blog" },
-  { label: "Preguntas frecuentes", path: "/preguntas-frecuentes" },
-  { label: "Acerca de", path: "/acerca-de" },
-  { label: "Cookies y afiliados", path: "/politica-cookies" },
-];
 function Dropdown({ label, items }) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -71,10 +55,27 @@ function Dropdown({ label, items }) {
 }
 
 export default function CategoryNav() {
+  const { t } = useLanguage();
+
+  const categories = [
+    { label: t("nav.phones"), path: "/celulares" },
+    { label: t("nav.computers"), path: "/computadoras" },
+    { label: t("nav.tablets"), path: "/tablets" },
+    { label: t("nav.watches"), path: "/relojes" },
+  ];
+
+  const moreLinks = [
+    { label: t("nav.suggest"), path: "/sugerir" },
+    { label: t("nav.blog"), path: "/blog" },
+    { label: t("nav.faq"), path: "/preguntas-frecuentes" },
+    { label: t("nav.about"), path: "/acerca-de" },
+  ];
+
   return (
-    <nav className="flex items-center justify-center gap-3 text-sm mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <Dropdown label="Categorías" items={CATEGORIES} />
-      <Dropdown label="Más" items={MORE_LINKS} />
+    <nav className="flex items-center justify-center gap-3 text-sm mb-4 flex-wrap" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <Dropdown label={t("nav.categories")} items={categories} />
+      <Dropdown label={t("nav.more")} items={moreLinks} />
+      <LanguageSwitcher />
     </nav>
   );
 }
