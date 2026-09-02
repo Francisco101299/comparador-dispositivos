@@ -7,6 +7,7 @@
 import { COLORS } from "../data/theme";
 import { TOOL_TYPES } from "../data/devices";
 import ToolSpecsTable from "./ToolSpecsTable";
+import { useLanguage } from "../lib/LanguageContext";
 
 function priceNumber(p) {
   if (!p || typeof p !== "string") return 0;
@@ -206,196 +207,177 @@ function getAudio(dev) {
 
 // ==========================================================================
 // SCORING POR CARACTERÍSTICA: deriva 0-100 a partir del texto de cada fila.
+// El matching se hace por una "key" ESTABLE (no traducida), NUNCA por el
+// texto del label visible, así las barras funcionan igual en es y en en.
 // Si el parseo falla, devuelve null (no se dibuja barra).
 // ==========================================================================
-function scoreFeature(label, value, dev) {
+function scoreFeature(key, value) {
   if (!value || typeof value !== "string") return null;
   const v = value;
-  const l = label.toLowerCase();
 
-  // Tasa de refresco
-  if (/refresco/.test(l)) {
-    const m = v.match(/(\d+)\s*Hz/);
-    if (!m) return null;
-    const hz = parseInt(m[1], 10);
-    if (hz >= 144) return 98;
-    if (hz >= 120) return 90;
-    if (hz >= 90) return 72;
-    if (hz >= 60) return 55;
-    return 40;
-  }
-
-  // Resolución
-  if (/resoluci/i.test(l)) {
-    if (/4K|UHD|4\.5K/i.test(v)) return 98;
-    if (/QHD|2\.8K|3\.1K|3K|2\.5K|1\.5K/i.test(v)) return 88;
-    if (/FHD|1080p/i.test(v)) return 70;
-    if (/HD\+|720p/i.test(v)) return 50;
-    return null;
-  }
-
-  // Almacenamiento (por GB)
-  if (/almacenamiento|storage/i.test(l) && !/versiones/i.test(l)) {
-    const gb = parseMaxGB(v);
-    if (!gb) return null;
-    if (gb >= 1024) return 98;
-    if (gb >= 512) return 88;
-    if (gb >= 256) return 78;
-    if (gb >= 128) return 62;
-    if (gb >= 64) return 48;
-    return 35;
-  }
-
-  // RAM
-  if (/\bram\b/i.test(l)) {
-    const m = v.match(/(\d+)\s*GB/i);
-    if (!m) return null;
-    const gb = parseInt(m[1], 10);
-    if (gb >= 24) return 98;
-    if (gb >= 16) return 90;
-    if (gb >= 12) return 82;
-    if (gb >= 8) return 70;
-    if (gb >= 6) return 55;
-    return 40;
-  }
-
-  // Batería (mAh para celulares, horas para laptops/drones)
-  if (/bater/.test(l)) {
-    const mah = v.match(/(\d{3,5})\s*mAh/i);
-    if (mah) {
-      const m = parseInt(mah[1], 10);
-      if (m >= 6000) return 98;
-      if (m >= 5000) return 85;
-      if (m >= 4500) return 75;
-      if (m >= 4000) return 60;
-      return 45;
-    }
-    const horas = v.match(/(\d+)\s*h/i);
-    if (horas) {
-      const h = parseInt(horas[1], 10);
-      if (h >= 20) return 98;
-      if (h >= 15) return 88;
-      if (h >= 10) return 75;
-      if (h >= 6) return 55;
+  switch (key) {
+    case "refresco": {
+      const m = v.match(/(\d+)\s*Hz/);
+      if (!m) return null;
+      const hz = parseInt(m[1], 10);
+      if (hz >= 144) return 98;
+      if (hz >= 120) return 90;
+      if (hz >= 90) return 72;
+      if (hz >= 60) return 55;
       return 40;
     }
-    return null;
-  }
 
-  // Carga / Energía
-  if (/carga|energ/.test(l)) {
-    const w = v.match(/(\d+)\s*W/);
-    if (w) {
-      const watts = parseInt(w[1], 10);
-      if (watts >= 120) return 98;
-      if (watts >= 67) return 88;
-      if (watts >= 45) return 75;
-      if (watts >= 25) return 60;
-      if (watts >= 15) return 45;
+    case "resolucion": {
+      if (/4K|UHD|4\.5K/i.test(v)) return 98;
+      if (/QHD|2\.8K|3\.1K|3K|2\.5K|1\.5K/i.test(v)) return 88;
+      if (/FHD|1080p/i.test(v)) return 70;
+      if (/HD\+|720p/i.test(v)) return 50;
+      return null;
+    }
+
+    case "versiones": {
+      // Puntúa por el primer valor de RAM que aparezca en el texto
+      const m = v.match(/(\d+)\s*GB/i);
+      if (!m) return null;
+      const gb = parseInt(m[1], 10);
+      if (gb >= 24) return 98;
+      if (gb >= 16) return 90;
+      if (gb >= 12) return 82;
+      if (gb >= 8) return 70;
+      if (gb >= 6) return 55;
+      return 40;
+    }
+
+    case "nucleos": {
+      if (/(m[aá]s|8\s*n[uú]cleos\s*o\s*m[aá]s)/i.test(v)) return 95;
+      const m = v.match(/(\d+)\s*n[uú]cleos/i);
+      if (!m) return null;
+      const n = parseInt(m[1], 10);
+      if (n >= 10) return 95;
+      if (n >= 8) return 80;
+      if (n >= 6) return 65;
+      if (n >= 4) return 45;
       return 30;
     }
-    if (/r[aá]pida/i.test(v)) return 70;
-    return null;
-  }
 
-  // Cámara frontal
-  if (/frontal/.test(l)) {
-    const m = v.match(/(\d+)\s*MP/i);
-    if (!m) return null;
-    const mp = parseInt(m[1], 10);
-    if (mp >= 32) return 95;
-    if (mp >= 16) return 85;
-    if (mp >= 12) return 75;
-    if (mp >= 8) return 58;
-    return 40;
-  }
+    case "bateria": {
+      const mah = v.match(/(\d{3,5})\s*mAh/i);
+      if (mah) {
+        const m = parseInt(mah[1], 10);
+        if (m >= 6000) return 98;
+        if (m >= 5000) return 85;
+        if (m >= 4500) return 75;
+        if (m >= 4000) return 60;
+        return 45;
+      }
+      const horas = v.match(/(\d+)\s*h/i);
+      if (horas) {
+        const h = parseInt(horas[1], 10);
+        if (h >= 20) return 98;
+        if (h >= 15) return 88;
+        if (h >= 10) return 75;
+        if (h >= 6) return 55;
+        return 40;
+      }
+      return null;
+    }
 
-  // Video
-  if (/video|grabaci/i.test(l)) {
-    if (/8K/i.test(v)) return 98;
-    if (/4K.*60|60.*4K/i.test(v)) return 88;
-    if (/4K/i.test(v)) return 75;
-    if (/2\.7K/i.test(v)) return 65;
-    if (/1080p/i.test(v)) return 45;
-    return null;
-  }
+    case "carga": {
+      const w = v.match(/(\d+)\s*W/);
+      if (w) {
+        const watts = parseInt(w[1], 10);
+        if (watts >= 120) return 98;
+        if (watts >= 67) return 88;
+        if (watts >= 45) return 75;
+        if (watts >= 25) return 60;
+        if (watts >= 15) return 45;
+        return 30;
+      }
+      if (/r[aá]pida/i.test(v)) return 70;
+      return null;
+    }
 
-  // OIS
-  if (/estabilizad|ois/i.test(l)) {
-    if (/^(s[ií]|yes|s[ií]\s)/i.test(v)) return 90;
-    if (/no/i.test(v)) return 30;
-    if (/algunos/i.test(v)) return 60;
-    return null;
-  }
+    case "frontal": {
+      const m = v.match(/(\d+)\s*MP/i);
+      if (!m) return null;
+      const mp = parseInt(m[1], 10);
+      if (mp >= 32) return 95;
+      if (mp >= 16) return 85;
+      if (mp >= 12) return 75;
+      if (mp >= 8) return 58;
+      return 40;
+    }
 
-  // Apertura
-  if (/apertura/i.test(l)) {
-    const m = v.match(/f\/([\d.]+)/);
-    if (!m) return null;
-    const f = parseFloat(m[1]);
-    if (f <= 1.5) return 98;
-    if (f <= 1.8) return 85;
-    if (f <= 2.0) return 75;
-    if (f <= 2.4) return 60;
-    return 45;
-  }
+    case "video": {
+      if (/8K/i.test(v)) return 98;
+      if (/4K.*60|60.*4K/i.test(v)) return 88;
+      if (/4K/i.test(v)) return 75;
+      if (/2\.7K/i.test(v)) return 65;
+      if (/1080p/i.test(v)) return 45;
+      return null;
+    }
 
-  // Red móvil
-  if (/red\s*m/i.test(l)) {
-    if (/5G/i.test(v)) return 90;
-    if (/4G/i.test(v)) return 50;
-    return 30;
-  }
+    case "ois": {
+      if (/^(s[ií]|yes|s[ií]\s)/i.test(v)) return 90;
+      if (/no/i.test(v)) return 30;
+      if (/algunos/i.test(v)) return 60;
+      return null;
+    }
 
-  // Núcleos
-  if (/n[uú]cleos/i.test(l)) {
-    if (/(m[aá]s|8\s*n[uú]cleos\s*o\s*m[aá]s)/i.test(v)) return 95;
-    const m = v.match(/(\d+)\s*n[uú]cleos/i);
-    if (!m) return null;
-    const n = parseInt(m[1], 10);
-    if (n >= 10) return 95;
-    if (n >= 8) return 80;
-    if (n >= 6) return 65;
-    if (n >= 4) return 45;
-    return 30;
-  }
+    case "apertura": {
+      const m = v.match(/f\/([\d.]+)/);
+      if (!m) return null;
+      const f = parseFloat(m[1]);
+      if (f <= 1.5) return 98;
+      if (f <= 1.8) return 85;
+      if (f <= 2.0) return 75;
+      if (f <= 2.4) return 60;
+      return 45;
+    }
 
-  // Resistencia
-  if (/resistencia|protecci/i.test(l)) {
-    if (/IP68/i.test(v)) return 95;
-    if (/IP69/i.test(v)) return 98;
-    if (/IP67/i.test(v)) return 80;
-    if (/IP65/i.test(v)) return 70;
-    if (/IP54/i.test(v)) return 55;
-    if (/MIL-STD/i.test(v)) return 90;
-    if (/sin/i.test(v)) return 25;
-    return null;
-  }
+    case "red": {
+      if (/5G/i.test(v)) return 90;
+      if (/4G/i.test(v)) return 50;
+      return 30;
+    }
 
-  // Audio
-  if (/audio/i.test(l)) {
-    if (/est[eé]reo/i.test(v)) return 85;
-    if (/mono/i.test(v)) return 45;
-    return null;
-  }
+    case "resistencia": {
+      if (/IP68/i.test(v)) return 95;
+      if (/IP69/i.test(v)) return 98;
+      if (/IP67/i.test(v)) return 80;
+      if (/IP65/i.test(v)) return 70;
+      if (/IP54/i.test(v)) return 55;
+      if (/MIL-STD/i.test(v)) return 90;
+      if (/sin/i.test(v)) return 25;
+      return null;
+    }
 
-  // Año
-  if (l === "año") {
-    const y = parseInt(v, 10);
-    if (!y) return null;
-    if (y >= 2026) return 98;
-    if (y >= 2025) return 92;
-    if (y >= 2024) return 85;
-    if (y >= 2023) return 75;
-    if (y >= 2022) return 60;
-    if (y >= 2020) return 45;
-    return 30;
-  }
+    case "audio": {
+      if (/est[eé]reo/i.test(v)) return 85;
+      if (/mono/i.test(v)) return 45;
+      return null;
+    }
 
-  return null;
+    case "anio": {
+      const y = parseInt(v, 10);
+      if (!y) return null;
+      if (y >= 2026) return 98;
+      if (y >= 2025) return 92;
+      if (y >= 2024) return 85;
+      if (y >= 2023) return 75;
+      if (y >= 2022) return 60;
+      if (y >= 2020) return 45;
+      return 30;
+    }
+
+    default:
+      return null;
+  }
 }
 
 export default function SpecsTable({ devA, devB, priceA, priceB }) {
+  const { t } = useLanguage();
+
   if (TOOL_TYPES.includes(devA.type)) {
     return <ToolSpecsTable devA={devA} devB={devB} priceA={priceA} priceB={priceB} />;
   }
@@ -408,70 +390,70 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
 
   const sections = [
     {
-      title: "Rendimiento",
+      title: t("specs.sector.performance"),
       scoreKey: "rendimiento",
       rows: [
-        { label: "Chip / Procesador", a: dA.rendimiento, b: dB.rendimiento },
-        { label: "Núcleos", a: getNucleos(devA), b: getNucleos(devB) },
+        { key: "chip", label: t("specs.row.chip"), a: dA.rendimiento, b: dB.rendimiento },
+        { key: "nucleos", label: t("specs.row.cores"), a: getNucleos(devA), b: getNucleos(devB) },
       ],
     },
     {
-      title: "Pantalla",
+      title: t("specs.sector.screen"),
       scoreKey: "pantalla",
       rows: [
-        { label: "Pantalla", a: dA.pantalla, b: dB.pantalla },
-        { label: "Resolución", a: resOf(devA), b: resOf(devB) },
-        { label: "Tasa de refresco", a: hzOf(dA.pantalla), b: hzOf(dB.pantalla) },
-        { label: "Tipo de pantalla", a: screenType(dA.pantalla), b: screenType(dB.pantalla) },
+        { key: "pantalla", label: t("specs.row.screen"), a: dA.pantalla, b: dB.pantalla },
+        { key: "resolucion", label: t("specs.row.resolution"), a: resOf(devA), b: resOf(devB) },
+        { key: "refresco", label: t("specs.row.refreshRate"), a: hzOf(dA.pantalla), b: hzOf(dB.pantalla) },
+        { key: "tipoPantalla", label: t("specs.row.screenType"), a: screenType(dA.pantalla), b: screenType(dB.pantalla) },
       ],
     },
     {
-      title: "Batería",
+      title: t("specs.sector.battery"),
       scoreKey: "bateria",
       rows: [
-        { label: "Batería", a: dA.bateria, b: dB.bateria },
-        { label: "Carga / Energía", a: dA.energia, b: dB.energia },
+        { key: "bateria", label: t("specs.row.battery"), a: dA.bateria, b: dB.bateria },
+        { key: "carga", label: t("specs.row.charging"), a: dA.energia, b: dB.energia },
       ],
     },
     {
-      title: "Cámara",
+      title: t("specs.sector.camera"),
       scoreKey: "camara",
       rows: [
-        { label: "Cámara principal", a: dA.camara, b: dB.camara },
-        { label: "Apertura (cámara principal)", a: apertureOf(devA), b: apertureOf(devB) },
-        { label: "Cámara frontal", a: frontalOf(devA), b: frontalOf(devB) },
-        { label: "Grabación de video", a: videoOf(devA), b: videoOf(devB) },
-        { label: "Estabilizador óptico (OIS)", a: oisOf(devA), b: oisOf(devB) },
+        { key: "camaraPrincipal", label: t("specs.row.mainCamera"), a: dA.camara, b: dB.camara },
+        { key: "apertura", label: t("specs.row.aperture"), a: apertureOf(devA), b: apertureOf(devB) },
+        { key: "frontal", label: t("specs.row.frontCamera"), a: frontalOf(devA), b: frontalOf(devB) },
+        { key: "video", label: t("specs.row.video"), a: videoOf(devA), b: videoOf(devB) },
+        { key: "ois", label: t("specs.row.ois"), a: oisOf(devA), b: oisOf(devB) },
       ],
     },
     {
-      title: "Conectividad y diseño",
+      title: t("specs.sector.connectivity"),
       rows: [
-        { label: "Red móvil", a: getRed(devA), b: getRed(devB) },
-        { label: "Protección contra golpes y agua", a: getResistencia(devA), b: getResistencia(devB) },
-        { label: "Tamaño", a: xA.tamano, b: xB.tamano },
-        { label: "Audio", a: getAudio(devA), b: getAudio(devB) },
+        { key: "red", label: t("specs.row.network"), a: getRed(devA), b: getRed(devB) },
+        { key: "resistencia", label: t("specs.row.protection"), a: getResistencia(devA), b: getResistencia(devB) },
+        { key: "tamano", label: t("specs.row.size"), a: xA.tamano, b: xB.tamano },
+        { key: "audio", label: t("specs.row.audio"), a: getAudio(devA), b: getAudio(devB) },
       ],
     },
     {
-      title: "Portabilidad",
+      title: t("specs.sector.portability"),
       scoreKey: "portabilidad",
-      rows: [{ label: "Peso / Diseño", a: dA.portabilidad, b: dB.portabilidad }],
+      rows: [{ key: "peso", label: t("specs.row.weight"), a: dA.portabilidad, b: dB.portabilidad }],
     },
     {
-      title: "Memoria y almacenamiento",
+      title: t("specs.sector.memory"),
       scoreKey: "memoria",
       rows: [
-        { label: "Versiones (RAM + almacenamiento)", a: dA.memoria, b: dB.memoria },
-        { label: "Barra comparativa de almacenamiento", a: dA.memoria, b: dB.memoria, gb: true },
+        { key: "versiones", label: t("specs.row.versions"), a: dA.memoria, b: dB.memoria },
+        { key: "almacenamientoBarra", label: t("specs.row.storageBar"), a: dA.memoria, b: dB.memoria, gb: true },
       ],
     },
     {
-      title: "General",
+      title: t("specs.sector.general"),
       scoreKey: "precioCalidad",
       rows: [
-        { label: "Año", a: String(devA.year), b: String(devB.year) },
-        { label: "Precio", a: (priceA && priceA.text) || devA.price, b: (priceB && priceB.text) || devB.price },
+        { key: "anio", label: t("specs.row.year"), a: String(devA.year), b: String(devB.year) },
+        { key: "precio", label: t("specs.row.price"), a: (priceA && priceA.text) || devA.price, b: (priceB && priceB.text) || devB.price },
       ],
     },
   ];
@@ -480,7 +462,7 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
     <div className="rounded-lg mt-6 overflow-hidden" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
       <div className="p-4 pb-3 text-center" style={{ backgroundColor: COLORS.panelDark }}>
         <div className="text-xs uppercase tracking-widest" style={{ color: "#fff", fontFamily: "'Space Grotesk', sans-serif" }}>
-          Ficha técnica por sectores
+          {t("specs.title")}
         </div>
       </div>
 
@@ -495,11 +477,11 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
 
           {sec.rows.map((r) => {
             if (!r.a && !r.b) return null;
-            const sArow = scoreFeature(r.label, r.a, devA);
-            const sBrow = scoreFeature(r.label, r.b, devB);
+            const sArow = scoreFeature(r.key, r.a);
+            const sBrow = scoreFeature(r.key, r.b);
             const showBar = (sArow !== null || sBrow !== null) && !r.gb;
             return (
-              <div key={r.label} className="py-2.5 border-b" style={{ borderColor: COLORS.line }}>
+              <div key={r.key} className="py-2.5 border-b" style={{ borderColor: COLORS.line }}>
                 <div className="text-[10px] uppercase tracking-widest text-center mb-1.5 px-2" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
                   {r.label}
                 </div>
@@ -527,7 +509,7 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
           {sec.scoreKey && (typeof sA[sec.scoreKey] === "number" || typeof sB[sec.scoreKey] === "number") && (
             <div className="py-2.5 border-b" style={{ borderColor: COLORS.line, backgroundColor: "#FAFBFD" }}>
               <div className="text-[10px] uppercase tracking-widest text-center mb-1.5" style={{ color: COLORS.muted, fontFamily: "'Space Grotesk', sans-serif" }}>
-                🏆 Puntuación del sector
+                {t("specs.sectorScore")}
               </div>
               <div className="grid grid-cols-2 gap-3 px-3">
                 <ScoreBar value={sA[sec.scoreKey]} color={COLORS.a} />
@@ -539,7 +521,7 @@ export default function SpecsTable({ devA, devB, priceA, priceB }) {
       ))}
 
       <p className="text-[9px] text-center px-4 py-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-        * Cuando el fabricante no especifica el dato aquí, se muestra el valor típico de su gama. Las barras pequeñas derivan su puntuación del texto de cada característica.
+        {t("specs.footnote")}
       </p>
     </div>
   );
