@@ -9,6 +9,7 @@ import { COLORS } from "../data/theme";
 import { DEVICES } from "../data/devices";
 import { normalize } from "../lib/normalize";
 import DeviceIcon from "./DeviceIcon";
+import { useLanguage } from "../lib/LanguageContext";
 
 const TYPE_GROUPS = {
 Tecnologia: ["Celular", "Desktop", "Laptop", "Tablet", "Smartwatch", "Dron"],
@@ -32,6 +33,7 @@ Soldadora: ["Soldadora"],
 };
 
 export default function TypeaheadInput({ label, accent, value, onSelect, excludeId, forcedCategory }) {
+  const { t } = useLanguage();
   const [query, setQuery] = useState(value ? value.name : "");
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
@@ -99,7 +101,7 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
         >
           {results.length === 0 && (
             <div className="px-3 py-3 text-sm" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              Sin resultados. Prueba otro nombre o quita el filtro de categoría.
+              {t("typeahead.noResults")}
             </div>
           )}
           {results.map((d) => (
@@ -119,7 +121,7 @@ export default function TypeaheadInput({ label, accent, value, onSelect, exclude
                 <span className="truncate">{d.name}</span>
               </span>
               <span className="text-xs uppercase tracking-wide shrink-0" style={{ color: COLORS.muted }}>
-                {d.type}
+                {t(`type.${d.type}`)}
               </span>
             </button>
           ))}
