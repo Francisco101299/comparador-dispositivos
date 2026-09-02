@@ -7,9 +7,12 @@ import { COLORS, FONT_IMPORT } from "../data/theme";
 import { getArticleById } from "../data/articles";
 import SeoHead from "../components/SeoHead";
 import Logo from "../components/Logo";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function ArticlePage() {
   const { id } = useParams();
+  const { t, lang } = useLanguage();
+  const dateLocale = lang === "en" ? "en-US" : "es-MX";
   const article = getArticleById(id);
 
   if (!article) {
@@ -31,11 +34,11 @@ export default function ArticlePage() {
             <Logo size={28} />
           </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
-            <Link to="/" className="underline">Inicio</Link> ·{" "}
+            <Link to="/" className="underline">{t("breadcrumb.home")}</Link> ·{" "}
             <Link to="/blog" className="underline">Blog</Link> · {article.title}
           </nav>
           <div className="text-xs mb-2" style={{ color: "#9BA1AD", fontFamily: "'Inter', sans-serif" }}>
-            {new Date(article.date + "T00:00:00").toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })}
+            {new Date(article.date + "T00:00:00").toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" })}
           </div>
           <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {article.title}
@@ -64,7 +67,7 @@ export default function ArticlePage() {
         )}
         <div className="mt-6 text-center">
           <Link to="/blog" className="text-sm underline" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-            ← Volver al blog
+            {t("article.backToBlog")}
           </Link>
         </div>
       </div>
