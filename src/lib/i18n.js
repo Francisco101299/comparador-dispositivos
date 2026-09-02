@@ -128,6 +128,19 @@ export const TRANSLATIONS = {
     "category.sub.compressor": "Compresores",
     "category.sub.generator": "Generadores",
     "category.sub.pressureWasher": "Hidrolavadoras",
+    "type.Dron": "dron",
+    "type.Taladro": "taladro",
+    "type.Amoladora": "amoladora",
+    "type.Atornillador": "atornillador",
+    "type.Rotomartillo": "percutor",
+    "type.Sierra": "sierra",
+    "type.Lijadora": "lijadora",
+    "type.Esmeril": "esmeril",
+    "type.Compresor": "compresor",
+    "type.Generador": "generador",
+    "type.Hidrolavadora": "hidrolavadora",
+    "type.Soldadora": "soldadora",
+    "typeahead.noResults": "Sin resultados. Prueba otro nombre o quita el filtro de categoría.",
   },
   en: {
     "nav.categories": "Categories",
@@ -241,9 +254,21 @@ export const TRANSLATIONS = {
     "category.sub.compressor": "Compressors",
     "category.sub.generator": "Generators",
     "category.sub.pressureWasher": "Pressure washers",
+    "type.Dron": "drone",
+    "type.Taladro": "drill",
+    "type.Amoladora": "grinder",
+    "type.Atornillador": "screwdriver",
+    "type.Rotomartillo": "hammer drill",
+    "type.Sierra": "saw",
+    "type.Lijadora": "sander",
+    "type.Esmeril": "bench grinder",
+    "type.Compresor": "compressor",
+    "type.Generador": "generator",
+    "type.Hidrolavadora": "pressure washer",
+    "type.Soldadora": "welder",
+    "typeahead.noResults": "No results. Try another name or remove the category filter.",
   },
 };
-
 export function t(lang, key, vars = {}) {
   const dict = TRANSLATIONS[lang] || TRANSLATIONS[DEFAULT_LANGUAGE];
   let text = dict[key] || TRANSLATIONS[DEFAULT_LANGUAGE][key] || key;
