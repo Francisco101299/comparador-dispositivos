@@ -43,6 +43,10 @@ export const TRANSLATIONS = {
     "category.sortPriceHigh": "Precio: mayor a menor",
     "category.sortYear": "Año: más reciente",
     "breadcrumb.home": "Inicio",
+    "device.subtitle": "Ficha técnica completa, puntuación por categoría y precio de referencia {price}.",
+    "device.specsTitle": "Especificaciones por categoría",
+    "device.overallScore": "Puntuación general",
+    "device.compareTitle": "Compara {name} con otro {type}",
   },
   en: {
     "nav.categories": "Categories",
@@ -71,6 +75,10 @@ export const TRANSLATIONS = {
     "category.sortPriceHigh": "Price: high to low",
     "category.sortYear": "Year: newest",
     "breadcrumb.home": "Home",
+    "device.subtitle": "Full specs, category scores and reference price of {price}.",
+    "device.specsTitle": "Specifications by category",
+    "device.overallScore": "Overall score",
+    "device.compareTitle": "Compare {name} with another {type}",
   },
 };
 
