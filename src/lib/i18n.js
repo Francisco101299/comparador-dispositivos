@@ -95,6 +95,10 @@ export const TRANSLATIONS = {
     "specs.row.price": "Precio",
     "specs.sectorScore": "🏆 Puntuación del sector",
     "specs.footnote": "* Cuando el fabricante no especifica el dato aquí, se muestra el valor típico de su gama. Las barras pequeñas derivan su puntuación del texto de cada característica.",
+    "share.label": "Compartir:",
+    "share.copyLink": "Copiar link",
+    "share.copied": "¡Copiado!",
+    "share.message": "¿{a} o {b}? Mira quién gana en esta comparación:",
   },
   en: {
     "nav.categories": "Categories",
@@ -175,6 +179,10 @@ export const TRANSLATIONS = {
     "specs.row.price": "Price",
     "specs.sectorScore": "🏆 Sector score",
     "specs.footnote": "* When the manufacturer doesn't specify this data, the typical value for its tier is shown. The small bars derive their score from each feature's text.",
+    "share.label": "Share:",
+    "share.copyLink": "Copy link",
+    "share.copied": "Copied!",
+    "share.message": "{a} or {b}? See who wins this comparison:",
   },
 };
 
