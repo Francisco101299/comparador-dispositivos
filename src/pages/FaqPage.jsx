@@ -11,6 +11,7 @@ import { COLORS, FONT_IMPORT } from "../data/theme";
 import { FAQS } from "../data/faqs";
 import SeoHead from "../components/SeoHead";
 import Logo from "../components/Logo";
+import { useLanguage } from "../lib/LanguageContext";
 
 function faqJsonLd() {
   return {
@@ -28,13 +29,14 @@ function faqJsonLd() {
 }
 
 export default function FaqPage() {
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead
-        title="Preguntas frecuentes"
-        description="Respuestas a las preguntas más comunes sobre cómo funciona el comparador, cómo se calculan las puntuaciones y cómo sugerir un dispositivo."
+        title={t("nav.faq")}
+        description={t("faq.seoDescription")}
         canonical={typeof window !== "undefined" ? window.location.origin + "/preguntas-frecuentes" : "/preguntas-frecuentes"}
         jsonLd={faqJsonLd()}
       />
@@ -46,16 +48,16 @@ export default function FaqPage() {
             <Logo size={28} />
           </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
-            <Link to="/" className="underline">Inicio</Link> · Preguntas frecuentes
+            <Link to="/" className="underline">{t("breadcrumb.home")}</Link> · {t("nav.faq")}
           </nav>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Preguntas frecuentes
+            {t("nav.faq")}
           </h1>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-5 sm:px-10 py-10">
-        <h2 className="sr-only">Lista de preguntas frecuentes</h2>
+        <h2 className="sr-only">{t("faq.listSrOnly")}</h2>
         <div className="flex flex-col gap-3">
           {FAQS.map((faq, i) => {
             const open = openIndex === i;
@@ -88,4 +90,5 @@ export default function FaqPage() {
       </div>
     </div>
   );
-                                              }
+                }
+                      
