@@ -146,6 +146,8 @@ export const TRANSLATIONS = {
     "blog.subtitle": "Guías y comparativas para elegir mejor.",
     "blog.articlesListSrOnly": "Listado de artículos",
     "article.backToBlog": "← Volver al blog",
+    "faq.seoDescription": "Respuestas a las preguntas más comunes sobre cómo funciona el comparador, cómo se calculan las puntuaciones y cómo sugerir un dispositivo.",
+    "faq.listSrOnly": "Lista de preguntas frecuentes",
   },
   en: {
     "nav.categories": "Categories",
@@ -277,6 +279,8 @@ export const TRANSLATIONS = {
     "blog.subtitle": "Guides and comparisons to choose better.",
     "blog.articlesListSrOnly": "Article list",
     "article.backToBlog": "← Back to blog",
+    "faq.seoDescription": "Answers to the most common questions about how the comparator works, how scores are calculated and how to suggest a device.",
+    "faq.listSrOnly": "List of frequently asked questions",
   },
 };
 export function t(lang, key, vars = {}) {
