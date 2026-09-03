@@ -8,13 +8,16 @@ import { COLORS, FONT_IMPORT } from "../data/theme";
 import { DEVICES, CATS } from "../data/devices";
 import SeoHead from "../components/SeoHead";
 import Logo from "../components/Logo";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function AboutPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead
-        title="Acerca de Duelo de Especificaciones"
-        description="Qué es Duelo de Especificaciones, cómo se calculan las puntuaciones y de dónde salen los datos del catálogo de celulares, computadoras y tablets."
+        title={t("about.seoTitle")}
+        description={t("about.seoDescription")}
         canonical={typeof window !== "undefined" ? window.location.origin + "/acerca-de" : "/acerca-de"}
       />
       
@@ -25,10 +28,10 @@ export default function AboutPage() {
             <Logo size={28} />
           </div>
           <nav className="text-[11px] mb-3" style={{ color: "#9BA1AD" }} aria-label="Ruta de navegación">
-            <Link to="/" className="underline">Inicio</Link> · Acerca de
+            <Link to="/" className="underline">{t("breadcrumb.home")}</Link> · {t("nav.about")}
           </nav>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Acerca de este sitio
+            {t("about.heading")}
           </h1>
         </div>
       </div>
@@ -37,24 +40,19 @@ export default function AboutPage() {
         <div className="rounded-lg shadow-lg p-5 sm:p-7 flex flex-col gap-6" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
           <section>
             <h2 className="text-base font-semibold mb-2" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
-              ¿Qué es Duelo de Especificaciones?
+              {t("about.whatIsTitle")}
             </h2>
             <p className="text-sm leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              Es un comparador que permite poner dos celulares, computadoras o tablets frente a frente
-              y ver de forma clara en qué destaca cada uno: rendimiento, pantalla, batería, cámara,
-              portabilidad y relación precio-calidad. Actualmente el catálogo incluye {DEVICES.length}{" "}
-              dispositivos, y sigue creciendo.
+              {t("about.whatIsBody", { count: DEVICES.length })}
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold mb-2" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
-              ¿Cómo se calculan las puntuaciones?
+              {t("about.scoresTitle")}
             </h2>
             <p className="text-sm leading-relaxed mb-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              Cada dispositivo recibe una puntuación de 0 a 100 en seis categorías, basada en sus
-              especificaciones técnicas publicadas por el fabricante y comparadas contra el resto del
-              catálogo:
+              {t("about.scoresIntro")}
             </p>
             <ul className="text-sm leading-relaxed list-disc pl-5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
               {CATS.map((c) => (
@@ -62,26 +60,24 @@ export default function AboutPage() {
               ))}
             </ul>
             <p className="text-sm leading-relaxed mt-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              La puntuación general es el promedio de esas seis. Son estimaciones comparativas
-              pensadas para orientar una decisión de compra, no mediciones de laboratorio ni
-              benchmarks oficiales.
+              {t("about.scoresOutro")}
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold mb-2" style={{ color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}>
-              ¿Falta un dispositivo o hay un dato incorrecto?
+              {t("about.missingTitle")}
             </h2>
             <p className="text-sm leading-relaxed" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
-              Puedes decirnos qué falta desde la sección{" "}
+              {t("about.missingBodyPrefix")}{" "}
               <Link to="/sugerir" className="underline" style={{ color: COLORS.ink }}>
-                ¿Falta tu dispositivo?
-              </Link>{" "}
-              — leemos cada sugerencia y actualizamos el catálogo con regularidad.
+                {t("nav.suggest")}
+              </Link>
+              {t("about.missingBodySuffix")}
             </p>
           </section>
         </div>
       </div>
     </div>
   );
-        }
+    }
