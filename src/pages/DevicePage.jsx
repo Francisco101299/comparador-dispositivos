@@ -1,14 +1,15 @@
 // ============================================================================
 // src/pages/DevicePage.jsx
 // Ficha técnica individual de un dispositivo. Textos de interfaz traducidos
-// según idioma; el contenido del dispositivo (nombre, specs) sigue en
-// español por ahora.
+// según idioma; el contenido del dispositivo (details/specs) también se
+// traduce cuando el idioma es inglés, vía deviceTranslator.js.
 // ============================================================================
 import { Link, useParams, Navigate } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import { CATS, overallOf, getDeviceBySlug, getDevicesByType } from "../data/devices";
 import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } from "../lib/seo";
 import { useLanguage } from "../lib/LanguageContext";
+import { translateDevice } from "../lib/deviceTranslator";
 import SeoHead from "../components/SeoHead";
 import ScoreDial from "../components/ScoreDial";
 import DeviceIcon from "../components/DeviceIcon";
@@ -25,11 +26,17 @@ function parsePriceNumber(priceStr) {
 export default function DevicePage() {
   const { slugType, slug } = useParams();
   const device = getDeviceBySlug(slugType, slug);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   if (!device) {
     return <Navigate to="/404" replace />;
   }
+
+  // displayDevice tiene el mismo id/name/scores/slug que device, pero con
+  // details y specs traducidos al inglés cuando lang === "en". device
+  // (el original en español) sigue usándose para meta/JSON-LD y lógica
+  // de comparación, ya que esos no dependen del idioma.
+  const displayDevice = translateDevice(device, lang);
 
   const meta = deviceMeta(device);
   const overall = overallOf(device);
@@ -105,7 +112,7 @@ export default function DevicePage() {
             <div key={c.key} className="p-4 flex items-center justify-between gap-4">
               <div>
                 <div className="text-sm font-medium" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>{c.label}</div>
-                <div className="text-xs mt-0.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>{device.details[c.key]}</div>
+                <div className="text-xs mt-0.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>{displayDevice.details[c.key]}</div>
               </div>
               <div className="text-xl font-bold tabular-nums shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace", color: COLORS.a }}>
                 {device.scores[c.key]}
@@ -133,4 +140,4 @@ export default function DevicePage() {
       </div>
     </div>
   );
-                }
+}
