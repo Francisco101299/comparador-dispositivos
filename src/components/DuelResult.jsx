@@ -2,8 +2,10 @@
 // src/components/DuelResult.jsx
 // Resultado del duelo: tarjetas con fotos, pesos, radar, ficha técnica por
 // sectores, votación, veredicto y compartir. Textos de interfaz traducidos
-// según idioma (el veredicto automático y los nombres de categoría de CATS
-// siguen en español por ahora).
+// según idioma. El contenido de los dispositivos (details/specs) también se
+// traduce vía deviceTranslator.js cuando el idioma es inglés. El veredicto
+// automático (verdictText) y los nombres de categoría de CATS siguen en
+// español por ahora -- son los próximos pasos pendientes.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -13,6 +15,7 @@ import { CATS, overallOf } from "../data/devices";
 import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import { useLanguage } from "../lib/LanguageContext";
+import { translateDevice } from "../lib/deviceTranslator";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
 import DeviceIcon from "./DeviceIcon";
@@ -39,10 +42,16 @@ function PriceBlock({ price, color }) {
   );
 }
 
-export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
+export default function DuelResult({ devA: rawDevA, devB: rawDevB, onReset, resetTo = "/" }) {
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
   const [countryCode, setCountryCode] = useState("US");
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+
+  // devA/devB traducidos (details/specs) para mostrar en pantalla; los
+  // campos numéricos y de identidad (scores, slug, name, type, year) son
+  // idénticos al original, así que toda la lógica de abajo funciona igual.
+  const devA = translateDevice(rawDevA, lang);
+  const devB = translateDevice(rawDevB, lang);
 
   const pairKey = `duelo:${devA.slug}-vs-${devB.slug}`;
   const [myVote, setMyVote] = useState(null);
@@ -151,7 +160,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           <div className="flex justify-center mb-2">
             <DeviceIcon device={devA} size={64} color={COLORS.a} bg={COLORS.aSoft} />
           </div>
-          <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}>{devA.type}</div>
+          <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.a, fontFamily: "'Space Grotesk', sans-serif" }}>{t(`type.${devA.type}`)}</div>
           <Link to={`/${devA.slugType}/${devA.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devA.name}
           </Link>
@@ -178,7 +187,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
           <div className="flex justify-center mb-2">
             <DeviceIcon device={devB} size={64} color={COLORS.b} bg={COLORS.bSoft} />
           </div>
-          <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}>{devB.type}</div>
+          <div className="text-xs uppercase tracking-widest mb-1" style={{ color: COLORS.b, fontFamily: "'Space Grotesk', sans-serif" }}>{t(`type.${devB.type}`)}</div>
           <Link to={`/${devB.slugType}/${devB.slug}`} className="font-semibold text-sm sm:text-base block hover:underline" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>
             {devB.name}
           </Link>
@@ -283,7 +292,7 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
 
       <div className="mt-6 rounded-lg p-5 text-sm sm:text-base leading-relaxed" style={{ backgroundColor: COLORS.panelDark, color: "#E7E9EE", fontFamily: "'Inter', sans-serif" }}>
         <div className="text-[11px] uppercase tracking-widest mb-2" style={{ color: COLORS.gold, fontFamily: "'Space Grotesk', sans-serif" }}>{t("duel.verdict")}</div>
-        {verdictText(devA, devB)}
+        {verdictText(rawDevA, rawDevB)}
       </div>
 
       <div className="mt-4">
@@ -307,4 +316,5 @@ export default function DuelResult({ devA, devB, onReset, resetTo = "/" }) {
       )}
     </div>
   );
-    }
+  }
+  
