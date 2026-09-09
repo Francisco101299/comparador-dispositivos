@@ -3,9 +3,12 @@
 // Resultado del duelo: tarjetas con fotos, pesos, radar, ficha técnica por
 // sectores, votación, veredicto y compartir. Textos de interfaz traducidos
 // según idioma. El contenido de los dispositivos (details/specs) también se
-// traduce vía deviceTranslator.js cuando el idioma es inglés. El veredicto
-// automático (verdictText) y los nombres de categoría de CATS siguen en
-// español por ahora -- son los próximos pasos pendientes.
+// traduce vía deviceTranslator.js, pero ahora SOLO se descarga ese archivo
+// (20KB de diccionarios) cuando el idioma activo es inglés -- en español
+// (el caso de la mayoría de las visitas) no se carga en absoluto, lo que
+// reduce el JavaScript inicial que descarga cada visitante.
+// El veredicto automático (verdictText) y los nombres de categoría de CATS
+// siguen en español por ahora -- son los próximos pasos pendientes.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -15,7 +18,6 @@ import { CATS, overallOf } from "../data/devices";
 import { verdictText } from "../lib/verdict";
 import { COUNTRIES, resolvePrice } from "../lib/pricing";
 import { useLanguage } from "../lib/LanguageContext";
-import { translateDevice } from "../lib/deviceTranslator";
 import ScoreDial from "./ScoreDial";
 import SpecsTable from "./SpecsTable";
 import DeviceIcon from "./DeviceIcon";
@@ -47,11 +49,30 @@ export default function DuelResult({ devA: rawDevA, devB: rawDevB, onReset, rese
   const [countryCode, setCountryCode] = useState("US");
   const { t, lang } = useLanguage();
 
-  // devA/devB traducidos (details/specs) para mostrar en pantalla; los
-  // campos numéricos y de identidad (scores, slug, name, type, year) son
-  // idénticos al original, así que toda la lógica de abajo funciona igual.
-  const devA = translateDevice(rawDevA, lang);
-  const devB = translateDevice(rawDevB, lang);
+  // devA/devB traducidos (details/specs) para mostrar en pantalla. Arrancan
+  // como el original en español (scores/slug/name/type/year son idénticos
+  // en ambos idiomas, así que no hay ningún "parpadeo" visible) y, solo si
+  // el idioma activo es inglés, se cargan de forma diferida los diccionarios
+  // de traducción y se actualiza details/specs.
+  const [devA, setDevA] = useState(rawDevA);
+  const [devB, setDevB] = useState(rawDevB);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (lang === "en") {
+      import("../lib/deviceTranslator").then(({ translateDevice }) => {
+        if (cancelled) return;
+        setDevA(translateDevice(rawDevA, lang));
+        setDevB(translateDevice(rawDevB, lang));
+      });
+    } else {
+      setDevA(rawDevA);
+      setDevB(rawDevB);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [rawDevA, rawDevB, lang]);
 
   const pairKey = `duelo:${devA.slug}-vs-${devB.slug}`;
   const [myVote, setMyVote] = useState(null);
@@ -316,5 +337,4 @@ export default function DuelResult({ devA: rawDevA, devB: rawDevB, onReset, rese
       )}
     </div>
   );
-  }
-  
+                          }
