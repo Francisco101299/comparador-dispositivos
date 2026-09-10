@@ -38,7 +38,7 @@ export default function WeightPicker({ weights, onChange, onReset }) {
         {CATS.map((c) => (
           <div key={c.key}>
             <div className="flex items-center justify-between text-xs mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-              <span style={{ color: COLORS.ink }}>{c.label}</span>
+              <span style={{ color: COLORS.ink }}>{t(`cat.${c.key}`)}</span>
               <span style={{ color: COLORS.muted }}>
                 {weights[c.key] === 1 && t("weight.level1")}
                 {weights[c.key] === 2 && t("weight.level2")}
@@ -56,11 +56,11 @@ export default function WeightPicker({ weights, onChange, onReset }) {
               onChange={(e) => onChange({ ...weights, [c.key]: Number(e.target.value) })}
               className="w-full"
               style={{ accentColor: COLORS.a }}
-              aria-label={t("weight.ariaImportance", { label: c.label })}
+              aria-label={t("weight.ariaImportance", { label: t(`cat.${c.key}`) })}
             />
           </div>
         ))}
       </div>
     </div>
   );
-                }
+}
