@@ -1,4 +1,5 @@
 import { CATS } from "../data/devices";
+import { useLanguage } from "../lib/LanguageContext";
 
 const SIZE = 280;
 const CENTER = SIZE / 2;
@@ -30,12 +31,13 @@ function polygonPoints(scores, cats) {
 }
 
 export default function RadarChart({ devA, devB, colorA, colorB }) {
+  const { t } = useLanguage();
   const rings = [0.25, 0.5, 0.75, 1];
   const totalCats = CATS.length;
 
   return (
     <div className="flex justify-center">
-      <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`Gráfica comparando ${devA.name} y ${devB.name}`}>
+      <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`${devA.name} vs ${devB.name}`}>
         {rings.map((ring) => (
           <polygon
             key={ring}
@@ -70,11 +72,11 @@ export default function RadarChart({ devA, devB, colorA, colorB }) {
               fontFamily="'Inter', sans-serif"
               fill="#5B6270"
             >
-              {c.label}
+              {t(`cat.${c.key}`)}
             </text>
           );
         })}
       </svg>
     </div>
   );
-    }
+}
