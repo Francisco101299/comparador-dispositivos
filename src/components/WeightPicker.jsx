@@ -4,18 +4,24 @@
 // cada categoría para él. El resultado de la comparación se recalcula según
 // estos pesos (1 = poco importante, 5 = muy importante).
 // ============================================================================
-import { CATS } from "../data/devices";
 import { COLORS } from "../data/theme";
 import { useLanguage } from "../lib/LanguageContext";
 
-export const DEFAULT_WEIGHTS = CATS.reduce((acc, c) => {
-  acc[c.key] = 3;
-  return acc;
-}, {});
+// Antes esto se calculaba UNA sola vez al cargar el módulo, a partir de las
+// categorías de celular/computadora (CATS) fijas. Eso rompía los pesos en
+// duelos de herramientas (potencia, durabilidad...) porque esas claves no
+// existían en el objeto de pesos. Ahora cada comparación calcula sus propios
+// pesos por defecto según sus propias categorías (ver catsForPair).
+export function defaultWeightsFor(cats) {
+  return cats.reduce((acc, c) => {
+    acc[c.key] = 3;
+    return acc;
+  }, {});
+}
 
-export default function WeightPicker({ weights, onChange, onReset }) {
+export default function WeightPicker({ cats, weights, onChange, onReset }) {
   const { t } = useLanguage();
-  const isCustom = CATS.some((c) => weights[c.key] !== 3);
+  const isCustom = cats.some((c) => weights[c.key] !== 3);
 
   return (
     <div className="rounded-lg p-4 sm:p-5" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
@@ -35,7 +41,7 @@ export default function WeightPicker({ weights, onChange, onReset }) {
         )}
       </div>
       <div className="flex flex-col gap-4">
-        {CATS.map((c) => (
+        {cats.map((c) => (
           <div key={c.key}>
             <div className="flex items-center justify-between text-xs mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
               <span style={{ color: COLORS.ink }}>{t(`cat.${c.key}`)}</span>
@@ -63,4 +69,4 @@ export default function WeightPicker({ weights, onChange, onReset }) {
       </div>
     </div>
   );
-}
+                                                                }
