@@ -6,6 +6,7 @@
 // ============================================================================
 import { COLORS } from "../data/theme";
 import { TOOL_CATS } from "../data/devices";
+import { useLanguage } from "../lib/LanguageContext";
 
 function ScoreBar({ value, color }) {
   return (
@@ -21,6 +22,7 @@ function ScoreBar({ value, color }) {
 }
 
 export default function ToolSpecsTable({ devA, devB, priceA, priceB }) {
+  const { t } = useLanguage();
   const dA = devA.details || {};
   const dB = devB.details || {};
   const sA = devA.scores || {};
@@ -44,7 +46,7 @@ export default function ToolSpecsTable({ devA, devB, priceA, priceB }) {
               className="py-2 px-3 text-center text-xs sm:text-sm font-bold uppercase tracking-widest border-y"
               style={{ backgroundColor: "#F4F6F9", borderColor: COLORS.line, color: COLORS.ink, fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              {c.label}
+              {t(`cat.${c.key}`)}
             </div>
             <div className="py-2.5 border-b" style={{ borderColor: COLORS.line }}>
               <div className="grid grid-cols-2 gap-3 px-3 text-xs sm:text-sm">
@@ -95,4 +97,4 @@ export default function ToolSpecsTable({ devA, devB, priceA, priceB }) {
       </p>
     </div>
   );
-  }
+            }
