@@ -1,7 +1,11 @@
 // ============================================================================
 // src/pages/ArticlePage.jsx
-// Página de un artículo individual en /blog/:id.
+// Página de un artículo individual en /blog/:id. Se traduce al inglés vía
+// articleTranslator.js (import() dinámico, solo se descarga si lang ===
+// "en") cuando el idioma activo es inglés, igual que devices con
+// deviceTranslator.js.
 // ============================================================================
+import { useState, useEffect } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import { getArticleById } from "../data/articles";
@@ -13,11 +17,30 @@ export default function ArticlePage() {
   const { id } = useParams();
   const { t, lang } = useLanguage();
   const dateLocale = lang === "en" ? "en-US" : "es-MX";
-  const article = getArticleById(id);
+  const rawArticle = getArticleById(id);
 
-  if (!article) {
+  const [translated, setTranslated] = useState(null);
+  useEffect(() => {
+    if (lang !== "en" || !rawArticle) {
+      setTranslated(null);
+      return;
+    }
+    let cancelled = false;
+    import("../lib/articleTranslator").then(({ translateArticle }) => {
+      if (!cancelled) setTranslated(translateArticle(rawArticle, lang));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang, rawArticle]);
+
+  if (!rawArticle) {
     return <Navigate to="/404" replace />;
   }
+
+  // Mientras carga la traducción se muestra el original en español -- nunca
+  // undefined, nunca roto.
+  const article = translated || rawArticle;
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
@@ -73,4 +96,5 @@ export default function ArticlePage() {
       </div>
     </div>
   );
-}
+            }
+                                                                                   
