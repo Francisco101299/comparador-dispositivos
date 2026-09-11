@@ -1,7 +1,12 @@
 // ============================================================================
 // src/pages/BlogPage.jsx
-// Listado de todos los artículos del blog en /blog.
+// Listado de todos los artículos del blog en /blog. El título/extracto de
+// cada tarjeta se traduce al inglés vía articleTranslator.js (import()
+// dinámico, solo se descarga si lang === "en") cuando el idioma activo es
+// inglés; en español se muestran directo desde articles.js, sin descarga
+// extra.
 // ============================================================================
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import { ARTICLES } from "../data/articles";
@@ -13,6 +18,25 @@ export default function BlogPage() {
   const { t, lang } = useLanguage();
   const dateLocale = lang === "en" ? "en-US" : "es-MX";
   const sorted = [...ARTICLES].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const [translateFn, setTranslateFn] = useState(null);
+  useEffect(() => {
+    if (lang !== "en") {
+      setTranslateFn(null);
+      return;
+    }
+    let cancelled = false;
+    import("../lib/articleTranslator").then(({ translateArticle }) => {
+      if (!cancelled) setTranslateFn(() => translateArticle);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
+
+  // Mientras carga la traducción (o si el idioma es español), se muestra el
+  // artículo tal cual viene de articles.js -- nunca undefined, nunca roto.
+  const display = (a) => (translateFn ? translateFn(a, lang) : a);
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
@@ -43,7 +67,9 @@ export default function BlogPage() {
       <div className="max-w-2xl mx-auto px-5 sm:px-10 py-10">
         <h2 className="sr-only">{t("blog.articlesListSrOnly")}</h2>
         <div className="flex flex-col gap-4">
-          {sorted.map((a) => (
+          {sorted.map((raw) => {
+            const a = display(raw);
+            return (
             <Link
               key={a.id}
               to={`/blog/${a.id}`}
@@ -65,9 +91,10 @@ export default function BlogPage() {
               </p>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
   );
-}
+              }
