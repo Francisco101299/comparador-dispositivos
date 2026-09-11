@@ -56,7 +56,7 @@ export default function AboutPage() {
             </p>
             <ul className="text-sm leading-relaxed list-disc pl-5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
               {CATS.map((c) => (
-                <li key={c.key}>{c.label}</li>
+                <li key={c.key}>{t(`cat.${c.key}`)}</li>
               ))}
             </ul>
             <p className="text-sm leading-relaxed mt-2" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>
@@ -80,4 +80,4 @@ export default function AboutPage() {
       </div>
     </div>
   );
-    }
+}
