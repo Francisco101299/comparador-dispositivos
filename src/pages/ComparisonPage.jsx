@@ -4,7 +4,7 @@
 // ============================================================================
 import { Link, useParams } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
-import { getDeviceBySlugAny } from "../data/devices";
+import { getDeviceBySlugAny, catsForPair } from "../data/devices";
 import { comparisonMeta, comparisonJsonLd, breadcrumbJsonLd } from "../lib/seo";
 import SeoHead from "../components/SeoHead";
 import DuelResult from "../components/DuelResult";
@@ -54,7 +54,7 @@ export default function ComparisonPage() {
             {devA.name} vs {devB.name}
           </h1>
           <p className="mt-2 text-sm sm:text-base" style={{ color: "#9BA1AD", fontFamily: "'Inter', sans-serif" }}>
-            Comparación categoría por categoría: rendimiento, pantalla, batería, cámara, portabilidad y precio-calidad.
+            Comparación categoría por categoría: {catsForPair(devA, devB).map((c) => c.label.toLowerCase()).join(", ")}.
           </p>
         </div>
       </div>
