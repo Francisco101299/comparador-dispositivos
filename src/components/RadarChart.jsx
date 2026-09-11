@@ -1,4 +1,3 @@
-import { CATS } from "../data/devices";
 import { useLanguage } from "../lib/LanguageContext";
 
 const SIZE = 280;
@@ -30,18 +29,22 @@ function polygonPoints(scores, cats) {
   }).join(" ");
 }
 
-export default function RadarChart({ devA, devB, colorA, colorB }) {
+// `cats` llega como prop (catsForPair(devA, devB) calculado en DuelResult) en
+// vez de importar el CATS fijo de celulares/computadoras, para que un duelo
+// de herramientas dibuje sus propios ejes (potencia, durabilidad...) en vez
+// de ejes de celular con valores undefined -> polígono colapsado en el centro.
+export default function RadarChart({ devA, devB, cats, colorA, colorB }) {
   const { t } = useLanguage();
   const rings = [0.25, 0.5, 0.75, 1];
-  const totalCats = CATS.length;
+  const totalCats = cats.length;
 
   return (
     <div className="flex justify-center">
-      <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`${devA.name} vs ${devB.name}`}>
+      <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`Gráfica comparando ${devA.name} y ${devB.name}`}>
         {rings.map((ring) => (
           <polygon
             key={ring}
-            points={CATS.map((_, i) => {
+            points={cats.map((_, i) => {
               const p = pointFor(i, ring * 100, totalCats);
               return `${p.x},${p.y}`;
             }).join(" ")}
@@ -51,15 +54,15 @@ export default function RadarChart({ devA, devB, colorA, colorB }) {
           />
         ))}
 
-        {CATS.map((c, i) => {
+        {cats.map((c, i) => {
           const outer = pointFor(i, 100, totalCats);
           return <line key={c.key} x1={CENTER} y1={CENTER} x2={outer.x} y2={outer.y} stroke="#D6DAE2" strokeWidth={1} />;
         })}
 
-        <polygon points={polygonPoints(devA.scores, CATS)} fill={colorA} fillOpacity={0.22} stroke={colorA} strokeWidth={2} />
-        <polygon points={polygonPoints(devB.scores, CATS)} fill={colorB} fillOpacity={0.22} stroke={colorB} strokeWidth={2} />
+        <polygon points={polygonPoints(devA.scores, cats)} fill={colorA} fillOpacity={0.22} stroke={colorA} strokeWidth={2} />
+        <polygon points={polygonPoints(devB.scores, cats)} fill={colorB} fillOpacity={0.22} stroke={colorB} strokeWidth={2} />
 
-        {CATS.map((c, i) => {
+        {cats.map((c, i) => {
           const p = labelPointFor(i, totalCats);
           return (
             <text
