@@ -6,7 +6,7 @@
 import { useState, useMemo } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
-import { DEVICES, overallOf } from "../data/devices";
+import { DEVICES, overallOf, CATEGORY_CONFIG } from "../data/devices";
 import { categoryMeta, breadcrumbJsonLd } from "../lib/seo";
 import { useLanguage } from "../lib/LanguageContext";
 import SeoHead from "../components/SeoHead";
@@ -14,12 +14,11 @@ import CategoryNav from "../components/CategoryNav";
 import DeviceIcon from "../components/DeviceIcon";
 import Logo from "../components/Logo";
 
-const VALID_TYPES = {
-  celulares: { types: ["Celular"], labelKey: "nav.phones" },
-  computadoras: { types: ["Desktop", "Laptop"], labelKey: "nav.computers" },
-  tablets: { types: ["Tablet"], labelKey: "nav.tablets" },
-  relojes: { types: ["Smartwatch"], labelKey: "nav.watches" },
-};
+// Antes solo tenía celulares/computadoras/tablets/relojes: cualquier otra
+// categoría (las 11 de herramientas + drones) caía al <Navigate to="/404" />
+// de abajo, aunque los dispositivos individuales sí existían. Ahora sale de
+// CATEGORY_CONFIG (fuente única en data/devices.js), así que cubre las 16.
+const VALID_TYPES = CATEGORY_CONFIG;
 
 function parsePriceNumber(priceStr) {
   if (!priceStr || typeof priceStr !== "string") return null;
@@ -45,7 +44,7 @@ export default function CategoryPage() {
 
   const devices = DEVICES.filter((d) => config.types.includes(d.type));
   const label = t(config.labelKey);
-  const meta = categoryMeta(slugType, devices.length);
+  const meta = categoryMeta(slugType, devices.length, label);
   const jsonLd = breadcrumbJsonLd([
     { name: "Inicio", path: "/" },
     { name: label, path: `/${slugType}` },
@@ -137,4 +136,4 @@ export default function CategoryPage() {
       </div>
     </div>
   );
-                             }
+            }
