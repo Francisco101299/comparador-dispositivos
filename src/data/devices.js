@@ -528,19 +528,53 @@ export const TOOL_CATS = [
 export function catsFor(device) {
   return TOOL_TYPES.includes(device.type) ? TOOL_CATS : CATS;
 }
-const TOOL_SLUGS = { Taladro: "taladros", Amoladora: "amoladoras", Atornillador: "atornilladores", Rotomartillo: "rotomartillos", Sierra: "sierras", Lijadora: "lijadoras", Esmeril: "esmeriles", Compresor: "compresores", Generador: "generadores", Hidrolavadora: "hidrolavadoras", Soldadora: "soldadoras" };
-// Segmento de categoría usado en la URL (/celulares/... o /computadoras/...)
+// Categorías compartidas por un PAR de dispositivos: si ambos son del mismo
+// tipo (dos celulares, dos taladros) devuelve el set completo de siempre. Si
+// alguien compara tipos mixtos (ej. un celular contra un taladro), devuelve
+// solo las categorías que ambos tienen en común (batería, portabilidad,
+// precio-calidad) en vez de romper con claves undefined.
+export function catsForPair(devA, devB) {
+  const a = catsFor(devA);
+  const b = catsFor(devB);
+  const bKeys = new Set(b.map((c) => c.key));
+  const shared = a.filter((c) => bKeys.has(c.key));
+  return shared.length ? shared : a;
+}
+
+// ---------------------------------------------------------------------------
+// Fuente única de verdad para categorías de URL (/celulares, /taladros, etc).
+// Antes esto vivía duplicado en 3 lugares (VALID_TYPES en CategoryPage.jsx,
+// CATEGORY_LABEL_KEY en DevicePage.jsx, y TOOL_SLUGS+if/else aquí mismo), lo
+// que hacía que agregar una categoría en un lugar se quedara afuera en otro
+// (por eso /taladros, /drones, etc. daban 404 aunque los dispositivos ya
+// existían). Ahora todos importan CATEGORY_CONFIG desde aquí.
+// ---------------------------------------------------------------------------
+export const CATEGORY_CONFIG = {
+  celulares: { types: ["Celular"], labelKey: "nav.phones" },
+  computadoras: { types: ["Desktop", "Laptop"], labelKey: "nav.computers" },
+  tablets: { types: ["Tablet"], labelKey: "nav.tablets" },
+  relojes: { types: ["Smartwatch"], labelKey: "nav.watches" },
+  drones: { types: ["Dron"], labelKey: "category.sub.drones" },
+  taladros: { types: ["Taladro"], labelKey: "category.sub.drill" },
+  amoladoras: { types: ["Amoladora"], labelKey: "category.sub.grinder" },
+  atornilladores: { types: ["Atornillador"], labelKey: "category.sub.screwdriver" },
+  rotomartillos: { types: ["Rotomartillo"], labelKey: "category.sub.hammerDrill" },
+  sierras: { types: ["Sierra"], labelKey: "category.sub.saw" },
+  lijadoras: { types: ["Lijadora"], labelKey: "category.sub.sander" },
+  esmeriles: { types: ["Esmeril"], labelKey: "category.sub.benchGrinder" },
+  compresores: { types: ["Compresor"], labelKey: "category.sub.compressor" },
+  generadores: { types: ["Generador"], labelKey: "category.sub.generator" },
+  hidrolavadoras: { types: ["Hidrolavadora"], labelKey: "category.sub.pressureWasher" },
+  soldadoras: { types: ["Soldadora"], labelKey: "category.sub.welder" },
+};
+
+const TYPE_TO_SLUG = {};
+for (const [slug, cfg] of Object.entries(CATEGORY_CONFIG)) {
+  for (const type of cfg.types) TYPE_TO_SLUG[type] = slug;
+}
+// Segmento de categoría usado en la URL (/celulares/... , /taladros/..., etc.)
 function categorySlug(type) {
-if (TOOL_SLUGS[type]) return TOOL_SLUGS[type];
-if (type === "Celular") return "celulares";
-  if (type === "Tablet") return "tablets";
-if (type === "Smartwatch") return "relojes";
-  if (type === "Dron") return "drones";
-  if (type === "Taladro") return "taladros";
-if (type === "Amoladora") return "amoladoras";
-if (type === "Atornillador") return "atornilladores";
-if (type === "Rotomartillo") return "rotomartillos";
-return "computadoras";
+  return TYPE_TO_SLUG[type] || "computadoras";
 }
 
 
