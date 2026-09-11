@@ -44,7 +44,7 @@ function typeLabel(type) {
 }
 
 export const SITE_NAME = "Duelo de Características";
-export const SITE_URL = "https://comparador-dispositivos.vercel.app"; // dominio real actual (gratuito, en Vercel)
+export const SITE_URL = "https://duelo-de-caracteristicas.vercel.app"; // dominio real actual (gratuito, en Vercel)
 
 function truncate(str, max) {
   if (str.length <= max) return str;
@@ -224,5 +224,5 @@ export function breadcrumbJsonLd(items) {
       item: absoluteUrl(it.path),
     })),
   };
-         }
-      
+    }
+    
