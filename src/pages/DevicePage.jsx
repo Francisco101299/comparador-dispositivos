@@ -2,22 +2,27 @@
 // src/pages/DevicePage.jsx
 // Ficha técnica individual de un dispositivo. Textos de interfaz traducidos
 // según idioma; el contenido del dispositivo (details/specs) también se
-// traduce cuando el idioma es inglés, vía deviceTranslator.js -- pero ahora
-// ese archivo (20KB de diccionarios) solo se descarga cuando de verdad hace
-// falta (idioma inglés), no para todas las visitas.
+// traduce cuando el idioma es inglés, vía deviceTranslator.js.
 // ============================================================================
-import { useState, useEffect } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
-import { CATS, overallOf, getDeviceBySlug, getDevicesByType } from "../data/devices";
+import { catsFor, overallOf, getDeviceBySlug, getDevicesByType, CATEGORY_CONFIG } from "../data/devices";
 import { deviceMeta, deviceProductJsonLd, breadcrumbJsonLd, comparisonSlug } from "../lib/seo";
 import { useLanguage } from "../lib/LanguageContext";
+import { translateDevice } from "../lib/deviceTranslator";
 import SeoHead from "../components/SeoHead";
 import ScoreDial from "../components/ScoreDial";
 import DeviceIcon from "../components/DeviceIcon";
 import Logo from "../components/Logo";
 
-const CATEGORY_LABEL_KEY = { celulares: "nav.phones", computadoras: "nav.computers", tablets: "nav.tablets", relojes: "nav.watches" };
+// Antes solo reconocía celulares/computadoras/tablets/relojes: para
+// cualquier herramienta o dron, t(CATEGORY_LABEL_KEY[device.slugType]) daba
+// t(undefined) y el breadcrumb quedaba roto. Ahora sale de CATEGORY_CONFIG,
+// la misma fuente que usan CategoryPage y el sitemap, así que cubre las 16
+// categorías por igual.
+const CATEGORY_LABEL_KEY = Object.fromEntries(
+  Object.entries(CATEGORY_CONFIG).map(([slug, cfg]) => [slug, cfg.labelKey])
+);
 
 function parsePriceNumber(priceStr) {
   if (!priceStr || typeof priceStr !== "string") return null;
@@ -30,32 +35,19 @@ export default function DevicePage() {
   const device = getDeviceBySlug(slugType, slug);
   const { t, lang } = useLanguage();
 
-  // displayDevice tiene los mismos datos que device, pero con details/specs
-  // traducidos al inglés cuando lang === "en". Arranca igual al original
-  // (sin costo) y solo se actualiza si de verdad hace falta el inglés.
-  const [displayDevice, setDisplayDevice] = useState(device);
-
-  useEffect(() => {
-    let cancelled = false;
-    if (!device) return;
-    if (lang === "en") {
-      import("../lib/deviceTranslator").then(({ translateDevice }) => {
-        if (!cancelled) setDisplayDevice(translateDevice(device, lang));
-      });
-    } else {
-      setDisplayDevice(device);
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [device, lang]);
-
   if (!device) {
     return <Navigate to="/404" replace />;
   }
 
+  // displayDevice tiene el mismo id/name/scores/slug que device, pero con
+  // details y specs traducidos al inglés cuando lang === "en". device
+  // (el original en español) sigue usándose para meta/JSON-LD y lógica
+  // de comparación, ya que esos no dependen del idioma.
+  const displayDevice = translateDevice(device, lang);
+
   const meta = deviceMeta(device);
   const overall = overallOf(device);
+  const cats = catsFor(device);
   const categoryLabel = t(CATEGORY_LABEL_KEY[device.slugType]);
   const jsonLd = [
     deviceProductJsonLd(device),
@@ -124,7 +116,7 @@ export default function DevicePage() {
           {t("device.specsTitle")}
         </h2>
         <div className="rounded-lg divide-y" style={{ backgroundColor: "#fff", border: `1px solid ${COLORS.line}` }}>
-          {CATS.map((c) => (
+          {cats.map((c) => (
             <div key={c.key} className="p-4 flex items-center justify-between gap-4">
               <div>
                 <div className="text-sm font-medium" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>{t(`cat.${c.key}`)}</div>
@@ -156,4 +148,4 @@ export default function DevicePage() {
       </div>
     </div>
   );
-  }
+            }
