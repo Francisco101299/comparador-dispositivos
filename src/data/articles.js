@@ -121,6 +121,23 @@ links: [
 { label: "Explorar el catálogo de taladros", path: "/taladros" },
 ]
 },
+  {
+    id: "como-elegir-laptop",
+    title: "Cómo elegir una laptop: guía rápida",
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80",
+    excerpt: "Rendimiento, portabilidad y sistema operativo — las tres decisiones que de verdad importan antes de comprar una laptop, sin perderte en specs.",
+    date: "2026-09-11",
+    content: [
+      "Antes de comparar modelos, define para qué la vas a usar la mayor parte del tiempo: si es navegar, oficina y streaming, casi cualquier laptop de gama media te sirve bien. Si es edición de video, diseño o programación pesada, el rendimiento pasa a ser la prioridad número uno. Y si es gaming, necesitas una tarjeta gráfica dedicada, no solo un buen procesador.",
+      "La elección de sistema operativo pesa más de lo que parece. Las MacBook (macOS) suelen ganar en batería y construcción, pero cuestan más y tienen menos variedad de precios. Windows te da opciones en todos los rangos de precio y mejor compatibilidad con juegos, pero la autonomía varía mucho de un modelo a otro — por eso vale la pena revisar la categoría de batería en el comparador antes de decidir, no solo el precio de lista.",
+      "Si priorizas portabilidad (la vas a cargar todos los días), busca modelos livianos de 13-14 pulgadas como una ultraportable; si la vas a usar principalmente en un escritorio, una de 15-16 pulgadas te da más pantalla y mejor refrigeración para cargas de trabajo pesadas, a cambio de más peso.",
+      "En memoria y almacenamiento, 8GB de RAM ya se siente justo en 2026 — 16GB es el punto de partida razonable para la mayoría de usos, y sube a 32GB solo si haces edición de video o corres máquinas virtuales. Usa el comparador para poner dos modelos frente a frente en rendimiento, portabilidad y precio-calidad antes de comprar."
+    ],
+    links: [
+      { label: "Comparar: MacBook Air M3 vs Dell XPS 13", path: "/comparar/macbook-air-m3-vs-dell-xps-13" },
+      { label: "Explorar el catálogo de computadoras", path: "/computadoras" },
+    ]
+  },
 ];
 
 export function getArticleById(id) {
