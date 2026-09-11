@@ -16,7 +16,7 @@ export default function ContactPage() {
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
       <SeoHead
         title="Contacto"
-        description="Ponte en contacto con Duelo de Especificaciones para dudas, sugerencias o comentarios."
+        description="Ponte en contacto con Duelo de Características para dudas, sugerencias o comentarios."
         canonical={typeof window !== "undefined" ? window.location.origin + "/contacto" : "/contacto"}
       />
       
@@ -60,4 +60,4 @@ export default function ContactPage() {
       </div>
     </div>
   );
-                                                    }
+      }
