@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://comparador-dispositivos.vercel.app/sitemap.xml
+Sitemap: https://duelo-de-caracteristicas.vercel.app/sitemap.xml
