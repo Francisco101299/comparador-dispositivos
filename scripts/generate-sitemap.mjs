@@ -13,13 +13,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const today = new Date().toISOString().slice(0, 10);
 
-// Intenta cargar los posts del blog. Si no existe el archivo, continúa sin fallar.
-let POSTS = [];
+// Carga los artículos reales del blog (src/data/articles.js, export ARTICLES).
+// Antes esto intentaba importar "../src/data/blog.js" con un export "POSTS"
+// -- un archivo que nunca existió -- así que el try/catch fallaba siempre en
+// silencio y ningún artículo del blog llegaba al sitemap, sin importar
+// cuántos hubiera en articles.js.
+let ARTICLES = [];
 try {
-  const blogMod = await import("../src/data/blog.js");
-  POSTS = blogMod.POSTS || blogMod.default || [];
+  const articlesMod = await import("../src/data/articles.js");
+  ARTICLES = articlesMod.ARTICLES || articlesMod.default || [];
 } catch (e) {
-  // No hay archivo de blog todavía o dio error, seguimos sin él.
+  // No hay archivo de artículos todavía o dio error, seguimos sin él.
 }
 
 // Páginas de categoría (/celulares, /taladros, /drones, ...) generadas a
@@ -49,8 +53,8 @@ const deviceUrls = DEVICES.map((d) => ({
   changefreq: "monthly",
 }));
 
-const blogUrls = POSTS.map((p) => ({
-  loc: `/blog/${p.slug}`,
+const blogUrls = ARTICLES.map((p) => ({
+  loc: `/blog/${p.id}`,
   priority: "0.8",
   changefreq: "weekly",
 }));
