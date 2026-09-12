@@ -27,8 +27,8 @@ function PageFallback() {
 
 export default function App() {
   return (
-    <LanguageProvider>
     <BrowserRouter>
+    <LanguageProvider>
       <ScrollToTop />
 <PageViewTracker />
       <Suspense fallback={<PageFallback />}>
@@ -49,7 +49,7 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
     </LanguageProvider>
+    </BrowserRouter>
   );
-  }
+}
