@@ -122,8 +122,8 @@ export default function DevicePage() {
                 <div className="text-sm font-medium" style={{ color: COLORS.ink, fontFamily: "'Inter', sans-serif" }}>{t(`cat.${c.key}`)}</div>
                 <div className="text-xs mt-0.5" style={{ color: COLORS.muted, fontFamily: "'Inter', sans-serif" }}>{displayDevice.details[c.key]}</div>
               </div>
-              <div className="text-xl font-bold tabular-nums shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace", color: COLORS.a }}>
-                {device.scores[c.key]}
+              <div className="text-xl font-bold tabular-nums shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace", color: typeof device.scores[c.key] === "number" ? COLORS.a : COLORS.muted }}>
+                {typeof device.scores[c.key] === "number" ? device.scores[c.key] : t("device.notApplicable")}
               </div>
             </div>
           ))}
@@ -148,4 +148,4 @@ export default function DevicePage() {
       </div>
     </div>
   );
-            }
+}
