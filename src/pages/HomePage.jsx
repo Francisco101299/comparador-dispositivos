@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { COLORS, FONT_IMPORT } from "../data/theme";
 import { DEVICES } from "../data/devices";
-import { comparisonSlug, homeMeta } from "../lib/seo";
+import { comparisonSlug, homeMeta, websiteJsonLd, organizationJsonLd } from "../lib/seo";
 import { useLanguage } from "../lib/LanguageContext";
 import SeoHead from "../components/SeoHead";
 import TypeaheadInput from "../components/TypeaheadInput";
@@ -38,7 +38,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: COLORS.bg }}>
-      <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} />
+      <SeoHead title={meta.title} description={meta.description} canonical={meta.canonical} jsonLd={[websiteJsonLd(), organizationJsonLd()]} />
       <UpdateBanner />
       <style>{FONT_IMPORT}</style>
 
