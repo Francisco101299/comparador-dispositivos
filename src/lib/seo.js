@@ -124,7 +124,22 @@ export function deviceMeta(device) {
 // Página de comparación entre dos dispositivos (/comparar/:slugA-vs-:slugB)
 // ---------------------------------------------------------------------------
 export function comparisonSlug(devA, devB) {
-  return `${devA.slug}-vs-${devB.slug}`;
+  // Antes: `${devA.slug}-vs-${devB.slug}` sin normalizar -- el orden dependía
+  // de en qué casillero (A o B) el usuario elegía cada dispositivo, así que
+  // la MISMA comparación podía generar dos URLs distintas (x-vs-y y y-vs-x),
+  // ambas funcionando de verdad y enlazadas internamente (HomePage.jsx al
+  // elegir, y DevicePage.jsx en "comparar con" -- la página de X enlaza a
+  // x-vs-y, la de Y enlaza a y-vs-x). Contenido duplicado real para Google.
+  //
+  // Ahora el orden siempre es alfabético por slug, sin importar en qué orden
+  // se eligieron los dispositivos: la misma comparación siempre da la misma
+  // URL. Esto también corrige sola la canonical de comparisonMeta() de abajo
+  // -- si alguien visita el orden "viejo" (y-vs-x), la canonical calculada
+  // sigue apuntando a la versión normalizada (x-vs-y), consolidando la señal
+  // aunque ambas URLs sigan siendo accesibles (no se rompe ningún link ya
+  // compartido, solo se declara cuál es la versión canónica).
+  const [first, second] = [devA.slug, devB.slug].sort();
+  return `${first}-vs-${second}`;
 }
 
 export function comparisonMeta(devA, devB) {
@@ -158,8 +173,6 @@ export function comparisonMeta(devA, devB) {
 // JSON-LD Schema.org
 // ---------------------------------------------------------------------------
 export function deviceProductJsonLd(device) {
-  const overall = overallOf(device);
-  const priceNumber = Number(String(device.price).replace(/[^0-9.]/g, "")) || undefined;
   // Igual que en deviceMeta: category y description usaban campos fijos de
   // celular/computadora (rendimiento/pantalla/bateria/camara). Para una
   // herramienta o dron esos campos no existen y el JSON-LD de Producto salía
@@ -171,6 +184,18 @@ export function deviceProductJsonLd(device) {
     .map((c) => device.details[c.key])
     .filter(Boolean)
     .join(", ");
+  // NO se declara "offers": el sitio no vende nada, no tiene inventario real
+  // y device.price es un precio DE REFERENCIA (estimado al armar el
+  // catálogo), no un precio verificado en tiempo real. Declarar
+  // "availability: InStock" para los 494 dispositivos sería una afirmación
+  // de comercio falsa.
+  //
+  // NO se declara "aggregateRating": no existen reseñas de usuarios en el
+  // sitio -- ni una sola. Empaquetar el puntaje interno del comparador como
+  // si fuera un promedio de reseñas reales (con un ratingCount inventado)
+  // es exactamente el patrón de "reviews falsas" que las políticas de
+  // Google contra datos estructurados prohíben, con riesgo real de acción
+  // manual contra el sitio completo si se detecta.
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -182,22 +207,6 @@ export function deviceProductJsonLd(device) {
     category: typeLabel(device.type),
     releaseDate: `${device.year}`,
     description: `${jsonLdDescription}.`,
-    offers: priceNumber
-      ? {
-          "@type": "Offer",
-          priceCurrency: "USD",
-          price: priceNumber,
-          availability: "https://schema.org/InStock",
-          url: absoluteUrl(`/${device.slugType}/${device.slug}`),
-        }
-      : undefined,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: overall,
-      bestRating: 100,
-      worstRating: 0,
-      ratingCount: 1,
-    },
   };
 }
 
@@ -249,4 +258,5 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: absoluteUrl("/banner-hero.png"),
   };
-}
+    }
+      
