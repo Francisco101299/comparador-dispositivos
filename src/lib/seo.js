@@ -224,5 +224,29 @@ export function breadcrumbJsonLd(items) {
       item: absoluteUrl(it.path),
     })),
   };
-    }
-    
+}
+
+// Antes no existían -- ni siquiera definidos, no solo sin usar. Se agregan
+// una sola vez en la home (ver HomePage.jsx) porque describen el SITIO en
+// general, no una página puntual: le dan a Google datos básicos del sitio y
+// de la organización detrás. (No se declara SearchAction porque el sitio no
+// tiene una búsqueda real vía parámetro de URL -- declarar eso sería un dato
+// estructurado falso.)
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+  };
+}
+
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: absoluteUrl("/banner-hero.png"),
+  };
+}
