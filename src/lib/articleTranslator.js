@@ -123,6 +123,23 @@ const ARTICLE_TRANSLATIONS = {
       { label: "Browse the computer catalog" },
     ],
   },
+  "que-dron-comprar-2026": {
+    title: "Which drone to buy in 2026: quick guide",
+    excerpt: "From $99 to $2,199 — we compare 2026's best-selling drones by use case: learning, travel, FPV, or professional photography.",
+    content: [
+      "Before looking at models, the first thing to check is weight: drones under 250g (the entire DJI Mini line, for example) are usually exempt from mandatory registration in most countries, while bigger, heavier drones almost always require it. If it's your first drone, that difference saves you paperwork.",
+      "To learn or try it out without spending much, the DJI Neo ($199) is the most sensible entry point: it weighs very little, has automatic active tracking, and you don't need a separate controller to start flying. For something even cheaper just to practice indoors, the Ryze Tello ($99) uses DJI technology at a minimal price, though with far fewer features.",
+      "If you want a drone for traveling and filming landscapes, the sweet spot is the DJI Mini 4K ($299) or the DJI Mini 3 ($419): compact, good wind resistance, and a camera good enough for social media. One step up, the DJI Mini 3 Pro ($759) adds collision-avoidance sensors, useful if you'll fly near trees or structures.",
+      "For more professional-level photo and video, the DJI Air 3S ($1,099) is among the best in its price range: dual camera and sensors for flying at night. If the budget allows for more, the DJI Mavic 3 Pro ($2,199) is the reference point for collision-avoidance sensor speed (APAS 5.0) and tends to be the choice of those who already fly professionally.",
+      "If instead you're interested in FPV style (first-person flying, more sporty and agile), the DJI Avata 2 ($999) is the model built exactly for that, with Acro mode for maneuvers.",
+      "Outside the DJI ecosystem there are good options too: the Autel EVO Nano+ ($949) and the Autel EVO Lite+ ($1,249) are solid alternatives with 360° sensors, and the FIMI X8 Mini ($399) is among the most affordable options with good wind resistance.",
+      "Quick recommendation: learning/trying it out → DJI Neo; travel and social media → DJI Mini 4K; professional photography → DJI Air 3S; FPV → DJI Avata 2. Use the comparator to put two models side by side on performance, battery, and value for money before deciding.",
+    ],
+    links: [
+      { label: "Compare: DJI Mini 4K vs DJI Mini 3" },
+      { label: "Browse the drone catalog" },
+    ],
+  },
 };
 
 /**
@@ -153,4 +170,4 @@ export function translateArticle(article, lang) {
     links: translatedLinks,
   };
   }
-        
+
