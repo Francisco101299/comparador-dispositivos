@@ -1,32 +1,36 @@
 // ============================================================================
 // src/components/UpdateBanner.jsx
 // Banner de "novedades" en la home, para incentivar que la gente vuelva.
-// Se controla con un solo texto y fecha aquí abajo (LATEST_UPDATE) — cuando
-// publiques algo nuevo, solo cambia el texto y la fecha, y el banner vuelve
-// a aparecer para todos (incluso quienes ya cerraron uno anterior).
+//
+// Antes el texto y el link vivían escritos a mano en una constante
+// (LATEST_UPDATE) que había que recordar actualizar cada vez que se
+// publicaba un artículo -- por eso el banner se quedaba mostrando un
+// artículo viejo mucho después de haber publicado uno nuevo. Ahora toma el
+// artículo más reciente directamente de articles.js (por fecha), así que
+// siempre está al día solo con publicar: no hay un segundo lugar que
+// actualizar a mano.
+//
+// El id que se guarda en localStorage para "ya lo cerré" es el id del
+// artículo mismo -- en cuanto se publica uno más nuevo, el banner vuelve a
+// aparecer para todos automáticamente, sin tener que inventar una fecha
+// aparte como identificador.
 // ============================================================================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X, ArrowRight } from "lucide-react";
 import { COLORS } from "../data/theme";
+import { ARTICLES } from "../data/articles";
 
-// Cambia este texto y la fecha cada vez que publiques algo nuevo.
-// La fecha es solo un identificador — no se muestra, solo sirve para que
-// el banner "se resetee" y vuelva a aparecer aunque alguien ya haya
-// cerrado uno anterior.
-const LATEST_UPDATE = {
-  id: "2026-08-16",
-  text: "🆕 Nuevo artículo: Honor Robot Phone, el celular con brazo robótico",
-  link: "/blog/honor-robot-phone",
-};
+const latest = [...ARTICLES].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
 export default function UpdateBanner() {
   const [dismissed, setDismissed] = useState(true);
 
   useEffect(() => {
+    if (!latest) return;
     try {
       const seen = localStorage.getItem("dismissedUpdate");
-      setDismissed(seen === LATEST_UPDATE.id);
+      setDismissed(seen === latest.id);
     } catch {
       setDismissed(false);
     }
@@ -35,26 +39,38 @@ export default function UpdateBanner() {
   const handleDismiss = () => {
     setDismissed(true);
     try {
-      localStorage.setItem("dismissedUpdate", LATEST_UPDATE.id);
+      if (latest) localStorage.setItem("dismissedUpdate", latest.id);
     } catch {}
   };
 
-  if (dismissed) return null;
+  if (dismissed || !latest) return null;
 
   return (
     <div
-      className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm flex-wrap"
-      style={{ backgroundColor: COLORS.gold, color: "#14181F", fontFamily: "'Inter', sans-serif" }}
+      className="flex items-center justify-center gap-3 px-4 py-2.5 text-xs sm:text-sm flex-wrap border-b"
+      style={{ backgroundColor: COLORS.panelDark, borderColor: "rgba(201, 154, 46, 0.35)", fontFamily: "'Inter', sans-serif" }}
     >
-      <Sparkles size={14} className="shrink-0" />
-      <Link to={LATEST_UPDATE.link} className="font-medium underline underline-offset-2">
-        {LATEST_UPDATE.text}
+      <span
+        className="hidden sm:inline-flex items-center gap-1 shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide"
+        style={{ backgroundColor: COLORS.gold, color: COLORS.panelDark, fontFamily: "'Space Grotesk', sans-serif" }}
+      >
+        <Sparkles size={11} /> Nuevo
+      </span>
+      <Link
+        to={`/blog/${latest.id}`}
+        className="inline-flex items-center gap-1.5 font-medium group"
+        style={{ color: COLORS.gold }}
+      >
+        <Sparkles size={13} className="sm:hidden shrink-0" />
+        <span className="group-hover:underline underline-offset-2">{latest.title}</span>
+        <ArrowRight size={13} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
       </Link>
       <button
         type="button"
         onClick={handleDismiss}
         aria-label="Cerrar aviso"
-        className="ml-1 shrink-0 opacity-70 hover:opacity-100"
+        className="ml-1 shrink-0 opacity-60 hover:opacity-100 transition-opacity"
+        style={{ color: "#E7E9EE" }}
       >
         <X size={14} />
       </button>
